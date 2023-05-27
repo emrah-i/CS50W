@@ -1,0 +1,77 @@
+.listing_table {
+  width: 45vw;
+  margin: 0 auto 0 auto;
+  text-align: center;
+}
+.listing_table table {
+  width: 100%;
+}
+.listing_table .labels {
+  font-weight: bold;
+  font-size: 1.5vw;
+}
+.listing_table td {
+  padding: 10px;
+}
+.listing_table td input {
+  width: 15vw;
+  height: 2vw;
+  font-size: 1.2vw;
+}
+.listing_table td textarea {
+  width: 30vw;
+  height: 20vh;
+  font-size: 1.2vw;
+}
+.listing_table td button {
+  width: 6vw;
+  height: 5vh;
+  border-radius: 8px;
+  background-color: aliceblue;
+  font-size: 1.2vw;
+}
+.listing_table td button:hover {
+  background-color: lightsteelblue;
+}
+.listing_table #dollar {
+  font-size: 1.5vw;
+  padding: 5px;
+}
+.listing_table .catergories {
+  font-size: 1.2vw;
+  width: 15vw;
+  height: 2vw;
+}
+
+body {
+  padding: 10px;
+}
+
+.active_listings {
+  font-size: 1.2vw;
+  font-weight: 450;
+  margin: auto;
+  width: 95vw;
+  padding: 10px;
+  background-color: rgba(70, 130, 180, 0.5);
+}
+.active_listings table {
+  width: 100%;
+}
+.active_listings td {
+  padding: 20px;
+}
+.active_listings #seperate {
+  background-color: white;
+}
+.active_listings hr {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 1.5px;
+  border-radius: 10px;
+}
+.active_listings a {
+  color: white;
+}
+.active_listings a:hover {
+  color: rgb(253, 237, 236);
+}/*# sourceMappingURL=style.css.map */

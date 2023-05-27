@@ -1,0 +1,50 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <form action="{% url 'create' %}" method="post">
+    {% csrf_token %}
+    <div class="listing_table">
+        <h3>Create a Listing:</h3>
+        <p style="color: red">{{ message }}</p>
+        <table>
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td class="labels">Title:</td>
+                    <td><input type="text" placeholder="Enter Title" name="title" maxlength="200"></td>
+                </tr>
+                <tr>
+                    <td class="labels">Description:</td>
+                    <td><textarea placeholder="Enter Description" maxlength="1000" name="description"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="labels">Image Url:</td>
+                    <td><input type="url" placeholder="https://example.com" name="image_url"></td>
+                </tr>
+                <tr>
+                    <td class="labels">Starting Bid:</td>
+                    <td><span id="dollar">$</span><input type="number" min="1" step="any" placeholder="XX.XX" name="starting_bid"></td>
+                </tr>
+                <tr>
+                    <td class="labels">Catergory:</td>
+                    <td>
+                        <select class="catergories" name="catergory">
+                            <option selected disabled>Select</option>
+                            {% for item in catergories %}
+                            <option>{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit">Upload</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </form>
+{% endblock %}
