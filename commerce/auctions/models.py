@@ -31,7 +31,6 @@ class AuctionListing(models.Model):
     image = models.CharField(max_length=200, blank=True)
     catergory = models.CharField(max_length=3, choices=CATERGORIES)
     item_comments = models.ManyToManyField('Comment', blank=True)
-    item_ratings = models.ManyToManyField('Rating', blank=True)
     time_added = models.DateTimeField(default=timezone.now)
     time_ending = models.DateTimeField(default=(timezone.now() + timedelta(days=7)))
 
@@ -52,18 +51,10 @@ class Comment(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     item_id = models.ForeignKey('AuctionListing', on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"Comment {self.id}: made by user {self.user} on item {self.item_id}"
-
-class Rating(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    item_id = models.ForeignKey('AuctionListing', on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[
-        (MinValueValidator(1)),
+        (MinValueValidator(0)),
         (MaxValueValidator(5))
     ])
 
     def __str__(self):
-        return f"Rating {self.id}: {self.rating} / 5 made by user {self.user} on item {self.item_id}"
+        return f"Comment {self.id}: made by user {self.user} on item {self.item_id} with a rating of {self.rating}/5"

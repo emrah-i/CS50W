@@ -1,15 +1,58 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div>
-        <p>Hello</p>
-        <p>{{ item.title }}</p>
+    <div class="listing_view">
+        <p>Catergory: {{ item.catergory }}</p>
+        <p><h2>{{ item.title }}</h2></p>
+        <img src="{{ item.image }}" alt="Image of Item" width="400">
+        <hr>
+        <p><h3>Description:</h3></p>
         <p>{{ item.description }}</p>
+        <hr>
+        <h3>Current bid:</h3>
+        <br>
         <p>${{ item.current_price }}</p>
-        <img src="{{ item.image }}" alt="Image of Item">
-        <p>{{ item.catergory }}</p>
-        <p>{{ item.item_comments }}</p>
-        <p>{{ item.item_ratings }}</p>
-        <p>{{ item.time_ending }}</p>
+        <form action="listing/{{ item.id }}" method="post">
+        <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
+        <button type="submit">Bid</button>
+        </form>
+        <br>
+        <p><b>Bidding ends: {{ item.time_ending }}</b></p>
+        <hr>
+        <table>
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td><h3>Current Comments:</h3></td>
+                    <td><h3>Enter a Comment:</h3></td>
+                </tr>
+                <tr>
+                    <td>{{ item.item_comments }}</td>
+                    <td>
+                        <form action="listing/{{ item.id }}" method="post">
+                            <label for="input"><span>Rating:</span></label>
+                            <select>
+                                <option select>N/A</option>
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select><p style="display: inline;">&nbsp&nbsp<span>/5</span></p>
+                            <br><br>
+                            <label for="textarea"><span>Enter comment (max: 255 characters):</span></label>
+                            <br>
+                            <textarea placeholder="Type here"></textarea>
+                            <br>
+                            <button type="submit">Post</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}

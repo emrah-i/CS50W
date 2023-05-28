@@ -1,3 +1,10 @@
+#head {
+  background-color: rgba(70, 130, 180, 0.5);
+  width: 11%;
+  text-align: center;
+  padding: 10px;
+}
+
 .listing_table {
   width: 45vw;
   margin: 0 auto 0 auto;
@@ -64,14 +71,46 @@ body {
 .active_listings #seperate {
   background-color: white;
 }
-.active_listings hr {
-  background-color: rgba(0, 0, 0, 0.3);
-  height: 1.5px;
-  border-radius: 10px;
-}
 .active_listings a {
   color: white;
 }
 .active_listings a:hover {
   color: rgb(253, 237, 236);
+}
+
+.listing_view {
+  width: 95vw;
+  margin: auto;
+  background-color: rgba(70, 130, 180, 0.5);
+  padding: 40px;
+  font-size: 1.2vw;
+}
+.listing_view hr {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 1.5px;
+  border-radius: 10px;
+}
+.listing_view table {
+  width: 100%;
+  text-align: center;
+}
+.listing_view td {
+  padding: 20px;
+}
+.listing_view textarea {
+  width: 500px;
+  height: 100px;
+}
+.listing_view button {
+  width: 4vw;
+  height: 4.5vh;
+  border-radius: 8px;
+  background-color: aliceblue;
+  font-size: 1.2vw;
+}
+.listing_view button:hover {
+  background-color: lightsteelblue;
+}
+.listing_view span {
+  font-weight: 500;
 }/*# sourceMappingURL=style.css.map */
