@@ -113,4 +113,13 @@ body {
 }
 .listing_view span {
   font-weight: 500;
+}
+.listing_view ul {
+  list-style: none;
+}
+.listing_view li {
+  border: 3px solid black;
+  width: 500px;
+  padding: 40px;
+  margin: 30px auto 30px auto;
 }/*# sourceMappingURL=style.css.map */

@@ -30,7 +30,6 @@ class AuctionListing(models.Model):
     current_price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.CharField(max_length=200, blank=True)
     catergory = models.CharField(max_length=3, choices=CATERGORIES)
-    item_comments = models.ManyToManyField('Comment', blank=True)
     time_added = models.DateTimeField(default=timezone.now)
     time_ending = models.DateTimeField(default=(timezone.now() + timedelta(days=7)))
 

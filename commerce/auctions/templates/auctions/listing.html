@@ -30,7 +30,13 @@
                     <td><h3>Enter a Comment:</h3></td>
                 </tr>
                 <tr>
-                    <td>{{ item.item_comments }}</td>
+                    <td>
+                        <ul>
+                        {% for comment in comments %}
+                            <li>(Rating: {{ comment.rating }} / 5)&nbsp{{ comment.user }}: {{ comment.comment }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
                     <td>
                         <form action="listing/{{ item.id }}" method="post">
                             <label for="input"><span>Rating:</span></label>

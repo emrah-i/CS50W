@@ -98,7 +98,9 @@ def active_listing(request):
 
 def listing(request, listing):
     item = AuctionListing.objects.get(id=listing)
+    comments = Comment.objects.filter(item_id=listing)
 
     return render(request, "auctions/listing.html", {
-        "item": item
+        "item": item,
+        "comments": comments
     })

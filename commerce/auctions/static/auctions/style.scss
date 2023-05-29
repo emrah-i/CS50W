@@ -135,4 +135,15 @@ body {
     span {
         font-weight: 500;
     }
+
+    ul {
+        list-style: none;
+    }
+
+    li {
+        border: 3px solid black;
+        width: 500px;
+        padding: 40px;
+        margin: 30px auto 30px auto;
+    }
 }
