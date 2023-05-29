@@ -4,11 +4,12 @@
     <div class="listing_view">
         <p>Catergory: {{ item.catergory }}</p>
         <p><h2>{{ item.title }}</h2></p>
-        <form action="listing/{{ item.id }}" method="post">
-            <input type="hidden" value="{{ item.id }}">
-            <button type="submit">Add to Watchlist {{ user.username }}</button>
-        </form>
         <img src="{{ item.image }}" alt="Image of Item" width="400">
+        <br><br>
+        <form action="listing/{{ item.id }}" method="post">
+            <input type="hidden" value="{{ item.id }}" name="item">
+            <button type="submit" id="watchlist">Add to watchlist</button>
+        </form>
         <hr>
         <p><h3>Description:</h3></p>
         <p>{{ item.description }}</p>
@@ -18,10 +19,10 @@
         <p>${{ item.current_price }}</p>
         <form action="listing/{{ item.id }}" method="post">
         <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
-        <button type="submit">Bid</button>
+        <button type="submit" id="bid">Bid</button>
         </form>
         <br>
-        <p><b>Bidding ends: {{ item.time_ending }}</b></p>
+        <p><span>Bidding ends: {{ item.time_ending }}</span></p>
         <hr>
         <table>
             <colgroup>
@@ -37,7 +38,16 @@
                     <td>
                         <ul>
                         {% for comment in comments %}
-                            <li>(Rating: {{ comment.rating }} / 5)&nbsp{{ comment.user }}: {{ comment.comment }}</li>
+                            <li class="comment_item">
+                                <ul>
+                                    {% if comment.rating == None %}
+                                    {% else %}
+                                    <li id="comment_rating">(Rating: {{ comment.rating }} / 5)</li>
+                                    {% endif %}
+                                    <li id="comment_name">{{ comment.user }}:</li>
+                                    <li>"{{ comment.comment }}"</li>
+                                </ul>
+                            </li>
                         {% endfor %}
                         </ul>
                     </td>

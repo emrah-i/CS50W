@@ -120,7 +120,7 @@ body {
         height: 100px;
     }
 
-    button {
+    td button {
         width: 4vw;
         height: 4.5vh;
         border-radius: 8px;
@@ -128,8 +128,22 @@ body {
         font-size: 1.2vw;
     }
 
-    button:hover {
+    td button:hover, #watchlist:hover, #bid:hover {
         background-color: lightsteelblue;
+    }
+
+    #watchlist {
+        width: 10vw;
+        border-radius: 8px;
+        background-color: aliceblue;
+        font-size: 1.2vw;
+    }
+
+    #bid {
+        width: 3.5vw;
+        border-radius: 8px;
+        background-color: aliceblue;
+        font-size: 1.2vw;
     }
 
     span {
@@ -140,10 +154,12 @@ body {
         list-style: none;
     }
 
-    li {
+    .comment_item {
         border: 3px solid black;
         width: 500px;
-        padding: 40px;
-        margin: 30px auto 30px auto;
+        padding: 30px 20px;
+        margin: 30px auto;
+        text-align: left;
     }
+
 }

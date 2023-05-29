@@ -51,7 +51,7 @@ class Comment(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     item_id = models.ForeignKey('AuctionListing', on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)
-    rating = models.PositiveIntegerField(validators=[
+    rating = models.PositiveIntegerField(null=True, blank=True, validators=[
         (MinValueValidator(0)),
         (MaxValueValidator(5))
     ])
