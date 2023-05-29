@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Active Listings</h2>
+<div>
+    {% for item in items %}
+    <table>
+        <colgroup>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>Current Bid ${{ listing.current_price }}</td>
+            </tr>
+            <tr>
+                <td><img src="{{ item.image }}" alt="wand" width="350"></td>
+                <td>Description: {{ listing.description }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="listing/{{ item.id }}">Go to Listing</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -20,7 +20,7 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(null=False, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    favorited_items = models.ForeignKey('AuctionListing', null=True, blank=True, on_delete=models.CASCADE, related_name='+')
+    watchlist_items = models.ManyToManyField('AuctionListing', related_name='+')
 
 class AuctionListing(models.Model):
     id = models.AutoField(primary_key=True)

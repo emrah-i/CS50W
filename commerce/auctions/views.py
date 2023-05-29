@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -97,19 +97,35 @@ def active_listing(request):
     return render(request, "auctions/active_listings.html")
 
 def listing(request, listing):
+    item = AuctionListing.objects.get(id=listing)
+    comments = Comment.objects.filter(item_id=listing)
 
-    if request.method == "POST": 
-        if request.POST.get("button") == "watchlist":
-            pass
-        elif request.POST.get("button") == "bid":
-            pass
-        elif request.POST.get("button") == "comment":
-            pass
-    else:
-        item = AuctionListing.objects.get(id=listing)
-        comments = Comment.objects.filter(item_id=listing)
+    return render(request, "auctions/listing.html", {
+        "item": item,
+        "comments": comments
+    })
 
-        return render(request, "auctions/listing.html", {
-            "item": item,
-            "comments": comments
-        })
+def update(request):
+
+    if request.POST.get("button") == "watchlist":
+        user = get_user(request)
+        item = request.POST.get("item")
+        wl_user = User.objects.get(id = user.id)
+        wl_item = AuctionListing.objects.get(id = item)
+        wl_user.watchlist_items.add(wl_item)
+
+        return HttpResponseRedirect(reverse("index"))
+
+    elif request.POST.get("button") == "bid":
+        pass
+    elif request.POST.get("button") == "comment":
+        pass
+    
+def watchlist(request):
+    user = get_user(request)
+    user_items = User.objects.get(id = user.id)
+    items = user_items.watchlist_items.all()
+
+    return render(request, "auctions/watchlist.html", {
+        "items": items
+    })

@@ -6,7 +6,8 @@
         <p><h2>{{ item.title }}</h2></p>
         <img src="{{ item.image }}" alt="Image of Item" width="400">
         <br><br>
-        <form action="listing/{{ item.id }}" method="post">
+        <form action="{% url 'update' %}" method="post">
+            {% csrf_token %}
             <input type="hidden" value="{{ item.id }}" name="item">
             <input type="hidden" name="button" value="watchlist">
             <button type="submit" id="watchlist">Add to watchlist</button>
@@ -19,6 +20,7 @@
         <br>
         <p>${{ item.current_price }}</p>
         <form action="listing/{{ item.id }}" method="post">
+            {% csrf_token %}
             <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
             <input type="hidden" name="button" value="bid">
             <button type="submit" id="bid">Bid</button>
@@ -32,6 +34,7 @@
                     <td>
                         <div class="enter_comment">
                             <form action="listing/{{ item.id }}" method="post">
+                                {% csrf_token %}
                                 <label for="input"><span>Rating:</span></label>
                                 <select>
                                     <option select>N/A</option>
