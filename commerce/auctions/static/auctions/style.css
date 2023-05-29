@@ -142,4 +142,12 @@ body {
   background-color: white;
   padding: 12px;
   border-radius: 8px;
+}
+
+.watchlist_items {
+  width: 95vw;
+  margin: auto;
+}
+.watchlist_items table {
+  width: 100%;
 }/*# sourceMappingURL=style.css.map */

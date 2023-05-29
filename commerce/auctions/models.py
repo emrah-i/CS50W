@@ -20,7 +20,7 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(null=False, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    watchlist_items = models.ManyToManyField('AuctionListing', related_name='+')
+    watchlist_items = models.ManyToManyField('AuctionListing', related_name='+', null=True, blank=True)
 
 class AuctionListing(models.Model):
     id = models.AutoField(primary_key=True)
@@ -35,7 +35,7 @@ class AuctionListing(models.Model):
     time_ending = models.DateTimeField(default=(timezone.now() + timedelta(days=7)))
 
     def __str__(self):
-        return f"Listing {self.id}: {self.title} at ${self.current_price} (active: {self.is_active}) by {self.user}"
+        return f"Listing {self.id}: {self.title} by {self.user} (active: {self.is_active})"
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)

@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Max
 
 from .models import User, AuctionListing, Bid, Comment
 
@@ -100,6 +101,11 @@ def listing(request, listing):
     item = AuctionListing.objects.get(id=listing)
     comments = Comment.objects.filter(item_id=listing)
 
+    query = Bid.objects.filter(item_id = item.id)
+    greatest_value = query.order_by('-amount').first()
+    item.current_price = greatest_value.amount
+    item.save()
+
     return render(request, "auctions/listing.html", {
         "item": item,
         "comments": comments
@@ -107,19 +113,37 @@ def listing(request, listing):
 
 def update(request):
 
-    if request.POST.get("button") == "watchlist":
-        user = get_user(request)
-        item = request.POST.get("item")
-        wl_user = User.objects.get(id = user.id)
-        wl_item = AuctionListing.objects.get(id = item)
-        wl_user.watchlist_items.add(wl_item)
+    item = request.POST.get("item")
+    item_listing = AuctionListing.objects.get(id = item)
+    user = get_user(request)
+    update_user = User.objects.get(id = user.id)
 
-        return HttpResponseRedirect(reverse("index"))
+
+    if request.POST.get("button") == "watchlist":
+        update_user.watchlist_items.add(item_listing)
+
+        return HttpResponseRedirect(reverse("listing", args=item))
 
     elif request.POST.get("button") == "bid":
-        pass
+        bid = request.POST.get("starting_bid")
+        update_bid = Bid(amount = bid, item_id = item_listing, user = user)
+        update_bid.save()
+        item_listing.current_price = bid
+        item_listing.save()
+
+        return HttpResponseRedirect(reverse("listing", args=item))
+
     elif request.POST.get("button") == "comment":
-        pass
+        rating = request.POST.get("rating")
+        comment = request.POST.get("comment")
+
+        if rating == "N/A":
+            rating = None
+        
+        new_comment = Comment(rating = rating, comment = comment, user = user, item_id = item_listing)
+        new_comment.save()
+
+        return HttpResponseRedirect(reverse("listing", args=item))
     
 def watchlist(request):
     user = get_user(request)

@@ -19,9 +19,10 @@
         <h3>Current bid:</h3>
         <br>
         <p>${{ item.current_price }}</p>
-        <form action="listing/{{ item.id }}" method="post">
+        <form action="{% url 'update' %}" method="post">
             {% csrf_token %}
-            <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
+            <input type="number" min="{{ item.current_price }}" step="any" placeholder="Enter Bid" name="starting_bid">
+            <input type="hidden" value="{{ item.id }}" name="item">
             <input type="hidden" name="button" value="bid">
             <button type="submit" id="bid">Bid</button>
         </form>
@@ -33,10 +34,10 @@
                 <tr>
                     <td>
                         <div class="enter_comment">
-                            <form action="listing/{{ item.id }}" method="post">
+                            <form action="{% url 'update' %}" method="post">
                                 {% csrf_token %}
                                 <label for="input"><span>Rating:</span></label>
-                                <select>
+                                <select name="rating">
                                     <option select>N/A</option>
                                     <option>0</option>
                                     <option>1</option>
@@ -48,8 +49,9 @@
                                 <br>
                                 <label for="textarea"><span>Enter comment (max: 255 characters):</span></label>
                                 <br>
-                                <textarea placeholder="Type here"></textarea>
+                                <textarea placeholder="Type here" name="comment"></textarea>
                                 <br>
+                                <input type="hidden" value="{{ item.id }}" name="item">
                                 <input type="hidden" name="button" value="comment">
                                 <button type="submit">Post</button>
                             </form>

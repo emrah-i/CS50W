@@ -2,7 +2,8 @@
 
 {% block body %}
 <h2>Active Listings</h2>
-<div>
+<hr>
+<div class="watchlist_items">
     {% for item in items %}
     <table>
         <colgroup>
@@ -12,14 +13,9 @@
         <tbody>
             <tr>
                 <td>{{ item.title }}</td>
+                <td><img src="{{ item.image }}" alt="wand" width="200"></td>
                 <td>Current Bid ${{ listing.current_price }}</td>
-            </tr>
-            <tr>
-                <td><img src="{{ item.image }}" alt="wand" width="350"></td>
                 <td>Description: {{ listing.description }}</td>
-            </tr>
-            <tr>
-                <td></td>
                 <td><a href="listing/{{ item.id }}">Go to Listing</a></td>
             </tr>
         </tbody>
