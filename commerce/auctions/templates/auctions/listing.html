@@ -8,6 +8,7 @@
         <br><br>
         <form action="listing/{{ item.id }}" method="post">
             <input type="hidden" value="{{ item.id }}" name="item">
+            <input type="hidden" name="button" value="watchlist">
             <button type="submit" id="watchlist">Add to watchlist</button>
         </form>
         <hr>
@@ -18,60 +19,54 @@
         <br>
         <p>${{ item.current_price }}</p>
         <form action="listing/{{ item.id }}" method="post">
-        <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
-        <button type="submit" id="bid">Bid</button>
+            <input type="number" min="{{ item.current_price }} + 10" step="any" placeholder="XX.XX" name="starting_bid">
+            <input type="hidden" name="button" value="bid">
+            <button type="submit" id="bid">Bid</button>
         </form>
         <br>
         <p><span>Bidding ends: {{ item.time_ending }}</span></p>
         <hr>
         <table>
-            <colgroup>
-                <col>
-                <col>
-            </colgroup>
             <tbody>
                 <tr>
-                    <td><h3>Current Comments:</h3></td>
-                    <td><h3>Enter a Comment:</h3></td>
-                </tr>
-                <tr>
                     <td>
+                        <div class="enter_comment">
+                            <form action="listing/{{ item.id }}" method="post">
+                                <label for="input"><span>Rating:</span></label>
+                                <select>
+                                    <option select>N/A</option>
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select><p style="display: inline;">&nbsp&nbsp<span>/5</span></p>
+                                <br>
+                                <label for="textarea"><span>Enter comment (max: 255 characters):</span></label>
+                                <br>
+                                <textarea placeholder="Type here"></textarea>
+                                <br>
+                                <input type="hidden" name="button" value="comment">
+                                <button type="submit">Post</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% for comment in comments %}
+                <tr>
+                    <td class="comment_item">
                         <ul>
-                        {% for comment in comments %}
-                            <li class="comment_item">
-                                <ul>
-                                    {% if comment.rating == None %}
-                                    {% else %}
-                                    <li id="comment_rating">(Rating: {{ comment.rating }} / 5)</li>
-                                    {% endif %}
-                                    <li id="comment_name">{{ comment.user }}:</li>
-                                    <li>"{{ comment.comment }}"</li>
-                                </ul>
-                            </li>
-                        {% endfor %}
+                            {% if comment.rating == None %}
+                            {% else %}
+                            <li id="comment_rating">(Rating: {{ comment.rating }} / 5)</li>
+                            {% endif %}
+                            <li id="comment_name">{{ comment.user }}:</li>
+                            <li id="comment_text">"{{ comment.comment }}"</li>
                         </ul>
                     </td>
-                    <td>
-                        <form action="listing/{{ item.id }}" method="post">
-                            <label for="input"><span>Rating:</span></label>
-                            <select>
-                                <option select>N/A</option>
-                                <option>0</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select><p style="display: inline;">&nbsp&nbsp<span>/5</span></p>
-                            <br><br>
-                            <label for="textarea"><span>Enter comment (max: 255 characters):</span></label>
-                            <br>
-                            <textarea placeholder="Type here"></textarea>
-                            <br>
-                            <button type="submit">Post</button>
-                        </form>
-                    </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

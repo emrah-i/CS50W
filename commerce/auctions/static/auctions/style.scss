@@ -108,7 +108,7 @@ body {
 
     table {
         width: 100%;
-        text-align: center;
+        text-align: left;
     }
 
     td {
@@ -116,8 +116,10 @@ body {
     }
 
     textarea {
-        width: 500px;
-        height: 100px;
+        width: 800px;
+        height: 300px;
+        border-radius: 6px;
+        padding: 8px;
     }
 
     td button {
@@ -157,9 +159,15 @@ body {
     .comment_item {
         border: 3px solid black;
         width: 500px;
-        padding: 30px 20px;
+        padding: 30px 35px 30px 0;
         margin: 30px auto;
         text-align: left;
+    }
+
+    #comment_text {
+        background-color: white;
+        padding: 12px;
+        border-radius: 8px;
     }
 
 }

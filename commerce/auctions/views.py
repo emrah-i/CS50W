@@ -97,10 +97,19 @@ def active_listing(request):
     return render(request, "auctions/active_listings.html")
 
 def listing(request, listing):
-    item = AuctionListing.objects.get(id=listing)
-    comments = Comment.objects.filter(item_id=listing)
 
-    return render(request, "auctions/listing.html", {
-        "item": item,
-        "comments": comments
-    })
+    if request.method == "POST": 
+        if request.POST.get("button") == "watchlist":
+            pass
+        elif request.POST.get("button") == "bid":
+            pass
+        elif request.POST.get("button") == "comment":
+            pass
+    else:
+        item = AuctionListing.objects.get(id=listing)
+        comments = Comment.objects.filter(item_id=listing)
+
+        return render(request, "auctions/listing.html", {
+            "item": item,
+            "comments": comments
+        })
