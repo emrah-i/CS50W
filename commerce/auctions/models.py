@@ -5,10 +5,10 @@ from django.utils import timezone
 from django.db import models
 
 CATERGORIES = (
-("BKS", "Books"),
-("CLT", "Clothing"),
-("CMP", "Computers"),
-("JWL", "Jewelery")
+    ("BKS", "Books"),
+    ("CLT", "Clothing"),
+    ("CMP", "Computers"),
+    ("JWL", "Jewelery")
 )
 
 ACTIVE_STATUS = (
@@ -24,10 +24,11 @@ class User(AbstractUser):
 
 class AuctionListing(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey('User', on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, default=1, related_name="Owner")
     is_active = models.CharField(max_length=1, choices=ACTIVE_STATUS)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=2000)
+    auction_winner = models.ForeignKey('User', null=True, blank=True, on_delete=models.CASCADE, related_name="Winner")
     current_price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.CharField(max_length=200, null=True)
     catergory = models.CharField(max_length=3, choices=CATERGORIES)

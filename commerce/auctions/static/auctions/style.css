@@ -61,6 +61,7 @@ body {
   width: 95vw;
   padding: 10px;
   background-color: rgba(70, 130, 180, 0.5);
+  text-align: left;
 }
 .active_listings table {
   width: 100%;
@@ -110,8 +111,15 @@ body {
   background-color: aliceblue;
   font-size: 1.2vw;
 }
-.listing_view td button:hover, .listing_view #watchlist:hover, .listing_view #bid:hover {
+.listing_view td button:hover, .listing_view #watchlist:hover, .listing_view #bid:hover, .listing_view .open_close:hover {
   background-color: lightsteelblue;
+}
+.listing_view .open_close {
+  width: 8vw;
+  height: 4.5vh;
+  border-radius: 8px;
+  background-color: aliceblue;
+  font-size: 1.2vw;
 }
 .listing_view #watchlist {
   width: 10vw;

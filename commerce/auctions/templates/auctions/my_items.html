@@ -1,9 +1,9 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2>My Items</h2>
     <div class="active_listings">
-        {% for listing in auction_listing%}
+        {% for listing in auction_listing %}
         <table>
             <colgroup>
                 <col>
@@ -26,7 +26,11 @@
                 </tr>
                 {% endif %}
                 <tr>
-                    <td></td>
+                    {% if listing.is_active == 'Y' %}
+                    <td><p>Listing is Active</p></td>
+                    {% else %}
+                    <td><p>Listing is Inactive</p></td>
+                    {% endif %}
                     <td><a href="listing/{{ listing.id }}">Go to Listing</a></td>
                 </tr>
             </tbody>

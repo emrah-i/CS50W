@@ -2,23 +2,46 @@
 
 {% block body %}
     <div class="listing_view">
-        <p>Catergory: {{ item.catergory }}</p>
+        <p>Catergory: {{ item.get_catergory_display }}</p>
         <p><h2>{{ item.title }}</h2></p>
-        <img src="{{ item.image }}" alt="Image of Item" width="400">
+        {% if listing.image %}
+        <img src="{{ listing.image }}" alt="{{ listing.title }}" width="450">
+        {% else %}
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" alt="{{ listing.title }}" width="300">
+        {% endif %}
         <br><br>
+        {% if user != item.user %}
         <form action="{% url 'update' %}" method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ item.id }}" name="item">
             <input type="hidden" name="button" value="watchlist">
             <button type="submit" id="watchlist">Add to watchlist</button>
         </form>
+        {% endif %}
+        {% if user == item.user and item.is_active == 'Y' %}
+        <form action="{% url 'update' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ item.id }}" name="item">
+            <input type="hidden" name="button" value="close">
+            <button type="submit" class="open_close">Close listing</button>
+        </form>
+        {% endif %}
+        {% if user == item.user and item.is_active == 'N' %}
+        <form action="{% url 'update' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ item.id }}" name="item">
+            <input type="hidden" name="button" value="open">
+            <button type="submit" class="open_close">Open listing</button>
+        </form>
+        {% endif %}
         <hr>
         <p><h3>Description:</h3></p>
         <p>{{ item.description }}</p>
         <hr>
-        <h3>Current bid:</h3>
+        <h3>Current Bid:</h3>
         <br>
         <p>${{ item.current_price }}</p>
+        {% if item.is_active == 'Y' %}
         <form action="{% url 'update' %}" method="post">
             {% csrf_token %}
             <input type="number" min="{{ item.current_price }}" step="any" placeholder="Enter Bid" name="starting_bid">
@@ -26,6 +49,7 @@
             <input type="hidden" name="button" value="bid">
             <button type="submit" id="bid">Bid</button>
         </form>
+        {% endif %}
         <br>
         <p><span>Bidding ends: {{ item.time_ending }}</span></p>
         <hr>
@@ -34,6 +58,7 @@
                 <tr>
                     <td>
                         <div class="enter_comment">
+                            {% if user.is_authenticated %}
                             <form action="{% url 'update' %}" method="post">
                                 {% csrf_token %}
                                 <label for="input"><span>Rating:</span></label>
@@ -55,6 +80,7 @@
                                 <input type="hidden" name="button" value="comment">
                                 <button type="submit">Post</button>
                             </form>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

@@ -3,18 +3,24 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.db.models import Max
 
 from .models import User, AuctionListing, Bid, Comment
 
-
 def index(request):
-    all = AuctionListing.objects.all()
+    all = AuctionListing.objects.filter(is_active = "Y")
+    user = get_user(request)
 
-    return render(request, "auctions/index.html", {
-        "auction_listing": all
-    })
+    if user.is_authenticated:
+        all = all.exclude(user = user)
 
+        return render(request, "auctions/index.html", {
+            "auction_listing": all
+        })
+
+    else:
+        return render(request, "auctions/index.html", {
+            "auction_listing": all
+        })
 
 def login_view(request):
     if request.method == "POST":
@@ -39,6 +45,15 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+
+def my_items(request):
+    user = get_user(request)
+    all = AuctionListing.objects.filter(user = user)
+
+    return render(request, "auctions/my_items.html", {
+        "auction_listing": all
+    })
 
 
 def register(request):
@@ -68,8 +83,13 @@ def register(request):
         return render(request, "auctions/register.html")
 
 def create_listing(request):
-
-    CATERGORIES = ["Books", "Clothing", "Computers", "Jewlery"]
+    user = get_user(request)
+    CATERGORIES = (
+        ("BKS", "Books"),
+        ("CLT", "Clothing"),
+        ("CMP", "Computers"),
+        ("JWL", "Jewelery")
+    )
 
     if request.method == "POST":
         title = request.POST.get("title")
@@ -81,11 +101,14 @@ def create_listing(request):
         if not title or not description or not strt_bid or not catergory:
             message = "You must fill all fields (except image)"
             return render(request, "auctions/create_listing.html", {
-                "message": message
+                "message": message,
+                "catergories": CATERGORIES
             })
 
-        new_listing = AuctionListing(is_active = "Y", title = title, description = description, current_price = strt_bid, image = img_url, catergory = catergory)
+        new_listing = AuctionListing(user = user, is_active = "Y", title = title, description = description, current_price = strt_bid, image = img_url, catergory = catergory)
         new_listing.save()
+        first_bid = Bid(amount = strt_bid, user = user, item_id = new_listing)
+        first_bid.save()
 
         return HttpResponseRedirect(reverse("index"))
 
@@ -95,6 +118,8 @@ def create_listing(request):
         })
 
 def active_listing(request):
+    user = get_user(request)
+
     return render(request, "auctions/active_listings.html")
 
 def listing(request, listing):
@@ -112,12 +137,10 @@ def listing(request, listing):
     })
 
 def update(request):
-
     item = request.POST.get("item")
     item_listing = AuctionListing.objects.get(id = item)
     user = get_user(request)
     update_user = User.objects.get(id = user.id)
-
 
     if request.POST.get("button") == "watchlist":
         update_user.watchlist_items.add(item_listing)
@@ -145,6 +168,18 @@ def update(request):
 
         return HttpResponseRedirect(reverse("listing", args=item))
     
+    elif request.POST.get("button") == "close":
+        item_listing.is_active = "N"
+        item_listing.save()
+        
+        return HttpResponseRedirect(reverse("listing", args=item))
+    
+    elif request.POST.get("button") == "open":
+        item_listing.is_active = "Y"
+        item_listing.save()
+        
+        return HttpResponseRedirect(reverse("listing", args=item))
+    
 def watchlist(request):
     user = get_user(request)
     user_items = User.objects.get(id = user.id)
@@ -153,3 +188,4 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "items": items
     })
+
