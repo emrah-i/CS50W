@@ -10,17 +10,9 @@ def index(request):
     all = AuctionListing.objects.filter(is_active = "Y")
     user = get_user(request)
 
-    if user.is_authenticated:
-        all = all.exclude(user = user)
-
-        return render(request, "auctions/index.html", {
-            "auction_listing": all
-        })
-
-    else:
-        return render(request, "auctions/index.html", {
-            "auction_listing": all
-        })
+    return render(request, "auctions/index.html", {
+        "auction_listing": all
+    })
 
 def login_view(request):
     if request.method == "POST":

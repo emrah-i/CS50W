@@ -36,7 +36,7 @@ class AuctionListing(models.Model):
     time_ending = models.DateTimeField(default=(timezone.now() + timedelta(days=7)))
 
     def __str__(self):
-        return f"Listing {self.id}: {self.title} by {self.user} (active: {self.is_active})"
+        return f"Listing {self.id}: '{self.title}' by '{self.user}' ({self.get_is_active_display()})"
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)
@@ -45,7 +45,7 @@ class Bid(models.Model):
     amount = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return f"Bid {self.id}: ${self.amount} made by user {self.user} on item {self.item_id}"
+        return f"Bid {self.id}: ${self.amount} made by '{self.user}' on '{self.item_id.title}'"
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
@@ -58,4 +58,4 @@ class Comment(models.Model):
     ])
 
     def __str__(self):
-        return f"Comment {self.id}: made by user {self.user} on item {self.item_id} with a rating of {self.rating}/5"
+        return f"Comment {self.id}: made by '{self.user}' on '{self.item_id.title}' with a rating of {self.rating}/5"
