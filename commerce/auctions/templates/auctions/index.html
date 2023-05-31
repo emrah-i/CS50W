@@ -6,7 +6,7 @@
         {% for listing in auction_listing%}
         <table>
             <colgroup>
-                <col>
+                <col id="column_1">
                 <col>
             </colgroup>
             <tbody>
@@ -17,7 +17,7 @@
                 {% if listing.image %}
                 <tr>
                     <td><img src="{{ listing.image }}" alt="{{ listing.title }}" width="350"></td>
-                    <td>Description: {{ listing.description }}</td>
+                    <td>Description: {{ listing.description | myfilters:20 }}</td>
                 </tr>
                 {% else %}
                 <tr>

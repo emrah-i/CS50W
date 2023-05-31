@@ -8,7 +8,6 @@ from .models import User, AuctionListing, Bid, Comment
 
 def index(request):
     all = AuctionListing.objects.filter(is_active = "Y")
-    user = get_user(request)
 
     return render(request, "auctions/index.html", {
         "auction_listing": all

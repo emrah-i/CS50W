@@ -78,6 +78,9 @@ body {
 .active_listings a:hover {
   color: rgb(253, 237, 236);
 }
+.active_listings #column_1 {
+  width: 25%;
+}
 
 .listing_view {
   width: 95vw;
