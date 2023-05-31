@@ -1,5 +1,7 @@
 {% extends "auctions/layout.html" %}
 
+{% load myfilters %}
+
 {% block body %}
     <h2>Active Listings</h2>
     <div class="active_listings">
@@ -17,7 +19,7 @@
                 {% if listing.image %}
                 <tr>
                     <td><img src="{{ listing.image }}" alt="{{ listing.title }}" width="350"></td>
-                    <td>Description: {{ listing.description | myfilters:20 }}</td>
+                    <td>Description: {{ listing.description | shorten }}</td>
                 </tr>
                 {% else %}
                 <tr>
