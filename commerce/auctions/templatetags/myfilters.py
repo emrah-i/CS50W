@@ -4,5 +4,5 @@ register = template.Library()
 
 @register.filter 
 def shorten(value):
-    value = value[:20]
+    value = value[:200]
     return value

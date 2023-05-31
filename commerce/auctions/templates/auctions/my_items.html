@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load myfilters %}
 
 {% block body %}
     <h2>My Items</h2>
@@ -17,12 +18,12 @@
                 {% if listing.image %}
                 <tr>
                     <td><img src="{{ listing.image }}" alt="{{ listing.title }}" width="350"></td>
-                    <td>Description: {{ listing.description }}</td>
+                    <td>Description: {{ listing.description | shorten }} ...(read more on listing page)</td>
                 </tr>
                 {% else %}
                 <tr>
                     <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" alt="{{ listing.title }}" width="250"></td>
-                    <td>Description: {{ listing.description }}</td>
+                    <td>Description: {{ listing.description | shorten }} ...(read more on listing page)</td>
                 </tr>
                 {% endif %}
                 <tr>
