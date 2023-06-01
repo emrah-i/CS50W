@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+{% load myfilters %}
+
+{% block body %}
+    <h2>Items in Catergory: {{ catergory }}</h2>
+    <div class="active_listings">
+        {% if length == 0 %}
+        <h5>There are no listings under this catergory</h5>
+        {% else %}
+        {% for listing in auction_listing %}
+        <table>
+            <colgroup>
+                <col id="column_1">
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>{{ listing.title }}</td>
+                    <td>Current Bid ${{ listing.current_price }}</td>
+                </tr>
+                {% if listing.image %}
+                <tr>
+                    <td><img src="{{ listing.image }}" alt="{{ listing.title }}" width="350"></td>
+                    <td>Description: {{ listing.description | shorten }} ...(read more on listing page)</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" alt="{{ listing.title }}" width="250"></td>
+                    <td>Description: {{ listing.description | shorten }} ...(read more on listing page)</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td></td>
+                    <td><a href="listing/{{ listing.id }}">Go to Listing</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endblock %}

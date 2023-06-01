@@ -6,6 +6,13 @@ from django.urls import reverse
 
 from .models import User, AuctionListing, Bid, Comment
 
+CATERGORIES = (
+    ("BKS", "Books"),
+    ("CLT", "Clothing"),
+    ("CMP", "Computers"),
+    ("JWL", "Jewelery")
+)
+
 def index(request):
     all = AuctionListing.objects.filter(is_active = "Y")
 
@@ -46,6 +53,25 @@ def my_items(request):
         "auction_listing": all
     })
 
+def catergories_list(request):
+
+    return render(request, "auctions/catergories_list.html", {
+        "catergories": CATERGORIES
+    })
+
+def catergories(request, catergory):
+    all = AuctionListing.objects.filter(catergory=catergory, is_active='Y')
+    length = len(all)
+
+    for n in range(len(CATERGORIES)):
+        if catergory == CATERGORIES[n][0]:
+            catergory2 = CATERGORIES[n][1]
+
+    return render(request, "auctions/catergories.html", {
+            "auction_listing": all,
+            "length": length,
+            "catergory": catergory2
+        })
 
 def register(request):
     if request.method == "POST":
@@ -75,12 +101,6 @@ def register(request):
 
 def create_listing(request):
     user = get_user(request)
-    CATERGORIES = (
-        ("BKS", "Books"),
-        ("CLT", "Clothing"),
-        ("CMP", "Computers"),
-        ("JWL", "Jewelery")
-    )
 
     if request.method == "POST":
         title = request.POST.get("title")

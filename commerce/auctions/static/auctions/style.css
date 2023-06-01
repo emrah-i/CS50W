@@ -161,4 +161,11 @@ body {
 }
 .watchlist_items table {
   width: 100%;
+}
+
+.catergories {
+  font-size: 1.5vw;
+}
+.catergories ul {
+  list-style: none;
 }/*# sourceMappingURL=style.css.map */
