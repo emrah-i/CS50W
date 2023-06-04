@@ -1,3 +1,12 @@
 textarea {
     min-height: 400px;
 }
+
+#emails-view div {
+    padding: 20px;
+    border-radius: 2px;
+}
+
+#emails-view hr {
+    background-color: black;
+}
