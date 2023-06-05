@@ -19,16 +19,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   document.querySelector('#get-email-view').addEventListener('click', function(event) {
     if (event.target.matches('#archive_btn')) {
-      const value = event.target.closest("[data-value]").dataset.value
+      const value = event.target.dataset.value
       const option = event.target.value
       archive(value, option)
     }
     else if (event.target.matches('#reply')) {
-      const value = event.target.closest("[data-value]").dataset.value
+      const value = event.target.dataset.value
       reply_email(value)
     }
     else if (event.target.matches('#unread_btn')) {
-      const value = event.target.closest("[data-value]").dataset.value
+      const value = event.target.dataset.value
       unread(value)
     }
   })
@@ -124,8 +124,12 @@ function load_mailbox(mailbox) {
       console.log(emails);
 
       for (let i = 0; i < emails.length; i++) {
+        console.log(i)
+
+        const email_id = emails[i]["id"]
+
         var newElement = document.createElement('div');
-        newElement.id = 'email_' + i;
+        newElement.id = 'email_' + emails[i]["id"];
         newElement.dataset.value = emails[i]["id"];
         emails_view.append(newElement)
 
@@ -136,17 +140,17 @@ function load_mailbox(mailbox) {
         const read = emails[i]["read"]
 
         if (mailbox === 'inbox') {
-          document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${sender}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+          document.querySelector('#email_' + email_id).innerHTML = `<table><tr><td class="column1"><b>${sender}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
         }
         else if (mailbox === 'sent') {
-          document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+          document.querySelector('#email_' + email_id).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
         }
         else {
-            document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+          document.querySelector('#email_' + email_id).innerHTML = `<table><tr><td class="column1"><b>From: ${sender}</b></td><td class="column2">${timestamp}</td></tr><tr><td><b>To: ${recipients}</b><span>${subject}</span></td></tr></table>`
         }
   
         if (read === true) {
-          document.querySelector('#email_' + i).style.backgroundColor = 'rgb(229, 232, 232)';
+          document.querySelector('#email_' + email_id).style.backgroundColor = 'rgb(229, 232, 232)';
         }
       }
   });
@@ -196,6 +200,8 @@ function load_email(value) {
   .then(email => {
       console.log(email);
 
+      const email_id = email["id"]
+
       var newElement = document.createElement('div');
       newElement.id = 'current-email'
       newElement.dataset.value = email["id"]
@@ -218,7 +224,7 @@ function load_email(value) {
         })
       }
 
-      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b> ${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button></button>&nbsp<button class="btn btn-sm btn-outline-primary" id="unread_btn">Unread</button><hr><p>${body}</p>`
+      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b> ${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply" data-value = "${email_id}">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived" data-value = "${email_id}">Archive</button></button>&nbsp<button class="btn btn-sm btn-outline-primary" id="unread_btn" data-value = "${email_id}">Unread</button><hr><p>${body}</p>`
 
       if (archived === true) {
         document.querySelector('#archive_btn').style.backgroundColor = 'rgb(76,127,255)';
@@ -270,6 +276,7 @@ function unread(value) {
         read: false
     })
   })
-  load_mailbox('inbox')
+  document.querySelector('#unread_btn').style.backgroundColor = 'rgb(76,127,255)';
+  document.querySelector('#unread_btn').style.color = 'white';
 }
 
