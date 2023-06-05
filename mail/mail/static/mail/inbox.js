@@ -23,12 +23,65 @@ document.addEventListener('DOMContentLoaded', function() {
       const option = event.target.value
       archive(value, option)
     }
+    else if (event.target.matches('#reply')) {
+      const value = event.target.closest("[data-value]").dataset.value
+      reply_email(value)
+    }
   })
 
 
   // By default, load the inbox
   load_mailbox('inbox');
 });
+
+function reply_email(value) {
+
+  document.querySelector('#get-email-view').style.display = 'none';
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+
+  fetch('/emails/' + value) 
+  .then(response => response.json())
+  .then(email => {
+    console.log(email)
+
+    const sender = email["sender"];
+    const recipients = email["recipients"];
+    const subject = email["subject"];
+    const body = email["body"];
+    const timestamp = email["timestamp"];
+
+    document.querySelector('#compose-body').value = `On ${timestamp} ${sender} wrote: "${body}"`;
+    if (!subject.startsWith('Re: ')) {
+      document.querySelector('#compose-subject').value = "Re: " + subject;
+    }
+    else {
+        document.querySelector('#compose-subject').value = subject;
+    }
+
+    const user_email = document.querySelector('#user_email').dataset.value
+    
+    if (recipients.includes(user_email)) {
+      const index = recipients.indexOf(user_email)
+
+      recipients.splice(index, 1, sender)
+      document.querySelector('#compose-recipients').value = recipients;
+    }
+    else {
+      document.querySelector('#compose-recipients').value = recipients;
+    }
+
+    document.querySelector('#compose-form').addEventListener('submit', send_email);
+  })
+
+  document.querySelectorAll('#buttonz button').forEach(function(button){
+    button.style.backgroundColor = 'white';
+    button.style.color = 'rgb(76, 127, 255)';
+  });
+
+  document.querySelector('#compose').style.backgroundColor = 'rgb(76,127,255)';
+  document.querySelector('#compose').style.color = 'white';
+}
 
 function compose_email() {
 
@@ -108,17 +161,17 @@ function load_mailbox(mailbox) {
 
 function send_email(event) {
 
-  const to = document.querySelector('#compose-recipients').value;
+  const recipients_raw = document.querySelector('#compose-recipients').value;
   const subject_raw = document.querySelector('#compose-subject').value;
   const body_raw = document.querySelector('#compose-body').value;
 
   fetch('/emails', {
     method: 'POST',
     body: JSON.stringify({
-        recipients: to,
+        recipients: recipients_raw,
         subject: subject_raw,
         body: body_raw,
-        read: 'false'
+        read: false
     })
   })
   .then(response => response.json())
@@ -161,7 +214,7 @@ function load_email(value) {
         })
       }
 
-      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b>${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button><hr><p>${body}</p>`
+      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b> ${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button><hr><p>${body}</p>`
 
       if (archived === true) {
         document.querySelector('#archive_btn').style.backgroundColor = 'rgb(76,127,255)';

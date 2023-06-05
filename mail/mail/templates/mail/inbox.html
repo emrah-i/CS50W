@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <h2>{{ request.user.email }}</h2>
+    <h2 id="user_email" data-value="{{ request.user.email }}">{{ request.user.email }}</h2>
 
     <div id="buttonz">
         <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
