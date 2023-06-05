@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
-  document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#compose-form').addEventListener('submit', send_email);
   document.querySelector('#emails-view').addEventListener('click', function(event) {
-
     if (event.target.matches('div')) {
       const value = event.target.dataset.value 
       load_email(value);
@@ -55,22 +53,26 @@ function load_mailbox(mailbox) {
 
       for (let i = 0; i < emails.length; i++) {
         var newElement = document.createElement('div');
-        newElement.id = 'email_' + i
-        newElement.dataset.value = emails[i]["id"]
-        newElement.style.width = 100%
+        newElement.id = 'email_' + i;
+        newElement.dataset.value = emails[i]["id"];
         emails_view.append(newElement)
 
         const sender = emails[i]["sender"];
         const recipients = emails[i]["recipients"];
         const subject = emails[i]["subject"];
-        const body = emails[i]["body"];
         const timestamp = emails[i]["timestamp"];
         const read = emails[i]["read"]
 
-        document.querySelector('#email_' + i).innerHTML = `<p><b>Sender:</b> ${sender}</p><p><b>Recipients:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Body:</b> ${body}</p><p><b>Timestamp:</b> ${timestamp}</p><br><hr>`
+        if (mailbox === 'inbox') {
+          document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${sender}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+        }
+        else if (mailbox === 'sent') {
+          document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+        }
+  
 
         if (read === true) {
-          document.querySelector('#email_' + i).style.backgroundColor = 'lightgray';
+          document.querySelector('#email_' + i).style.backgroundColor = 'rgb(229, 232, 232)';
         }
 
       }

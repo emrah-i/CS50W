@@ -2,11 +2,35 @@ textarea {
     min-height: 400px;
 }
 
+#emails-view table {
+    font-size: 1.2em;
+    width: 100%;
+    height: 60px;
+}
+
 #emails-view div {
-    padding: 20px;
-    border-radius: 2px;
+    border: 2px solid black;
+}
+
+#emails-view td {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #emails-view hr {
     background-color: black;
+}
+
+.column1 {
+    width: 50%;
+}
+
+.column1 span {
+    padding: 0 20px 0 20px;
+}
+
+.column2 {
+    width: 50%;
+    text-align: right;
+    color: gray;
 }
