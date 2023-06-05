@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const value = event.target.closest("[data-value]").dataset.value
       reply_email(value)
     }
+    else if (event.target.matches('#unread_btn')) {
+      const value = event.target.closest("[data-value]").dataset.value
+      unread(value)
+    }
   })
 
 
@@ -214,7 +218,7 @@ function load_email(value) {
         })
       }
 
-      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b> ${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button><hr><p>${body}</p>`
+      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b> ${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button></button>&nbsp<button class="btn btn-sm btn-outline-primary" id="unread_btn">Unread</button><hr><p>${body}</p>`
 
       if (archived === true) {
         document.querySelector('#archive_btn').style.backgroundColor = 'rgb(76,127,255)';
@@ -256,5 +260,16 @@ function load_email(value) {
     document.querySelector('#archive_btn').value = 'not_archived';
   }
 
+}
+
+function unread(value) {
+
+  fetch('/emails/' + value, {
+    method: 'PUT',
+    body: JSON.stringify({
+        read: false
+    })
+  })
+  load_mailbox('inbox')
 }
 
