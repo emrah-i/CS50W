@@ -9,8 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#compose-form').addEventListener('submit', send_email);
   document.querySelector('#emails-view').addEventListener('click', function(event) {
+
     if (event.target.matches('div')) {
-      load_email(event);
+      const value = event.target.dataset.value 
+      load_email(value);
+    }
+    else {
+      const value = event.target.closest('[data-value]').dataset.value;
+      load_email(value);
     }
   });
 
@@ -22,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function compose_email() {
 
   // Show compose view and hide other views
+  document.querySelector('#get-email-view').style.display = 'none';
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
@@ -36,6 +43,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#get-email-view').style.display = 'none';
 
   const emails_view = document.querySelector('#emails-view')
 
@@ -49,6 +57,7 @@ function load_mailbox(mailbox) {
         var newElement = document.createElement('div');
         newElement.id = 'email_' + i
         newElement.dataset.value = emails[i]["id"]
+        newElement.style.width = 100%
         emails_view.append(newElement)
 
         const sender = emails[i]["sender"];
@@ -58,7 +67,7 @@ function load_mailbox(mailbox) {
         const timestamp = emails[i]["timestamp"];
         const read = emails[i]["read"]
 
-        document.querySelector('#email_' + i).innerHTML = `<p>Sender: ${sender}</p><p>Recipients: ${recipients}</p><p>Subject: ${subject}</p><p>Body: ${body}</p><p>Timestamp: ${timestamp}</p><br><hr>`
+        document.querySelector('#email_' + i).innerHTML = `<p><b>Sender:</b> ${sender}</p><p><b>Recipients:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Body:</b> ${body}</p><p><b>Timestamp:</b> ${timestamp}</p><br><hr>`
 
         if (read === true) {
           document.querySelector('#email_' + i).style.backgroundColor = 'lightgray';
@@ -95,10 +104,8 @@ function send_email(event) {
   event.preventDefault();
 }
 
-function load_email(event) {
+function load_email(value) {
 
-  console.log('Clicked a div');
-  const value = event.target.dataset.value
   const email_div = document.querySelector('#get-email-view')
 
   fetch('/emails/' + value)
@@ -116,7 +123,7 @@ function load_email(event) {
       const body = email["body"];
       const timestamp = email["timestamp"];
 
-      document.querySelector('#current-email').innerHTML = `<p>Sender: ${sender}</p><p>Recipients: ${recipients}</p><p>Subject: ${subject}</p><p>Body: ${body}</p><p>Timestamp: ${timestamp}</p><br><hr>`
+      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b>${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button><hr><p>${body}</p>`
   });
 
   document.querySelector('#emails-view').style.display = 'none';
