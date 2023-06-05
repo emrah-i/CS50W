@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#compose-form').addEventListener('submit', send_email);
+  document.querySelector('#emails-view').addEventListener('click', function(event) {
+    if (event.target.matches('div')) {
+      load_email(event);
+    }
+  });
 
 
   // By default, load the inbox
@@ -43,6 +48,7 @@ function load_mailbox(mailbox) {
       for (let i = 0; i < emails.length; i++) {
         var newElement = document.createElement('div');
         newElement.id = 'email_' + i
+        newElement.dataset.value = emails[i]["id"]
         emails_view.append(newElement)
 
         const sender = emails[i]["sender"];
@@ -68,7 +74,6 @@ function load_mailbox(mailbox) {
 function send_email(event) {
 
   const to = document.querySelector('#compose-recipients').value;
-  // const recipients_n = to.split(',')
   const subject_raw = document.querySelector('#compose-subject').value;
   const body_raw = document.querySelector('#compose-body').value;
 
@@ -78,7 +83,7 @@ function send_email(event) {
         recipients: to,
         subject: subject_raw,
         body: body_raw,
-        read: false
+        read: 'false'
     })
   })
   .then(response => response.json())
@@ -88,4 +93,33 @@ function send_email(event) {
   });
 
   event.preventDefault();
+}
+
+function load_email(event) {
+
+  console.log('Clicked a div');
+  const value = event.target.dataset.value
+  const email_div = document.querySelector('#get-email-view')
+
+  fetch('/emails/' + value)
+  .then(response => response.json())
+  .then(email => {
+      console.log(email);
+
+      var newElement = document.createElement('div');
+      newElement.id = 'current-email'
+      email_div.append(newElement)
+
+      const sender = email["sender"];
+      const recipients = email["recipients"];
+      const subject = email["subject"];
+      const body = email["body"];
+      const timestamp = email["timestamp"];
+
+      document.querySelector('#current-email').innerHTML = `<p>Sender: ${sender}</p><p>Recipients: ${recipients}</p><p>Subject: ${subject}</p><p>Body: ${body}</p><p>Timestamp: ${timestamp}</p><br><hr>`
+  });
+
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#get-email-view').style.display = 'block';
 }
