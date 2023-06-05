@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Use buttons to toggle between views
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-  document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
+  document.querySelector('#archive').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector('#compose-form').addEventListener('submit', send_email);
   document.querySelector('#emails-view').addEventListener('click', function(event) {
@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
       load_email(value);
     }
   });
+  document.querySelector('#get-email-view').addEventListener('click', function(event) {
+    if (event.target.matches('#archive_btn')) {
+      const value = event.target.closest("[data-value]").dataset.value
+      const option = event.target.value
+      archive(value, option)
+    }
+  })
 
 
   // By default, load the inbox
@@ -34,6 +41,14 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
+  document.querySelectorAll('#buttonz button').forEach(function(button){
+    button.style.backgroundColor = 'white';
+    button.style.color = 'rgb(76, 127, 255)';
+  });
+
+  document.querySelector('#compose').style.backgroundColor = 'rgb(76,127,255)';
+  document.querySelector('#compose').style.color = 'white';
 }
 
 function load_mailbox(mailbox) {
@@ -69,14 +84,23 @@ function load_mailbox(mailbox) {
         else if (mailbox === 'sent') {
           document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
         }
+        else {
+            document.querySelector('#email_' + i).innerHTML = `<table><tr><td class="column1"><b>${recipients}</b><span>${subject}</span></td><td class="column2">${timestamp}</td></tr></table>`
+        }
   
-
         if (read === true) {
           document.querySelector('#email_' + i).style.backgroundColor = 'rgb(229, 232, 232)';
         }
-
       }
   });
+
+  document.querySelectorAll('#buttonz button').forEach(function(button){
+      button.style.backgroundColor = 'white';
+      button.style.color = 'rgb(76, 127, 255)';
+    });
+
+  document.querySelector('#' + mailbox).style.backgroundColor = 'rgb(76,127,255)';
+  document.querySelector('#' + mailbox).style.color = 'white';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -117,6 +141,7 @@ function load_email(value) {
 
       var newElement = document.createElement('div');
       newElement.id = 'current-email'
+      newElement.dataset.value = email["id"]
       email_div.append(newElement)
 
       const sender = email["sender"];
@@ -124,11 +149,59 @@ function load_email(value) {
       const subject = email["subject"];
       const body = email["body"];
       const timestamp = email["timestamp"];
+      const read = email["read"]
+      const archived = email["archived"]
 
-      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b>${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button><hr><p>${body}</p>`
+      if (read === false) {
+        fetch('/emails/' + value, {
+          method: 'PUT',
+          body: JSON.stringify({
+              read: true
+          })
+        })
+      }
+
+      document.querySelector('#current-email').innerHTML = `<p><b>From:</b> ${sender}</p><p><b>To:</b> ${recipients}</p><p><b>Subject:</b> ${subject}</p><p><b>Timestamp:</b>${timestamp}</b></p><button class="btn btn-sm btn-outline-primary" id="reply">Reply</button>&nbsp<button class="btn btn-sm btn-outline-primary" id="archive_btn" value="not_archived">Archive</button><hr><p>${body}</p>`
+
+      if (archived === true) {
+        document.querySelector('#archive_btn').style.backgroundColor = 'rgb(76,127,255)';
+        document.querySelector('#archive_btn').style.color = 'white';
+        document.querySelector('#archive_btn').value = 'archived';
+      } 
   });
 
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#get-email-view').style.display = 'block';
 }
+
+ function archive(value, option) {
+  
+  if (option === "not_archived") {
+    fetch('/emails/' + value, {
+      method: 'PUT',
+      body: JSON.stringify({
+          archived: true
+      })
+    })
+     
+    document.querySelector('#archive_btn').style.backgroundColor = 'rgb(76,127,255)';
+    document.querySelector('#archive_btn').style.color = 'white';
+    document.querySelector('#archive_btn').value = 'archived';
+  }
+
+  else if (option === "archived") {
+    fetch('/emails/' + value, {
+      method: 'PUT',
+      body: JSON.stringify({
+          archived: false
+      })
+    })
+     
+    document.querySelector('#archive_btn').style.backgroundColor = 'white';
+    document.querySelector('#archive_btn').style.color = 'rgb(76,127,255)';
+    document.querySelector('#archive_btn').value = 'not_archived';
+  }
+
+}
+
