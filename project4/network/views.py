@@ -77,9 +77,9 @@ def posts(request):
 
     else:
         start = int(request.GET.get('start') or 0)
-        end = int(request.GET.get('end') or (start + 9))
+        end = int(request.GET.get('end') or (start + 4))
 
-        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time')
+        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
 
         data = []
         for post in posts[start:end + 1]:

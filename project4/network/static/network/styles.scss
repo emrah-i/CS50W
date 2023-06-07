@@ -1,0 +1,46 @@
+#all_posts {
+
+    border: 1px solid black;
+    padding: 15px;
+    margin: 10px auto 10px auto;
+    width: 90vw;
+    font-size: 1.25vw;
+
+    div {
+        border: 1px solid black;
+    }
+}
+
+#new_post {
+
+    border: 1px solid black;
+    padding: 15px;
+    margin: 10px auto 10px auto;
+    width: 90vw;
+    font-size: 1.25vw;
+
+    button {
+        margin: 100px;
+        background-color: aliceblue;
+        border-radius: 8px;
+        border-style: solid;
+        border-color: black;
+        height: 6vh;
+        width: 7vw;
+    }
+
+    button:hover {
+        margin: 100px;
+        background-color: LightSteelBlue;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: black;
+        height: 6vh;
+        width: 7vw;
+    }
+
+    #text_input {
+        width: 90%;
+        margin: 10px 5%;
+    }
+}
