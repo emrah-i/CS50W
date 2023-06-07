@@ -7,5 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
-    path("register", views.register, name="register")
+    path("register", views.register, name="register"),
+    path('get-csrf-token', views.get_csrf_token, name='get-csrf-token'),
+    path("posts", views.posts, name="posts")
 ]

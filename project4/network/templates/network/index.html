@@ -1,5 +1,12 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    <div id="new_post">
+        {% if user.is_authenticated %}
+        <button id="new_post_button" data-user="{{ user.username }}">New Post</button>
+        {% endif %}
+    </div>
+
+    <div id="all_posts">
+    </div>
 {% endblock %}
