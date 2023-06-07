@@ -67,14 +67,19 @@ def posts(request):
 
     if request.method == "POST":
         
-        user = request.POST["user"]
-        test = request.POST["text"]
+        user = User.objects.get(username = request.user.username)
+        text = request.POST.get("text")
+
+        newPost = Post.objects.create(user = user, text = text)
+        newPost.save()
+
+        return HttpResponseRedirect(reverse('index'))
 
     else:
         start = int(request.GET.get('start') or 0)
         end = int(request.GET.get('end') or (start + 9))
 
-        posts = Post.objects.all().values('id', 'text', 'user', 'likes', 'comments', 'upload_time')
+        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time')
 
         data = []
         for post in posts[start:end + 1]:

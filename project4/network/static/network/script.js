@@ -3,14 +3,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector('#new_post_button').addEventListener('click', load_new_post);
 
-    load_posts
+    load_posts();
 })
 
 function load_posts() {
 
     const all_posts = document.querySelector('#all_posts')
 
-    fetch('/posts')
+    console.log("hi")
+
+    fetch('/posts', {
+        method: "GET",
+    })
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -19,8 +23,24 @@ function load_posts() {
 
             const existingPost = document.createElement('div');
             existingPost.id = 'post' + i;
-            existingPost.class = 'posts';
-            existingPost.innerHTML = 'g';
+            existingPost.className = 'posts'
+
+            const text = data[i].text
+            const user = data[i].user__username
+            const likes = data[i].likes
+            const comments = data[i].comments
+
+            existingPost.innerHTML = 
+            `<h6>${user}:<h6>
+            <p>${text}</p>
+            `;
+
+            if (likes !== null) {
+                existingPost.innerHTML += `<p>${likes}</p>`
+            }
+            if (comments !== null) {
+                existingPost.innerHTML += `<p>${comments}</p>`
+            }
 
             all_posts.append(existingPost);
         }
@@ -48,7 +68,7 @@ function load_new_post(event) {
     .then(data => {
         // Create the form HTML with the retrieved CSRF token
         newPost.innerHTML = 
-        `<form action="/post" method="post">
+        `<form action="/posts" method="post">
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
             <h2>New Post</h2>
             <input type="text" disabled value="${user}" name="user">

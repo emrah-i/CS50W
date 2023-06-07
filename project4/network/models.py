@@ -31,9 +31,12 @@ class Post(models.Model):
     post = models.AutoField(primary_key=True)
     text = models.CharField(max_length=2000)
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="post_poster")
-    likes = models.ManyToManyField('User', related_name="post_ikers")
+    likes = models.ManyToManyField('User', blank=True, null=True, related_name="post_ikers")
     comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE, related_name="post_comments")
     upload_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+         return f"Post {self.post} uploaded by {self.user} at {self.upload_time}"
 
 class Comment(models.Model):
     comment = models.AutoField(primary_key=True)
