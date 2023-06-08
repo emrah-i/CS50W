@@ -17,11 +17,22 @@ body {
 
     #user_heading {
         font-weight: 600;
-        margin: 20px 0;
+        color: black;
+        font-size: 1.5em;
+    }
+
+    #post_text {
+        margin: 0;
     }
 
     #timestamp {
+        margin: 0;
         color: gray;
+    }
+
+    ul {
+        list-style-type: none;
+        line-height: 20px;
     }
 }
 
@@ -40,7 +51,6 @@ body {
         border-style: solid;
         border-color: black;
         height: 5vh;
-        width: 6vw;
     }
 
     button:hover {
@@ -69,14 +79,7 @@ body {
         border: 1px solid black;
         border-radius: 6px;
     }
-
-    #user_info {
-        padding: 10px;
-        border: 1px solid black;
-        border-radius: 6px;
-        margin-bottom: 50px;
-    }
-} 
+}
 
 #page_buttons {
     width: 10vw;
@@ -89,10 +92,29 @@ body {
         border-style: solid;
         border-color: black;
         height: 4vh;
-        width: 3vw;
     }
 
     button:hover {
         background-color: LightSteelBlue;
     }
+}
+
+#user_info {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    margin-bottom: 50px;
+
+    #follow, #unfollow {
+            margin: 0;
+            background-color: aliceblue;
+            border-radius: 8px;
+            border-style: solid;
+            border-color: black;
+            height: 5vh;
+    }
+    
+    #follow:hover, #unfollow:hover {
+            background-color: LightSteelBlue;
+        }
 }

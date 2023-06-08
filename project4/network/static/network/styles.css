@@ -15,10 +15,19 @@ body {
 }
 #all_posts #user_heading {
   font-weight: 600;
-  margin: 20px 0;
+  color: black;
+  font-size: 1.5em;
+}
+#all_posts #post_text {
+  margin: 0;
 }
 #all_posts #timestamp {
+  margin: 0;
   color: gray;
+}
+#all_posts ul {
+  list-style-type: none;
+  line-height: 20px;
 }
 
 #new_post {
@@ -35,7 +44,6 @@ body {
   border-style: solid;
   border-color: black;
   height: 5vh;
-  width: 6vw;
 }
 #new_post button:hover {
   background-color: LightSteelBlue;
@@ -59,12 +67,6 @@ body {
   border: 1px solid black;
   border-radius: 6px;
 }
-#profile_posts #user_info {
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 6px;
-  margin-bottom: 50px;
-}
 
 #page_buttons {
   width: 10vw;
@@ -77,8 +79,25 @@ body {
   border-style: solid;
   border-color: black;
   height: 4vh;
-  width: 3vw;
 }
 #page_buttons button:hover {
+  background-color: LightSteelBlue;
+}
+
+#user_info {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin-bottom: 50px;
+}
+#user_info #follow, #user_info #unfollow {
+  margin: 0;
+  background-color: aliceblue;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: black;
+  height: 5vh;
+}
+#user_info #follow:hover, #user_info #unfollow:hover {
   background-color: LightSteelBlue;
 }/*# sourceMappingURL=styles.css.map */

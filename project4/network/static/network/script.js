@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
         counter += 5;
         load_posts(counter);
     })
+
+    document.querySelector('#all_posts').addEventListener('click', (event) => {
+        if (event.target.matches('#edit_button')) {
+            const post = event.target.dataset.id 
+
+            edit_post(post);
+        }
+    })
 })
 
 function load_posts(value) {
@@ -54,6 +62,7 @@ function load_posts(value) {
             existingPost.id = 'post' + i;
             existingPost.className = 'posts';
 
+            const id = data[i].post
             const text = data[i].text
             const user = data[i].user__username
             const likes = data[i].likes
@@ -61,11 +70,13 @@ function load_posts(value) {
             const upload_time = data[i].upload_time
 
             existingPost.innerHTML = 
-            `<p id="user_heading">${user}:</p>
-            <p>"${text}"</p>
+            `<a id="user_heading" href="/profile/${user}">${user}:</a>
+            <br>
+            <a id="edit_button" href="" data-id="${id}">Edit</a>
+            <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
-            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i> 0
-            <p>Comment</p>        
+            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp 0
+            <p>Comment</p>   
             `;
 
             if (likes !== null) {
@@ -121,4 +132,15 @@ function cancel_new_post() {
 
     document.querySelector('#new_post_item').remove();
     document.querySelector('#new_post_button').style.display = 'block';
+}
+
+function edit_post(id) {
+
+    fetch('/edit?post=' + id, {
+        method = "GET"
+    })
+    .then(response => json.response())
+    .then(post_data =>
+        
+    )
 }

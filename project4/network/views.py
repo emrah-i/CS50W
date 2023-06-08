@@ -100,6 +100,7 @@ def get_csrf_token(request):
     
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
 
+@login_required
 def profile(request, username):
     
     user = User.objects.get(username = username)
@@ -129,6 +130,41 @@ def profile(request, username):
 
     return render(request, "network/profile.html", {
         'posts': posts,
-        'user': user_info
+        'user_info': user_info
     })
 
+@login_required
+def following(request):
+
+    user = request.user.id
+    following = UserFollow.objects.filter(user = user).values('is_now_following')
+
+    following_users = []
+    for follow in following:
+        following_users.append(follow['is_now_following'])
+
+
+    following_posts = Post.objects.filter(user__in = following_users).values('post', 'text', 'likes', 'comments', 'upload_time').order_by('upload_time')
+
+    for post in following_posts:
+        if post["likes"] is not None:
+            post["likes_count"] = len(post["likes"])
+        else:
+            post["likes_count"] = 0
+            
+        if post["comments"] is not None:
+            post["comments_count"] = len(post["comment"])
+        else:
+            post["comments_count"] = 0
+
+    return render(request, 'network/following.html', {
+        'following_posts': following_posts
+    })
+
+@login_required
+def edit(request):
+    
+    post = request.POST.get('post')
+    post_data = Post.objects.get(post = post).values('post', 'text', 'likes', 'comments', 'upload_time')
+
+    return JsonResponse(post_data, safe=False)

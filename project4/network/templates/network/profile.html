@@ -3,12 +3,16 @@
 {% block body %}
     <div id="profile_posts">
         <div id="user_info">
-            <h3>{{ user.username }}</h3>
-            <p>Followers: {{ user.followers }}</p>
-            <p>Following: {{ user.following }}</p>
+            <h3>{{ user_info.username }}</h3>
+            <p>Followers: {{ user_info.followers }}</p>
+            <p>Following: {{ user_info.following }}</p>
+            {% if user.is_authenticated and user.username != user_info.username %}
+            <button id="follow">Follow</button>
+            <button id="unfollow">Unfollow</button>
+            {% endif %}
         </div>
         <h2>All Posts</h2>
-        {% for post in posts|slice:":2" %}
+        {% for post in posts|slice:":5" %}
         <div class="profile_post" data-post="{{ post.post }}">
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
