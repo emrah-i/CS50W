@@ -64,4 +64,21 @@ body {
   border: 1px solid black;
   border-radius: 6px;
   margin-bottom: 50px;
+}
+
+#page_buttons {
+  width: 10vw;
+  margin: 30px auto;
+}
+#page_buttons button {
+  margin: 0;
+  background-color: aliceblue;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: black;
+  height: 4vh;
+  width: 3vw;
+}
+#page_buttons button:hover {
+  background-color: LightSteelBlue;
 }/*# sourceMappingURL=styles.css.map */

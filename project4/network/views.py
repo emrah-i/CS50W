@@ -82,7 +82,6 @@ def posts(request):
 
         posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
 
-
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
 

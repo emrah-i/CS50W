@@ -1,7 +1,16 @@
 
+let counter = 0
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    let counter = 0
+    window.onpopstate = function (event) {
+        if (event.state && event.state.page) {
+            value = (event.state.page - 1) * 5
+            load_posts(value);
+        } else {
+            load_posts(0);
+        }
+    };
 
     try {
         document.querySelector('#new_post').addEventListener('click', (event) => {
@@ -14,27 +23,41 @@ document.addEventListener("DOMContentLoaded", () => {
     catch {}
 
     if (window.location.pathname === "/") {
-        load_posts(0);
 
-        window.onscroll = () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                counter += 5;
-                load_posts(counter)
+        load_posts(counter);
+
+        document.querySelector('#previous').addEventListener('click', () => {
+            if (counter > 5) {
+                counter -= 5;
+                load_posts(counter);
             }
-        }
+        })
+        document.querySelector('#next').addEventListener('click', () => {
+            counter += 5;
+            load_posts(counter);
+        })
     }
 })
 
 function load_posts(value) {
 
-    const all_posts = document.querySelector('#all_posts')
+    counter = value ;
+
+    const all_posts = document.querySelector('#all_posts');
+
+    all_posts.innerHTML = "";
 
     fetch('/posts?start=' + value, {
         method: "GET",
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+
+        if (data.length === 0) {
+            counter = value - 5
+            load_posts(counter);
+            alert("No more posts");
+        }
 
         for (i = 0; i < data.length; i++) {
 
@@ -64,6 +87,10 @@ function load_posts(value) {
             }
 
             all_posts.append(existingPost);
+
+            page = value / 5;
+            const url = window.location.pathname + '?page=' + page;
+            window.history.pushState({ page }, '', url);
         }
     })
     .catch(error => {

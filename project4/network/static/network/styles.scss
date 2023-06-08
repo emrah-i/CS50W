@@ -77,3 +77,22 @@ body {
         margin-bottom: 50px;
     }
 } 
+
+#page_buttons {
+    width: 10vw;
+    margin: 30px auto;
+
+    button {
+        margin: 0;
+        background-color: aliceblue;
+        border-radius: 8px;
+        border-style: solid;
+        border-color: black;
+        height: 4vh;
+        width: 3vw;
+    }
+
+    button:hover {
+        background-color: LightSteelBlue;
+    }
+}
