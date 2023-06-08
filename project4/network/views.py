@@ -82,6 +82,7 @@ def posts(request):
 
         posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
 
+
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
 
@@ -99,3 +100,36 @@ def get_csrf_token(request):
     
     
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
+
+def profile(request, username):
+    
+    user = User.objects.get(username = username)
+    user_following = UserFollow.objects.filter(user = user)
+    user_followers = UserFollow.objects.filter(is_now_following = user)
+
+    user_info  = {
+        'username': user.username,
+        'following': len(user_following),
+        'followers': len(user_followers)
+    }
+
+
+    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('upload_time')
+
+    for post in posts:
+        if post["likes"] is not None:
+            post["likes_count"] = len(post["likes"])
+        else:
+            post["likes_count"] = 0
+            
+        if post["comments"] is not None:
+            post["comments_count"] = len(post["comment"])
+        else:
+            post["comments_count"] = 0
+
+
+    return render(request, "network/profile.html", {
+        'posts': posts,
+        'user': user_info
+    })
+

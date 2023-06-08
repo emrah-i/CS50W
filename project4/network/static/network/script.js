@@ -3,20 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let counter = 0
 
-    document.querySelector('#new_post').addEventListener('click', (event) => {
-        if (event.target.matches('#cancel')) {
-            cancel_new_post();
-        }
-    });
-    document.querySelector('#new_post_button').addEventListener('click', load_new_post);
-    window.onscroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            counter += 5;
-            load_posts(counter)
+    try {
+        document.querySelector('#new_post').addEventListener('click', (event) => {
+            if (event.target.matches('#cancel')) {
+                cancel_new_post();
+            }
+        });
+        document.querySelector('#new_post_button').addEventListener('click', load_new_post);
+    }
+    catch {}
+
+    if (window.location.pathname === "/") {
+        load_posts(0);
+
+        window.onscroll = () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                counter += 5;
+                load_posts(counter)
+            }
         }
     }
-
-    load_posts(0);
 })
 
 function load_posts(value) {
@@ -46,6 +52,8 @@ function load_posts(value) {
             `<p id="user_heading">${user}:</p>
             <p>"${text}"</p>
             <p id="timestamp">${upload_time}</p>
+            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i> 0
+            <p>Comment</p>        
             `;
 
             if (likes !== null) {

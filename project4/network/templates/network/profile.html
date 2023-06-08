@@ -1,0 +1,20 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div id="profile_posts">
+        <div id="user_info">
+            <h3>{{ user.username }}</h3>
+            <p>Followers: {{ user.followers }}</p>
+            <p>Following: {{ user.following }}</p>
+        </div>
+        <h2>All Posts</h2>
+        {% for post in posts|slice:":2" %}
+        <div class="profile_post" data-post="{{ post.post }}">
+            <p>{{ post.text }}</p>
+            <p>{{ post.upload_time }}</p>
+            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
+            <p>{{ post.comments_count }} Comments</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

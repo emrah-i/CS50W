@@ -43,4 +43,25 @@ body {
 #new_post #text_input {
   width: 90%;
   margin: 10px 5%;
+}
+#new_post #user_input {
+  margin: 10px 5%;
+}
+
+#profile_posts {
+  margin: 10px auto 10px auto;
+  width: 90vw;
+}
+#profile_posts .profile_post {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+#profile_posts #user_info {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin-bottom: 50px;
 }/*# sourceMappingURL=styles.css.map */
