@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.middleware import csrf
+from datetime import datetime
 
 from .models import User, Post, UserFollow, Comment
 
@@ -80,6 +81,9 @@ def posts(request):
         end = int(request.GET.get('end') or (start + 4))
 
         posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+
+        for post in posts:
+            post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
 
         data = []
         for post in posts[start:end + 1]:

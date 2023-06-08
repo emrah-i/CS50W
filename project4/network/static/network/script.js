@@ -3,11 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let counter = 0
 
+    document.querySelector('#new_post').addEventListener('click', (event) => {
+        if (event.target.matches('#cancel')) {
+            cancel_new_post();
+        }
+    });
     document.querySelector('#new_post_button').addEventListener('click', load_new_post);
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
             counter += 5;
-            load_posts(counter), 2000
+            load_posts(counter)
         }
     }
 
@@ -17,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function load_posts(value) {
 
     const all_posts = document.querySelector('#all_posts')
-
-    console.log("hi")
 
     fetch('/posts?start=' + value, {
         method: "GET",
@@ -31,7 +34,7 @@ function load_posts(value) {
 
             const existingPost = document.createElement('div');
             existingPost.id = 'post' + i;
-            existingPost.className = 'posts'
+            existingPost.className = 'posts';
 
             const text = data[i].text
             const user = data[i].user__username
@@ -40,9 +43,9 @@ function load_posts(value) {
             const upload_time = data[i].upload_time
 
             existingPost.innerHTML = 
-            `<h6>${user}:<h6>
-            <p>${text}</p>
-            <p>${upload_time}</p>
+            `<p id="user_heading">${user}:</p>
+            <p>"${text}"</p>
+            <p id="timestamp">${upload_time}</p>
             `;
 
             if (likes !== null) {
@@ -84,6 +87,7 @@ function load_new_post(event) {
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <textarea placeholder="Text" name="text" id="text_input"></textarea><br>
             <button type="submit">Submit</button>
+            <button type="button" id="cancel">Cancel</button>
         </form>`;
 
         existing.append(newPost);
@@ -91,4 +95,10 @@ function load_new_post(event) {
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function cancel_new_post() {
+
+    document.querySelector('#new_post_item').remove();
+    document.querySelector('#new_post_button').style.display = 'block';
 }

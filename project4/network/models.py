@@ -2,6 +2,7 @@ from typing import Any
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 from django.core.exceptions import ValidationError
 
 
@@ -31,7 +32,7 @@ class Post(models.Model):
     post = models.AutoField(primary_key=True)
     text = models.CharField(max_length=2000)
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="post_poster")
-    likes = models.ManyToManyField('User', blank=True, null=True, related_name="post_ikers")
+    likes = models.ManyToManyField('User', blank=True, related_name="post_ikers")
     comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE, related_name="post_comments")
     upload_time = models.DateTimeField(default=timezone.now)
 
