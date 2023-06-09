@@ -1,5 +1,24 @@
 body {
     font-size: 1.15vw;
+
+    textarea {
+        width: 90%;
+        height: 30vh;
+        margin: 10px 5%;
+    }
+
+    button {
+        margin: 0;
+        background-color: aliceblue;
+        border-radius: 8px;
+        border-style: solid;
+        border-color: black;
+        height: 5vh;
+    }
+
+    button:hover {
+        background-color: LightSteelBlue;
+    }
 }
 
 #all_posts {
@@ -13,6 +32,10 @@ body {
         padding: 10px;
         border: 1px solid black;
         border-radius: 6px;
+
+        #user_input {
+            margin: 10px 5%;
+        }
     }
 
     #user_heading {
@@ -44,24 +67,6 @@ body {
     margin: 10px auto 10px auto;
     width: 90vw;
 
-    button {
-        margin: 0;
-        background-color: aliceblue;
-        border-radius: 8px;
-        border-style: solid;
-        border-color: black;
-        height: 5vh;
-    }
-
-    button:hover {
-        background-color: LightSteelBlue;
-    }
-
-    #text_input {
-        width: 90%;
-        margin: 10px 5%;
-    }
-
     #user_input {
         margin: 10px 5%;
     }
@@ -79,24 +84,22 @@ body {
         border: 1px solid black;
         border-radius: 6px;
     }
+
+    #user_heading {
+        font-weight: 600;
+        color: black;
+        font-size: 1.5em;
+    }
+
+    #user_input {
+        margin: 10px 5%;
+    }
 }
 
 #page_buttons {
     width: 10vw;
     margin: 30px auto;
 
-    button {
-        margin: 0;
-        background-color: aliceblue;
-        border-radius: 8px;
-        border-style: solid;
-        border-color: black;
-        height: 4vh;
-    }
-
-    button:hover {
-        background-color: LightSteelBlue;
-    }
 }
 
 #user_info {
@@ -105,16 +108,4 @@ body {
     border-radius: 6px;
     margin-bottom: 50px;
 
-    #follow, #unfollow {
-            margin: 0;
-            background-color: aliceblue;
-            border-radius: 8px;
-            border-style: solid;
-            border-color: black;
-            height: 5vh;
-    }
-    
-    #follow:hover, #unfollow:hover {
-            background-color: LightSteelBlue;
-        }
 }

@@ -1,6 +1,22 @@
 body {
   font-size: 1.15vw;
 }
+body textarea {
+  width: 90%;
+  height: 30vh;
+  margin: 10px 5%;
+}
+body button {
+  margin: 0;
+  background-color: aliceblue;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: black;
+  height: 5vh;
+}
+body button:hover {
+  background-color: LightSteelBlue;
+}
 
 #all_posts {
   margin: 10px auto 10px auto;
@@ -12,6 +28,9 @@ body {
   padding: 10px;
   border: 1px solid black;
   border-radius: 6px;
+}
+#all_posts .posts #user_input {
+  margin: 10px 5%;
 }
 #all_posts #user_heading {
   font-weight: 600;
@@ -37,21 +56,6 @@ body {
   margin: 10px auto 10px auto;
   width: 90vw;
 }
-#new_post button {
-  margin: 0;
-  background-color: aliceblue;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: black;
-  height: 5vh;
-}
-#new_post button:hover {
-  background-color: LightSteelBlue;
-}
-#new_post #text_input {
-  width: 90%;
-  margin: 10px 5%;
-}
 #new_post #user_input {
   margin: 10px 5%;
 }
@@ -67,21 +71,18 @@ body {
   border: 1px solid black;
   border-radius: 6px;
 }
+#profile_posts #user_heading {
+  font-weight: 600;
+  color: black;
+  font-size: 1.5em;
+}
+#profile_posts #user_input {
+  margin: 10px 5%;
+}
 
 #page_buttons {
   width: 10vw;
   margin: 30px auto;
-}
-#page_buttons button {
-  margin: 0;
-  background-color: aliceblue;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: black;
-  height: 4vh;
-}
-#page_buttons button:hover {
-  background-color: LightSteelBlue;
 }
 
 #user_info {
@@ -89,15 +90,4 @@ body {
   border: 1px solid black;
   border-radius: 6px;
   margin-bottom: 50px;
-}
-#user_info #follow, #user_info #unfollow {
-  margin: 0;
-  background-color: aliceblue;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: black;
-  height: 5vh;
-}
-#user_info #follow:hover, #user_info #unfollow:hover {
-  background-color: LightSteelBlue;
 }/*# sourceMappingURL=styles.css.map */

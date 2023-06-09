@@ -11,13 +11,14 @@
             <button id="unfollow">Unfollow</button>
             {% endif %}
         </div>
-        <h2>All Posts</h2>
+        <h2>All My Posts</h2>
         {% for post in posts|slice:":5" %}
-        <div class="profile_post" data-post="{{ post.post }}">
+        <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
             <p>{{ post.comments_count }} Comments</p>
+            <button id="edit_button" data-id="{{ post.post }}">Edit</button>
         </div>
         {% endfor %}
     </div>

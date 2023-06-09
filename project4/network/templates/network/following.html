@@ -5,7 +5,7 @@
         <h2>All Following Posts</h2>
         {% for post in following_posts|slice:":5" %}
         <div class="profile_post" data-post="{{ post.post }}">
-            <p>{{ post.user }}</p>
+            <p id="user_heading">{{ post.user__username }}</p>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>

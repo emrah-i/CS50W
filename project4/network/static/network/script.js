@@ -17,6 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
         load_posts(counter);
     }
 
+    document.querySelector('#all_posts, #profile_posts').addEventListener('click', (event) => {
+        if (event.target.matches('#edit_button')) {
+            const post = event.target.dataset.id 
+            const div_id = event.target.parentElement.id
+
+            edit_post(post, div_id);
+        }
+        else if (event.target.matches('#save_edit')) {
+
+        }
+        else if (event.target.matches('#cancel_edit')) {
+            
+        }
+        else if (event.target.matches('#delete_edit')) {
+            
+        }
+    })
+
     document.querySelector('#previous').addEventListener('click', () => {
         if (counter > 5) {
             counter -= 5;
@@ -27,18 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
         counter += 5;
         load_posts(counter);
     })
-
-    document.querySelector('#all_posts').addEventListener('click', (event) => {
-        if (event.target.matches('#edit_button')) {
-            const post = event.target.dataset.id 
-
-            edit_post(post);
-        }
-    })
 })
 
 function load_posts(value) {
 
+    const user = document.querySelector('#user_tag').dataset.user
     const all_posts = document.querySelector('#all_posts');
 
     all_posts.innerHTML = "";
@@ -64,20 +75,23 @@ function load_posts(value) {
 
             const id = data[i].post
             const text = data[i].text
-            const user = data[i].user__username
+            const username = data[i].user__username
             const likes = data[i].likes
             const comments = data[i].comments
             const upload_time = data[i].upload_time
 
             existingPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${user}">${user}:</a>
+            `<a id="user_heading" href="/profile/${user}">${username}:</a>
             <br>
-            <a id="edit_button" href="" data-id="${id}">Edit</a>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
             <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp 0
             <p>Comment</p>   
             `;
+
+            if (username == user) {
+                existingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
+            }
 
             if (likes !== null) {
                 existingPost.innerHTML += `<p>${likes}</p>`
@@ -96,6 +110,7 @@ function load_posts(value) {
 
 function load_new_post(event) {
 
+    const user = document.querySelector('#user_tag').dataset.user
     const button = event.target
 
     button.style.display = 'none'
@@ -105,12 +120,10 @@ function load_new_post(event) {
     const newPost = document.createElement('div')
     newPost.id = 'new_post_item'
 
-    const user = document.querySelector('#new_post_button').dataset.user
-
     fetch('/get-csrf-token')
     .then(response => response.json())
     .then(data => {
-        // Create the form HTML with the retrieved CSRF token
+
         newPost.innerHTML = 
         `<form action="/posts" method="post">
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
@@ -134,13 +147,25 @@ function cancel_new_post() {
     document.querySelector('#new_post_button').style.display = 'block';
 }
 
-function edit_post(id) {
+function edit_post(id, div_id) {
+
+    const user = document.querySelector('#user_tag').dataset.user
+    const post_div = document.querySelector('#' + div_id)
 
     fetch('/edit?post=' + id, {
-        method = "GET"
+        method: "GET",
     })
-    .then(response => json.response())
-    .then(post_data =>
-        
+    .then(response => response.json())
+    .then(data => 
+
+        post_div.innerHTML =
+        `<form action="/edit" method="post">
+            <h2>Edit</h2>
+            <input type="text" disabled value="${user}" name="user" id="user_input"><br>
+            <textarea placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
+            <button type="submit" id="save_edit">Save</button>
+            <button type="button" id="cancel_edit">Cancel</button>
+            <button type="button" id="delete_edit">Delete</button>
+        </form>`
     )
 }

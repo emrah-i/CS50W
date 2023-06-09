@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -80,7 +81,7 @@ def posts(request):
         start = int(request.GET.get('start') or 0)
         end = int(request.GET.get('end') or (start + 4))
 
-        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
 
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
@@ -100,7 +101,6 @@ def get_csrf_token(request):
     
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
 
-@login_required
 def profile(request, username):
     
     user = User.objects.get(username = username)
@@ -114,7 +114,7 @@ def profile(request, username):
     }
 
 
-    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('upload_time')
+    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
 
     for post in posts:
         if post["likes"] is not None:
@@ -144,7 +144,7 @@ def following(request):
         following_users.append(follow['is_now_following'])
 
 
-    following_posts = Post.objects.filter(user__in = following_users).values('post', 'text', 'likes', 'comments', 'upload_time').order_by('upload_time')
+    following_posts = Post.objects.filter(user__in = following_users).values('post', 'user__username', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
 
     for post in following_posts:
         if post["likes"] is not None:
@@ -161,10 +161,20 @@ def following(request):
         'following_posts': following_posts
     })
 
+@csrf_exempt
 @login_required
 def edit(request):
     
-    post = request.POST.get('post')
-    post_data = Post.objects.get(post = post).values('post', 'text', 'likes', 'comments', 'upload_time')
+    if request.method == "POST":
+        pass 
 
-    return JsonResponse(post_data, safe=False)
+    else:
+        post = int(request.GET.get('post'))
+        post_data = Post.objects.get(pk=post)
+        
+        data = {
+            'post': post_data.post,
+            'text': post_data.text,
+        }
+
+        return JsonResponse(data, safe=False)
