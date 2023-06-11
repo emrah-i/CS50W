@@ -79,6 +79,25 @@ body button:hover {
 #profile_posts #user_input {
   margin: 10px 5%;
 }
+#profile_posts #following_users {
+  max-height: 400px;
+  overflow-y: auto;
+}
+#profile_posts #following_users table {
+  width: 30%;
+  margin: auto;
+  border: 1px solid black;
+  text-align: center;
+}
+#profile_posts #following_users td, #profile_posts #following_users th {
+  padding: 15px;
+}
+#profile_posts #following_users th {
+  border: 1px solid black;
+}
+#profile_posts #following_users #col {
+  width: 50%;
+}
 
 #page_buttons {
   width: 10vw;
@@ -90,4 +109,17 @@ body button:hover {
   border: 1px solid black;
   border-radius: 6px;
   margin-bottom: 50px;
+}
+
+#like_button[data-clicked=true] {
+  margin: 0;
+  background-color: LightSteelBlue;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: black;
+  height: 5vh;
+}
+
+#like_button[data-clicked=true]:hover {
+  background-color: aliceblue;
 }/*# sourceMappingURL=styles.css.map */

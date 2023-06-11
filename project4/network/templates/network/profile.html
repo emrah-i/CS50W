@@ -7,11 +7,19 @@
             <p>Followers: {{ user_info.followers }}</p>
             <p>Following: {{ user_info.following }}</p>
             {% if user.is_authenticated and user.username != user_info.username %}
-            <button id="follow">Follow</button>
-            <button id="unfollow">Unfollow</button>
+            {% if user_info.id not in following_users %}
+            <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+            {% endif %}
+            {% if user_info.id in following_users %}
+            <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+            {% endif %}
             {% endif %}
         </div>
+        {% if user.username == user_info.username %}
         <h2>All My Posts</h2>
+        {% else %}
+        <h2>All {{ user_info.username }}'s Posts</h2>
+        {% endif %}
         {% for post in posts|slice:":5" %}
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>

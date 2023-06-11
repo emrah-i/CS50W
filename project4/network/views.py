@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.middleware import csrf
 from datetime import datetime
+import json
 
 from .models import User, Post, UserFollow, Comment
 
@@ -81,7 +82,7 @@ def posts(request):
         start = int(request.GET.get('start') or 0)
         end = int(request.GET.get('end') or (start + 4))
 
-        posts = Post.objects.all().values('post', 'text', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
 
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
@@ -108,29 +109,25 @@ def profile(request, username):
     user_followers = UserFollow.objects.filter(is_now_following = user)
 
     user_info  = {
+        'id': user.id,
         'username': user.username,
         'following': len(user_following),
-        'followers': len(user_followers)
+        'followers': len(user_followers),
     }
 
+    following = UserFollow.objects.filter(user = request.user).values('is_now_following')
+
+    following_users = []
+    for follow in following:
+        following_users.append(follow['is_now_following'])
 
     posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
-
-    for post in posts:
-        if post["likes"] is not None:
-            post["likes_count"] = len(post["likes"])
-        else:
-            post["likes_count"] = 0
-            
-        if post["comments"] is not None:
-            post["comments_count"] = len(post["comment"])
-        else:
-            post["comments_count"] = 0
 
 
     return render(request, "network/profile.html", {
         'posts': posts,
-        'user_info': user_info
+        'user_info': user_info, 
+        "following_users": following_users
     })
 
 @login_required
@@ -143,34 +140,40 @@ def following(request):
     for follow in following:
         following_users.append(follow['is_now_following'])
 
+    following = []
+    for user in following_users:
+        following.append(User.objects.get(pk=user))
 
     following_posts = Post.objects.filter(user__in = following_users).values('post', 'user__username', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
 
-    for post in following_posts:
-        if post["likes"] is not None:
-            post["likes_count"] = len(post["likes"])
-        else:
-            post["likes_count"] = 0
-            
-        if post["comments"] is not None:
-            post["comments_count"] = len(post["comment"])
-        else:
-            post["comments_count"] = 0
-
     return render(request, 'network/following.html', {
-        'following_posts': following_posts
+        'following_posts': following_posts,
+        'following_users': following
     })
 
 @csrf_exempt
 @login_required
-def edit(request):
-    
-    if request.method == "POST":
-        pass 
+def edit(request, post_id):
 
+    try:
+        post = Post.objects.get(user=request.user, pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+    
+    if request.method == "PUT":
+
+        data = json.loads(request.body)
+        if data.get("text") is not None:
+            post.text = data["text"]
+        post.save()
+        return HttpResponse(status=204)
+    
+    elif request.method == "DELETE":
+
+        post.delete()
+    
     else:
-        post = int(request.GET.get('post'))
-        post_data = Post.objects.get(pk=post)
+        post_data = Post.objects.get(pk=post_id)
         
         data = {
             'post': post_data.post,
@@ -178,3 +181,72 @@ def edit(request):
         }
 
         return JsonResponse(data, safe=False)
+    
+@csrf_exempt
+@login_required
+def unfollow(request, user_uf): 
+
+    try:
+        user = request.user.id
+        following = UserFollow.objects.get(user=user, is_now_following=user_uf)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Entry not found."}, status=404)
+
+    following.delete()
+
+@csrf_exempt
+@login_required
+def follow(request, user_f): 
+
+    try:
+        user = request.user
+        follow_user = User.objects.get(id=user_f)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "Entry not found."}, status=404)
+
+    follow = UserFollow.objects.create(user=user, is_now_following=follow_user)
+    follow.save()
+
+@csrf_exempt
+@login_required
+def like(request, post_id):
+
+    try:
+        user = request.user
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    
+    if request.method == "POST":
+
+        post.likes.add(user)
+        data = {'message': 'Post request processed successfully'}
+        return JsonResponse(data, safe=True)
+
+    elif request.method == "PUT": 
+
+        post.likes.remove(user)
+        data = {'message': 'Put request processed successfully'}
+        return JsonResponse(data, safe=True)
+
+    else:
+
+        for liker in post.likes.all():
+            if user == liker:
+                data = True
+                return JsonResponse(data, safe=False)
+        
+        data = False
+        return JsonResponse(data, safe=False)
+        
+
+@login_required
+def auth(request):
+
+    if request.user.is_authenticated: 
+        user = True
+        return JsonResponse(user, safe=False)
+    else:
+        user = False
+        return JsonResponse(user, safe=False)

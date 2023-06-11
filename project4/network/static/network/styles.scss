@@ -94,6 +94,30 @@ body {
     #user_input {
         margin: 10px 5%;
     }
+
+    #following_users {
+
+        max-height: 400px;
+        overflow-y: auto;
+
+        table {
+            width: 30%;
+            margin: auto;
+            border: 1px solid black;
+            text-align: center;
+        }
+        td, th {
+            padding: 15px;
+        }
+
+        th {
+            border: 1px solid black;
+        }
+
+        #col {
+            width: 50%;
+        }
+    }
 }
 
 #page_buttons {
@@ -108,4 +132,17 @@ body {
     border-radius: 6px;
     margin-bottom: 50px;
 
+}
+
+#like_button[data-clicked="true"] {
+    margin: 0;
+    background-color: LightSteelBlue;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: black;
+    height: 5vh;
+}
+
+#like_button[data-clicked="true"]:hover {
+    background-color: aliceblue;
 }
