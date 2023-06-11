@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         load_posts(counter);
     
         document.querySelector('#previous').addEventListener('click', () => {
-            if (counter > 5) {
+            if (counter >= 5) {
                 counter -= 5;
                 load_posts(counter);
             }
@@ -68,18 +68,20 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#followers_user_popup dialog').open = false;
         document.querySelector('#dialog_backdrop').style.display = 'block';
     });
-    document.querySelector('#close_following, #dialog_backdrop').addEventListener('click', () => {
+    document.querySelectorAll('#close_following, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
         document.querySelector('#following_users_popup dialog').open = false;
         document.querySelector('#dialog_backdrop').style.display = 'none';
+        })
     });
     document.querySelector('#open_followers').addEventListener('click', () => {
         document.querySelector('#followers_user_popup dialog').open = true;
         document.querySelector('#following_users_popup dialog').open = false;
         document.querySelector('#dialog_backdrop').style.display = 'block';
     });
-    document.querySelector('#close_followers, #dialog_backdrop').addEventListener('click', () => {
+    document.querySelectorAll('#close_followers, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
         document.querySelector('#followers_user_popup dialog').open = false;
         document.querySelector('#dialog_backdrop').style.display = 'none';
+        })
     });
 })
 

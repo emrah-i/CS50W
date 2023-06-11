@@ -36,10 +36,6 @@ body button:hover {
 #all_posts .posts #user_input {
   margin: 10px 5%;
 }
-#all_posts .posts:hover {
-  transform: scale(1.005);
-  box-shadow: 0px 0px 12px rgb(255, 255, 255);
-}
 #all_posts #user_heading {
   font-weight: 600;
   color: black;
@@ -66,8 +62,8 @@ body button:hover {
   width: 90vw;
 }
 
-#new_post:hover, .profile_post:hover, #user_info:hover {
-  transform: scale(1.03);
+#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover {
+  transform: scale(1.007);
   box-shadow: 0px 0px 12px rgb(255, 255, 255);
 }
 

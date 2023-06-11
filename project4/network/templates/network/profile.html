@@ -10,13 +10,17 @@
             <div id="following_content">
                 <table>
                     <thead>
-                        <th>User</th>
+                        <th>Username</th>
+                        {% if user.username == user_info.username %}
                         <th id="left-border">Unfollow</th>
+                        {% endif %}
                     </thead>
                     {% for user in following_users %}
                     <tr>
                         <td id="col">{{ user.username }}</td>
+                        {% if user.username == user_info.username %}
                         <td id="col"><button id="remove_follower_button" data-userid="{{ user.id }}">Unfollow</button></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </table>
@@ -30,13 +34,17 @@
                 <div id="follower_content">
                     <table>
                         <thead>
-                            <th>User</th>
+                            <th>Username</th>
+                            {% if user.username == user_info.username %}
                             <th id="left-border">Remove</th>
+                            {% endif %}
                         </thead>
                         {% for user in follower_users %}
                         <tr>
                             <td id="col">{{ user.username }}</td>
+                            {% if user.username == user_info.username %}
                             <td id="col"><button id="unfollow_button" data-userid="{{ user.id }}">Remove</button></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </table>
@@ -66,8 +74,12 @@
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
-            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
-            <p>{{ post.comments_count }} Comments</p>
+            <p>{{ post.comments }} Comments</p>
+            {% if post.liked == True %}
+            <button id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
+            {% else %}
+            <button id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
+            {% endif %}
             {% if user.username == user_info.username %}
             <button id="edit_button" data-id="{{ post.post }}">Edit</button>
             {% endif %}

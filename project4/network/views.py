@@ -141,8 +141,24 @@ def profile(request, username):
             }
         )
 
-    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes','likes__username', 'comments', 'upload_time').order_by('-upload_time')
 
+    for post in posts:
+        if post['likes'] == None:
+            post['likes'] = 0
+
+        likers = Post.objects.get(pk=post['post'])
+        likers_list = likers.likes.all()
+        likers_list = [liker.username for liker in likers_list]
+
+        if post['likes'] > 0:
+            if request.user.username in likers_list:
+                post['liked'] = True
+            else:
+                post['liked'] = False
+        else:
+            post['liked'] = False
+    
     return render(request, "network/profile.html", {
         'posts': posts,
         'user_info': user_info, 
