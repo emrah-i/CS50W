@@ -109,30 +109,6 @@ body {
     #user_info {
         background-color: rgb(34, 129, 216);
     }
-
-    #following_users {
-
-        max-height: 400px;
-        overflow-y: auto;
-
-        table {
-            width: 30%;
-            margin: auto;
-            border: 1px solid black;
-            text-align: center;
-        }
-        td, th {
-            padding: 15px;
-        }
-
-        th {
-            border: 1px solid black;
-        }
-
-        #col {
-            width: 50%;
-        }
-    }
 }
 
 #page_buttons {
