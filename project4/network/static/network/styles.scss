@@ -77,9 +77,11 @@ body {
     margin: 10px auto 10px auto;
     width: 90vw;
 
-    #user_input {
-        margin: 10px 5%;
-    }
+}
+
+#new_post:hover, .profile_post:hover, #user_info:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 0px 12px rgba(255, 255, 255, 1);
 }
 
 #profile_posts {
@@ -108,6 +110,38 @@ body {
 
     #user_info {
         background-color: rgb(34, 129, 216);
+
+        #open_following:hover, #open_followers:hover {
+            text-decoration: underline;
+        }
+    }
+
+    #following_users {
+
+        max-height: 400px;
+        overflow-y: auto;
+        margin: 10px 0 30px 0;
+    
+        table {
+            width: 30%;
+            background-color: rgb(34, 129, 216);
+            margin: auto;
+            border: 1px solid black;
+            border-radius: 6px;
+            text-align: center;
+        }
+        td, th {
+            padding: 15px;
+            border-bottom: 2px solid black;
+        }
+    
+        #left-border {
+            border-left: 2px solid black;
+        }
+    
+        #col {
+            width: 50%;
+        }
     }
 }
 
@@ -145,4 +179,67 @@ body {
     a {
         color: white !important;
     }
+}
+
+#user_input, #text_input, #edit_text_input {
+    margin: 10px 5%;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+#following_users_popup, #followers_user_popup {
+
+    width: 100%;
+
+    #following-content {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    dialog {
+        z-index: 10000;
+        width: 30%;
+        top: 25%;
+        position: fixed;
+        border-radius: 6px;
+        background-color: rgb(34, 129, 216);
+
+    }
+    table {
+        background-color: white;
+        width: 100%;
+        margin: auto;
+        text-align: center;
+    }
+
+    td, th {
+        padding: 15px;
+        border: 2px solid black;
+    }
+
+    #left-border {
+        border-left: 2px solid black;
+    }
+
+    #col {
+        width: 50%;
+    }
+
+    #close_following, #close_followers {
+        float: right;
+        border-radius: 50%;
+        height: 2vw;
+        margin: 0 10px 10px 10px;
+    }
+}
+
+#dialog_backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
 }

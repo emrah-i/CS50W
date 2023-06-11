@@ -65,8 +65,10 @@ body button:hover {
   margin: 10px auto 10px auto;
   width: 90vw;
 }
-#new_post #user_input {
-  margin: 10px 5%;
+
+#new_post:hover, .profile_post:hover, #user_info:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 0px 12px rgb(255, 255, 255);
 }
 
 #profile_posts {
@@ -92,21 +94,28 @@ body button:hover {
 #profile_posts #user_info {
   background-color: rgb(34, 129, 216);
 }
+#profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
+  text-decoration: underline;
+}
 #profile_posts #following_users {
   max-height: 400px;
   overflow-y: auto;
+  margin: 10px 0 30px 0;
 }
 #profile_posts #following_users table {
   width: 30%;
+  background-color: rgb(34, 129, 216);
   margin: auto;
   border: 1px solid black;
+  border-radius: 6px;
   text-align: center;
 }
 #profile_posts #following_users td, #profile_posts #following_users th {
   padding: 15px;
+  border-bottom: 2px solid black;
 }
-#profile_posts #following_users th {
-  border: 1px solid black;
+#profile_posts #following_users #left-border {
+  border-left: 2px solid black;
 }
 #profile_posts #following_users #col {
   width: 50%;
@@ -142,4 +151,59 @@ body button:hover {
 }
 #nav_item a {
   color: white !important;
+}
+
+#user_input, #text_input, #edit_text_input {
+  margin: 10px 5%;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+#following_users_popup, #followers_user_popup {
+  width: 100%;
+}
+#following_users_popup #following-content, #followers_user_popup #following-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+#following_users_popup dialog, #followers_user_popup dialog {
+  z-index: 10000;
+  width: 30%;
+  top: 25%;
+  position: fixed;
+  border-radius: 6px;
+  background-color: rgb(34, 129, 216);
+}
+#following_users_popup table, #followers_user_popup table {
+  background-color: white;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+#following_users_popup td, #following_users_popup th, #followers_user_popup td, #followers_user_popup th {
+  padding: 15px;
+  border: 2px solid black;
+}
+#following_users_popup #left-border, #followers_user_popup #left-border {
+  border-left: 2px solid black;
+}
+#following_users_popup #col, #followers_user_popup #col {
+  width: 50%;
+}
+#following_users_popup #close_following, #following_users_popup #close_followers, #followers_user_popup #close_following, #followers_user_popup #close_followers {
+  float: right;
+  border-radius: 50%;
+  height: 2vw;
+  margin: 0 10px 10px 10px;
+}
+
+#dialog_backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: none;
 }/*# sourceMappingURL=styles.css.map */

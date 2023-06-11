@@ -115,19 +115,39 @@ def profile(request, username):
         'followers': len(user_followers),
     }
 
-    following = UserFollow.objects.filter(user = request.user).values('is_now_following')
+    following = UserFollow.objects.filter(user = user).values('is_now_following')
+    followers = UserFollow.objects.filter(is_now_following = user).values('user')
+
 
     following_users = []
     for follow in following:
-        following_users.append(follow['is_now_following'])
+        current_user = User.objects.get(id = follow['is_now_following'])
+
+        following_users.append(
+            {
+                'username': current_user.username,
+                'id': current_user.id
+            }
+        )
+
+    follower_users = []
+    for follow in followers:
+        current_user = User.objects.get(id = follow['user'])
+
+        follower_users.append(
+            {
+                'username': current_user.username,
+                'id': current_user.id
+            }
+        )
 
     posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
-
 
     return render(request, "network/profile.html", {
         'posts': posts,
         'user_info': user_info, 
-        "following_users": following_users
+        'following_users': following_users,
+        'follower_users': follower_users
     })
 
 @login_required

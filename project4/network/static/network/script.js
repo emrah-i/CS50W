@@ -15,6 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.location.pathname === "/") {
         load_posts(counter);
+    
+        document.querySelector('#previous').addEventListener('click', () => {
+            if (counter > 5) {
+                counter -= 5;
+                load_posts(counter);
+            }
+        })
+        document.querySelector('#next').addEventListener('click', () => {
+            counter += 5;
+            load_posts(counter);
+        })
     }
 
     document.querySelector('#all_posts, #profile_posts').addEventListener('click', (event) => {
@@ -52,17 +63,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     })
-
-    document.querySelector('#previous').addEventListener('click', () => {
-        if (counter > 5) {
-            counter -= 5;
-            load_posts(counter);
-        }
-    })
-    document.querySelector('#next').addEventListener('click', () => {
-        counter += 5;
-        load_posts(counter);
-    })
+    document.querySelector('#open_following').addEventListener('click', () => {
+        document.querySelector('#following_users_popup dialog').open = true;
+        document.querySelector('#followers_user_popup dialog').open = false;
+        document.querySelector('#dialog_backdrop').style.display = 'block';
+    });
+    document.querySelector('#close_following, #dialog_backdrop').addEventListener('click', () => {
+        document.querySelector('#following_users_popup dialog').open = false;
+        document.querySelector('#dialog_backdrop').style.display = 'none';
+    });
+    document.querySelector('#open_followers').addEventListener('click', () => {
+        document.querySelector('#followers_user_popup dialog').open = true;
+        document.querySelector('#following_users_popup dialog').open = false;
+        document.querySelector('#dialog_backdrop').style.display = 'block';
+    });
+    document.querySelector('#close_followers, #dialog_backdrop').addEventListener('click', () => {
+        document.querySelector('#followers_user_popup dialog').open = false;
+        document.querySelector('#dialog_backdrop').style.display = 'none';
+    });
 })
 
 function load_posts(value) {
@@ -245,6 +263,48 @@ function delete_post(id) {
     else {
         location.reload()
     }
+}
+
+function profile(username, start) {
+
+
+    innerHTML = `<div class="profile_post" id='profile_post{{ forloop.counter }}'>
+    <p>{{ post.text }}</p>
+    <p>{{ post.upload_time }}</p>
+    <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
+    <p>{{ post.comments_count }} Comments</p>
+    <button id="edit_button" data-id="{{ post.post }}">Edit</button>
+    </div>`
+
+    fetch('/auth',{
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data === true) {
+            if (likes >= 1) {
+                existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+            }
+            else {
+                existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
+            }
+
+            fetch('/like/' + id,{
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+                if (data === true) {
+                    like_button.dataset.clicked = 'true';
+                }
+                else if (data === false) {
+                    like_button.dataset.clicked = 'false';
+                }
+            })
+        }
+    })
 }
 
 function unfollow(user_uf) {

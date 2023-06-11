@@ -1,18 +1,60 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+<div id="dialog_backdrop"></div>
     <div id="profile_posts">
+        <div id="following_users_popup">
+        <dialog close>  
+            <button type="button" id="close_following">X</button>       
+            <h2>Following</h2>                   
+            <div id="following_content">
+                <table>
+                    <thead>
+                        <th>User</th>
+                        <th id="left-border">Unfollow</th>
+                    </thead>
+                    {% for user in following_users %}
+                    <tr>
+                        <td id="col">{{ user.username }}</td>
+                        <td id="col"><button id="remove_follower_button" data-userid="{{ user.id }}">Unfollow</button></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </dialog>
+        </div>
+        <div id="followers_user_popup">
+            <dialog close>  
+                <button type="button" id="close_followers">X</button>  
+                <h2>Followers</h2>            
+                <div id="follower_content">
+                    <table>
+                        <thead>
+                            <th>User</th>
+                            <th id="left-border">Remove</th>
+                        </thead>
+                        {% for user in follower_users %}
+                        <tr>
+                            <td id="col">{{ user.username }}</td>
+                            <td id="col"><button id="unfollow_button" data-userid="{{ user.id }}">Remove</button></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </dialog>
+            </div>
         <div id="user_info">
             <h3>{{ user_info.username }}</h3>
-            <p>Followers: {{ user_info.followers }}</p>
-            <p>Following: {{ user_info.following }}</p>
+            <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
+            <p><span id="open_following">Following: {{ user_info.following }}</span></p>
             {% if user.is_authenticated and user.username != user_info.username %}
-            {% if user_info.id not in following_users %}
-            <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
-            {% endif %}
-            {% if user_info.id in following_users %}
-            <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
-            {% endif %}
+            {% for follower in follower_users %}
+                {% if user.username == user.username %}
+                <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+                {% endif %}
+            {% empty %}
+                <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+            {% endfor %}
             {% endif %}
         </div>
         {% if user.username == user_info.username %}
@@ -20,13 +62,15 @@
         {% else %}
         <h2>All {{ user_info.username }}'s Posts</h2>
         {% endif %}
-        {% for post in posts|slice:":5" %}
+        {% for post in posts %}
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
             <p>{{ post.comments_count }} Comments</p>
+            {% if user.username == user_info.username %}
             <button id="edit_button" data-id="{{ post.post }}">Edit</button>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
