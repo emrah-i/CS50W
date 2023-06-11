@@ -180,12 +180,35 @@ def following(request):
     for user in following_users:
         following.append(User.objects.get(pk=user))
 
-    following_posts = Post.objects.filter(user__in = following_users).values('post', 'user__username', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
-
     return render(request, 'network/following.html', {
-        'following_posts': following_posts,
         'following_users': following
     })
+
+@login_required
+def following_posts(request, start):
+
+    user = request.user.id
+    start_post = start
+    end = start_post + 4
+
+    following = UserFollow.objects.filter(user = user).values('is_now_following')
+
+
+    following_users = []
+    for follow in following:
+        following_users.append(follow['is_now_following'])
+
+    following = []
+    for user in following_users:
+        following.append(User.objects.get(pk=user))
+
+    data = []
+    following_posts = Post.objects.filter(user__in = following_users).values('post', 'user__username', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+    for post in following_posts[start_post:end + 1]:
+            post['upload_time'] = post['upload_time'].strftime("%B %d %Y, %I:%M %p")
+            data.append(post)
+
+    return JsonResponse(list(data), safe=False)
 
 @csrf_exempt
 @login_required

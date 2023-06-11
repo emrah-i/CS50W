@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    document.querySelector('#all_posts, #profile_posts').addEventListener('click', (event) => {
+    if (window.location.pathname === "/following") {
+        load_following_posts(1)
+    }
+
+    document.querySelector('#all_posts, #profile_posts, #following_posts').addEventListener('click', (event) => {
         const post = event.target.dataset.id;
         const div_id = event.target.parentElement.id;
 
@@ -164,6 +168,83 @@ function load_posts(value) {
             }
 
             all_posts.append(existingPost);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function load_following_posts(start) {
+    
+    const main_div = document.querySelector('#following_posts');
+    const user = document.querySelector('#user_tag').dataset.user;
+
+    fetch('/following_posts/' + start, {
+        method: "GET"
+    })
+    .then(reponse => reponse.json())
+    .then(data => {
+        
+        for(i = 0; i < data.length; i++){
+
+            const followingPost = document.createElement('div');
+            followingPost.id = 'following_post' + i;
+            followingPost.className = 'following_posts';
+
+            const id = data[i].post
+            const text = data[i].text
+            const username = data[i].user__username
+            const likes = data[i].likes
+            const comments = data[i].comments
+            const upload_time = data[i].upload_time
+
+            followingPost.innerHTML = 
+            `<a id="user_heading" href="/profile/${username}">${username}:</a>
+            <br>
+            <p id="post_text">${text}</p>
+            <p id="timestamp">${upload_time}</p>
+            <p>Comment</p>   
+            `;
+
+            fetch('/auth',{
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data === true) {
+                    if (likes >= 1) {
+                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+                    }
+                    else {
+                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
+                    }
+
+                    fetch('/like/' + id,{
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+                        if (data === true) {
+                            like_button.dataset.clicked = 'true';
+                        }
+                        else if (data === false) {
+                            like_button.dataset.clicked = 'false';
+                        }
+                    })
+                }
+            })
+    
+            if (username == user) {
+                followingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>&nbsp`
+            }
+            if (comments !== null) {
+                followingPost.innerHTML += `<p>${comments}</p>`
+            }
+
+            main_div.append(followingPost);
         }
     })
     .catch(error => {

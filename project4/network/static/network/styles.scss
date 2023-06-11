@@ -74,7 +74,7 @@ body {
 
 }
 
-#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover {
+#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover, .following_posts:hover {
     transform: scale(1.007);
     box-shadow: 0px 0px 12px rgba(255, 255, 255, 1);
 }
@@ -109,6 +109,43 @@ body {
         #open_following:hover, #open_followers:hover {
             text-decoration: underline;
         }
+    }
+}
+
+#following_posts {
+
+    margin: 10px auto 10px auto;
+    width: 90vw;
+
+    .following_posts {
+        background-color: rgb(34, 129, 216);
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 6px;
+    }
+
+    #user_heading {
+        font-weight: 600;
+        color: black;
+        font-size: 1.5em;
+    }
+
+    #user_input {
+        margin: 10px 5%;
+    }
+
+    #user_info {
+        background-color: rgb(34, 129, 216);
+
+        #open_following:hover, #open_followers:hover {
+            text-decoration: underline;
+        }
+    }
+
+    #following_user_link {
+        color: white;
     }
 
     #following_users {
@@ -237,4 +274,8 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9999;
     display: none;
+}
+
+#profile_user_link {
+    color: black;
 }

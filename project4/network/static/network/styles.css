@@ -62,7 +62,7 @@ body button:hover {
   width: 90vw;
 }
 
-#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover {
+#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover, .following_posts:hover {
   transform: scale(1.007);
   box-shadow: 0px 0px 12px rgb(255, 255, 255);
 }
@@ -93,12 +93,42 @@ body button:hover {
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
   text-decoration: underline;
 }
-#profile_posts #following_users {
+
+#following_posts {
+  margin: 10px auto 10px auto;
+  width: 90vw;
+}
+#following_posts .following_posts {
+  background-color: rgb(34, 129, 216);
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+#following_posts #user_heading {
+  font-weight: 600;
+  color: black;
+  font-size: 1.5em;
+}
+#following_posts #user_input {
+  margin: 10px 5%;
+}
+#following_posts #user_info {
+  background-color: rgb(34, 129, 216);
+}
+#following_posts #user_info #open_following:hover, #following_posts #user_info #open_followers:hover {
+  text-decoration: underline;
+}
+#following_posts #following_user_link {
+  color: white;
+}
+#following_posts #following_users {
   max-height: 400px;
   overflow-y: auto;
   margin: 10px 0 30px 0;
 }
-#profile_posts #following_users table {
+#following_posts #following_users table {
   width: 30%;
   background-color: rgb(34, 129, 216);
   margin: auto;
@@ -106,14 +136,14 @@ body button:hover {
   border-radius: 6px;
   text-align: center;
 }
-#profile_posts #following_users td, #profile_posts #following_users th {
+#following_posts #following_users td, #following_posts #following_users th {
   padding: 15px;
   border-bottom: 2px solid black;
 }
-#profile_posts #following_users #left-border {
+#following_posts #following_users #left-border {
   border-left: 2px solid black;
 }
-#profile_posts #following_users #col {
+#following_posts #following_users #col {
   width: 50%;
 }
 
@@ -202,4 +232,8 @@ body button:hover {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
   display: none;
+}
+
+#profile_user_link {
+  color: black;
 }/*# sourceMappingURL=styles.css.map */

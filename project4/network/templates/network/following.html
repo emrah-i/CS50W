@@ -1,7 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div id="profile_posts">
+    <div id="following_posts">
         <h2>All Following Posts</h2>
         <div id="following_users">
         <table>
@@ -11,20 +11,12 @@
             </thead>
             {% for user in following_users %}
             <tr>
-                <td id="col">{{ user.username }}</td>
+                <td id="col"><a href="{% url 'profile' user.username %}" id="following_user_link">{{ user.username }}</a></td>
                 <td id="col"><button id="unfollow_button" data-userid="{{ user.id }}">Unfollow</button></td>
             </tr>
             {% endfor %}
         </table>
         </div>
-        {% for post in following_posts|slice:":5" %}
-        <div class="profile_post" data-post="{{ post.post }}">
-            <a id="user_heading" href="/profile/{{ post.user__username }}">{{ post.user__username }}:</a>
-            <p>{{ post.text }}</p>
-            <p>{{ post.upload_time }}</p>
-            <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
-            <p>{{ post.comments_count }} Comments</p>
-        </div>
-        {% endfor %}
+
     </div>
 {% endblock %}
