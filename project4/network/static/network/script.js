@@ -172,7 +172,7 @@ function load_new_post(event) {
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
             <h2>New Post</h2>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-            <textarea placeholder="Text" name="text" id="text_input"></textarea><br>
+            <textarea placeholder="Text" name="text" id="text_input" required></textarea><br>
             <button type="submit">Submit</button>
             <button type="button" id="cancel">Cancel</button>
         </form>`;

@@ -1,5 +1,7 @@
 body {
   font-size: 1.15vw;
+  background-color: black;
+  color: white;
 }
 body textarea {
   width: 90%;
@@ -23,14 +25,20 @@ body button:hover {
   width: 90vw;
 }
 #all_posts .posts {
+  background-color: rgb(34, 129, 216);
   width: 100%;
-  margin: 10px 0;
+  margin: 15px 0;
   padding: 10px;
   border: 1px solid black;
   border-radius: 6px;
+  transition: transform 0.3s ease;
 }
 #all_posts .posts #user_input {
   margin: 10px 5%;
+}
+#all_posts .posts:hover {
+  transform: scale(1.005);
+  box-shadow: 0px 0px 12px rgb(255, 255, 255);
 }
 #all_posts #user_heading {
   font-weight: 600;
@@ -42,7 +50,7 @@ body button:hover {
 }
 #all_posts #timestamp {
   margin: 0;
-  color: gray;
+  color: black;
 }
 #all_posts ul {
   list-style-type: none;
@@ -50,6 +58,7 @@ body button:hover {
 }
 
 #new_post {
+  background-color: rgb(34, 129, 216);
   border: 1px solid black;
   border-radius: 6px;
   padding: 15px;
@@ -65,6 +74,7 @@ body button:hover {
   width: 90vw;
 }
 #profile_posts .profile_post {
+  background-color: rgb(34, 129, 216);
   width: 100%;
   margin: 10px 0;
   padding: 10px;
@@ -78,6 +88,9 @@ body button:hover {
 }
 #profile_posts #user_input {
   margin: 10px 5%;
+}
+#profile_posts #user_info {
+  background-color: rgb(34, 129, 216);
 }
 #profile_posts #following_users {
   max-height: 400px;
@@ -122,4 +135,11 @@ body button:hover {
 
 #like_button[data-clicked=true]:hover {
   background-color: aliceblue;
+}
+
+#nav_item {
+  background-color: rgb(34, 129, 216) !important;
+}
+#nav_item a {
+  color: white !important;
 }/*# sourceMappingURL=styles.css.map */
