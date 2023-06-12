@@ -17,7 +17,7 @@
                     </thead>
                     {% for user2 in following_users %}
                     <tr>
-                        <td id="col"><a href="{% url 'profile' user.username %}" id="profile_user_link">{{ user2.username }}</a></td>
+                        <td id="col"><a href="{% url 'profile' user2.username %}" id="profile_user_link">{{ user2.username }}</a></td>
                         {% if user.username == user_info.username %}
                         <td id="col"><button id="remove_follower_button" data-userid="{{ user2.id }}">Unfollow</button></td>
                         {% endif %}
@@ -41,7 +41,7 @@
                         </thead>
                         {% for user2 in follower_users %}
                         <tr>
-                            <td id="col"><a href="{% url 'profile' user.username %}" id="profile_user_link">{{ user2.username }}</a></td>
+                            <td id="col"><a href="{% url 'profile' user2.username %}" id="profile_user_link">{{ user2.username }}</a></td>
                             {% if user.username == user_info.username %}
                             <td id="col"><button id="unfollow_button" data-userid="{{ user2.id }}">Remove</button></td>
                             {% endif %}
@@ -70,6 +70,30 @@
         {% else %}
         <h2>All {{ user_info.username }}'s Posts</h2>
         {% endif %}
+        <div id="filters">
+            <table>
+                <tr>
+                    <td id="row1">
+                        <p style="display:inline">Sort By:</p>
+                        <select id="sort">
+                            <option selected value="new_old">Newest to Oldest</option>
+                            <option value="old_new">Oldest to Newest</option>
+                            <option value="most_likes">Most Likes</option>
+                            <option value="least_likes">Least Likes</option>
+                            <option value="most_comments">Most Comments</option>
+                            <option value="least_comments">Least Comments</option>
+                        </select>
+                    </td>
+                    <td id="row2">
+                        <p style="display:inline">Item Effects:</p>
+                        <select id="item_effects">
+                            <option selected value="off">Off</option>
+                            <option value="on">On</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
         {% for post in posts %}
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>

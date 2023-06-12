@@ -7,6 +7,31 @@
     </div>
     {% endif %}
 
+    <div id="filters">
+        <table>
+            <tr>
+                <td id="row1">
+                    <p style="display:inline">Sort By:</p>
+                    <select id="sort">
+                        <option selected value="new_old">Newest to Oldest</option>
+                        <option value="old_new">Oldest to Newest</option>
+                        <option value="most_likes">Most Likes</option>
+                        <option value="least_likes">Least Likes</option>
+                        <option value="most_comments">Most Comments</option>
+                        <option value="least_comments">Least Comments</option>
+                    </select>
+                </td>
+                <td id="row2">
+                    <p style="display:inline">Item Effects:</p>
+                    <select id="item_effects">
+                        <option selected value="off">Off</option>
+                        <option value="on">On</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div id="all_posts">
     </div>
     <div id="page_buttons">

@@ -62,7 +62,7 @@ body button:hover {
   width: 90vw;
 }
 
-#new_post:hover, .profile_post:hover, #user_info:hover, .posts:hover, .following_posts:hover {
+#new_post[data-effects=True]:hover, .profile_post[data-effects=True]:hover, #user_info[data-effects=True]:hover, .posts[data-effects=True]:hover, .following_posts[data-effects=True]:hover, #filters[data-effects=True]:hover {
   transform: scale(1.007);
   box-shadow: 0px 0px 12px rgb(255, 255, 255);
 }
@@ -92,6 +92,14 @@ body button:hover {
 }
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
   text-decoration: underline;
+}
+#profile_posts #filters {
+  background-color: rgb(34, 129, 216);
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 #following_posts {
@@ -145,6 +153,14 @@ body button:hover {
 }
 #following_posts #following_users #col {
   width: 50%;
+}
+#following_posts #filters {
+  background-color: rgb(34, 129, 216);
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 #page_buttons {
@@ -236,4 +252,28 @@ body button:hover {
 
 #profile_user_link {
   color: black;
+}
+
+#filters {
+  background-color: rgb(34, 129, 216);
+  width: 90%;
+  margin: 10px 5%;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+#filters #row2 {
+  text-align: right;
+}
+#filters table {
+  width: 100%;
+}
+#filters td {
+  width: 50%;
+}
+#filters select {
+  padding: 4px;
+  border-radius: 6px;
+  background-color: aliceblue;
+  border: 1px solid black;
 }/*# sourceMappingURL=styles.css.map */

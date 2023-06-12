@@ -4,6 +4,10 @@ let following_counter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    if(localStorage.getItem('item_effects_choice') !== null) {
+        document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
+    }
+
     try {
         document.querySelector('#new_post').addEventListener('click', (event) => {
             if (event.target.matches('#cancel')) {
@@ -20,26 +24,165 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#previous').addEventListener('click', () => {
             if (post_counter >= 5) {
                 post_counter -= 5;
-                load_posts(counter);
+                load_posts(post_counter);
             }
         })
         document.querySelector('#next').addEventListener('click', () => {
             post_counter += 5;
-            load_posts(counter);
+            load_posts(post_counter);
         })
+
+        if (document.querySelector('#item_effects').value === 'on') {
+            document.querySelector('#new_post').dataset.effects = 'True'
+            document.querySelector('#filters').dataset.effects = 'True'
+        }
+        else if (document.querySelector('#item_effects').value === 'off') {
+            document.querySelector('#new_post').dataset.effects = 'False'
+            document.querySelector('#filters').dataset.effects = 'False'
+        }
+
+        document.querySelector('#item_effects').addEventListener('change', (event) => {
+            if (event.target.value === "on") {
+                document.querySelector('#new_post').dataset.effects = 'True'
+                document.querySelector('#filters').dataset.effects = 'True'
+                document.querySelectorAll('.posts').forEach((element) => {
+                    element.dataset.effects = 'True'
+                })
+                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
+                event.target.innerHTML = effects_choice                 
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+            else {
+                document.querySelector('#new_post').dataset.effects = 'False'
+                document.querySelector('#filters').dataset.effects = 'False'
+                document.querySelectorAll('.posts').forEach((element) => {
+                    element.dataset.effects = 'False'
+                })
+
+                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
+                event.target.innerHTML = effects_choice
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+        });
+
+        document.querySelector('#sort').addEventListener('change', (event) => {
+            {
     }
 
     if (window.location.pathname === "/following") {
         load_following_posts(following_counter);
 
-        console.log(following_counter)
-
         window.addEventListener('scroll', () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 following_counter += 4;
                 load_following_posts(following_counter);
-        }}
-        )}
+        }})
+
+        if (document.querySelector('#item_effects').value === 'on') {
+            document.querySelector('#filters').dataset.effects = 'True';
+            document.querySelectorAll('.following_posts').forEach((element) => {
+                element.dataset.effects = 'True';
+            })
+        }
+        else if (document.querySelector('#item_effects').value === 'off') {
+            document.querySelector('#filters').dataset.effects = 'False';
+            document.querySelectorAll('.following_posts').forEach((element) => {
+                element.dataset.effects = 'False';
+            })
+        }
+
+        document.querySelector('#item_effects').addEventListener('change', (event) => {
+            if (event.target.value === "on") {
+                document.querySelector('#filters').dataset.effects = 'True';
+                document.querySelectorAll('.following_posts').forEach((element) => {
+                    element.dataset.effects = 'True';
+                })
+                
+                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
+                event.target.innerHTML = effects_choice                 
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+            else {
+                document.querySelector('#filters').dataset.effects = 'False';
+                document.querySelectorAll('.following_posts').forEach((element) => {
+                    element.dataset.effects = 'False';
+                })
+
+                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
+                event.target.innerHTML = effects_choice
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+        })
+    }
+
+    if (window.location.pathname.startsWith("/profile/")) {
+        document.querySelector('#open_following').addEventListener('click', () => {
+            document.querySelector('#following_users_popup dialog').open = true;
+            document.querySelector('#followers_user_popup dialog').open = false;
+            document.querySelector('#dialog_backdrop').style.display = 'block';
+        });
+        document.querySelectorAll('#close_following, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
+            document.querySelector('#following_users_popup dialog').open = false;
+            document.querySelector('#dialog_backdrop').style.display = 'none';
+            })
+        });
+        document.querySelector('#open_followers').addEventListener('click', () => {
+            document.querySelector('#followers_user_popup dialog').open = true;
+            document.querySelector('#following_users_popup dialog').open = false;
+            document.querySelector('#dialog_backdrop').style.display = 'block';
+        });
+        document.querySelectorAll('#close_followers, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
+            document.querySelector('#followers_user_popup dialog').open = false;
+            document.querySelector('#dialog_backdrop').style.display = 'none';
+            })
+        });
+
+        if (document.querySelector('#item_effects').value === 'on') {
+            document.querySelector('#filters').dataset.effects = 'True';
+            document.querySelector('#user_info').dataset.effects = 'True'
+            document.querySelectorAll('.profile_post').forEach((element) => {
+                element.dataset.effects = 'True'
+            })
+        }
+        else if (document.querySelector('#item_effects').value === 'off') {
+            document.querySelector('#filters').dataset.effects = 'False';
+            document.querySelector('#user_info').dataset.effects = 'False'
+            document.querySelectorAll('.profile_post').forEach((element) => {
+                element.dataset.effects = 'False'
+            })
+        }
+
+        document.querySelector('#item_effects').addEventListener('change', (event) => {
+            if (event.target.value === "on") {
+                document.querySelector('#filters').dataset.effects = 'True';
+                document.querySelector('#user_info').dataset.effects = 'True'
+                document.querySelectorAll('.profile_post').forEach((element) => {
+                    element.dataset.effects = 'True'
+                })
+                
+                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
+                event.target.innerHTML = effects_choice                 
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+            else {
+                document.querySelector('#filters').dataset.effects = 'False';
+                document.querySelector('#user_info').dataset.effects = 'False'
+                document.querySelectorAll('.profile_post').forEach((element) => {
+                    element.dataset.effects = 'False'
+                })
+
+                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
+                event.target.innerHTML = effects_choice
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+        })
+    }
 
     document.querySelector('#all_posts, #profile_posts, #following_posts').addEventListener('click', (event) => {
         const post = event.target.dataset.id;
@@ -76,32 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     })
-    document.querySelector('#open_following').addEventListener('click', () => {
-        document.querySelector('#following_users_popup dialog').open = true;
-        document.querySelector('#followers_user_popup dialog').open = false;
-        document.querySelector('#dialog_backdrop').style.display = 'block';
-    });
-    document.querySelectorAll('#close_following, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
-        document.querySelector('#following_users_popup dialog').open = false;
-        document.querySelector('#dialog_backdrop').style.display = 'none';
-        })
-    });
-    document.querySelector('#open_followers').addEventListener('click', () => {
-        document.querySelector('#followers_user_popup dialog').open = true;
-        document.querySelector('#following_users_popup dialog').open = false;
-        document.querySelector('#dialog_backdrop').style.display = 'block';
-    });
-    document.querySelectorAll('#close_followers, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
-        document.querySelector('#followers_user_popup dialog').open = false;
-        document.querySelector('#dialog_backdrop').style.display = 'none';
-        })
-    });
-})
+});
 
 function load_posts(value) {
 
     const user = document.querySelector('#user_tag').dataset.user;
     const all_posts = document.querySelector('#all_posts');
+    const effects = document.querySelector('#item_effects').value
 
     all_posts.innerHTML = "";
 
@@ -123,6 +247,13 @@ function load_posts(value) {
             const existingPost = document.createElement('div');
             existingPost.id = 'post' + i;
             existingPost.className = 'posts';
+
+            if (effects === 'on') {
+                existingPost.dataset.effects = 'True';
+            }
+            else {
+                existingPost.dataset.effects = 'False';
+            }
 
             const id = data[i].post
             const text = data[i].text
@@ -188,6 +319,7 @@ function load_following_posts(start) {
     
     const main_div = document.querySelector('#following_posts');
     const user = document.querySelector('#user_tag').dataset.user;
+    const effects = document.querySelector('#item_effects').value;
 
     fetch('/following_posts/' + start, {
         method: "GET"
@@ -200,6 +332,13 @@ function load_following_posts(start) {
             const followingPost = document.createElement('div');
             followingPost.id = 'following_post' + i;
             followingPost.className = 'following_posts';
+
+            if (effects === 'on') {
+                followingPost.dataset.effects = 'True';
+            }
+            else {
+                followingPost.dataset.effects = 'False';
+            }
 
             const id = data[i].post
             const text = data[i].text
@@ -324,8 +463,6 @@ function edit_post(id, div_id) {
 function save_edit(id) {
 
     const new_text = document.querySelector('#edit_text_input').value
-    console.log(new_text)
-    console.log(id)
 
     fetch('/edit/' + id, {
         method: "PUT",
@@ -358,7 +495,6 @@ function delete_post(id) {
 }
 
 function profile(username, start) {
-
 
     innerHTML = `<div class="profile_post" id='profile_post{{ forloop.counter }}'>
     <p>{{ post.text }}</p>
@@ -464,5 +600,4 @@ function like_post(post) {
         .catch(error => {
             console.error('Error:', error);
         });
-    }
-}
+    }}
