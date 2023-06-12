@@ -1,4 +1,5 @@
 {% extends "network/layout.html" %}
+{% load myfilter %}
 
 {% block body %}
 <div id="dialog_backdrop"></div>
@@ -94,7 +95,7 @@
                 </tr>
             </table>
         </div>
-        {% for post in posts %}
+        {% for post in posts|sort_posts:sort %}
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>

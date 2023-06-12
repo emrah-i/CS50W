@@ -4,6 +4,18 @@ let following_counter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const sort_select = document.querySelector('#sort')
+    if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/profile/')) {
+        sort_select.value = localStorage.getItem('sort')
+    }
+    const sort = sort_select.value
+
+    document.querySelector('#sort').addEventListener('change', (element) => {
+        const change_sort = element.target.value
+        localStorage.setItem('sort', change_sort)
+        location.reload()
+    })
+
     if(localStorage.getItem('item_effects_choice') !== null) {
         document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
     }
@@ -19,17 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
     catch {}
 
     if (window.location.pathname === "/") {
-        load_posts(post_counter);
+        load_posts(post_counter, sort);
     
         document.querySelector('#previous').addEventListener('click', () => {
             if (post_counter >= 5) {
                 post_counter -= 5;
-                load_posts(post_counter);
+                load_posts(post_counter, sort);
             }
         })
         document.querySelector('#next').addEventListener('click', () => {
             post_counter += 5;
-            load_posts(post_counter);
+            load_posts(post_counter, sort);
         })
 
         if (document.querySelector('#item_effects').value === 'on') {
@@ -66,18 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem('item_effects_choice', effects_choice)
             }
         });
-
-        document.querySelector('#sort').addEventListener('change', (event) => {
-            {
     }
 
     if (window.location.pathname === "/following") {
-        load_following_posts(following_counter);
+        load_following_posts(following_counter, sort);
 
         window.addEventListener('scroll', () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 following_counter += 4;
-                load_following_posts(following_counter);
+                load_following_posts(following_counter, sort);
         }})
 
         if (document.querySelector('#item_effects').value === 'on') {
@@ -182,6 +191,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem('item_effects_choice', effects_choice)
             }
         })
+
+        const sort_select = document.querySelector('#sort')
+        if (localStorage.getItem('sort') !== null) {
+            sort_select.value = localStorage.getItem('sort')
+        }
+
+        document.querySelector('#sort').addEventListener('change', (element) => {
+            const change_sort = element.target.value
+            localStorage.setItem('sort', change_sort)
+            var url = new URL(window.location.href);
+            url.searchParams.set('sort', change_sort);
+            window.location.href = url.href;
+        })
     }
 
     document.querySelector('#all_posts, #profile_posts, #following_posts').addEventListener('click', (event) => {
@@ -219,9 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     })
-});
+})
 
-function load_posts(value) {
+function load_posts(value, sort) {
 
     const user = document.querySelector('#user_tag').dataset.user;
     const all_posts = document.querySelector('#all_posts');
@@ -229,7 +251,7 @@ function load_posts(value) {
 
     all_posts.innerHTML = "";
 
-    fetch('/posts?start=' + value, {
+    fetch(`/posts?start=${value}&sort=${sort}`, {
         method: "GET",
     })
     .then(response => response.json())
@@ -263,7 +285,7 @@ function load_posts(value) {
             const upload_time = data[i].upload_time
 
             existingPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${username}">${username}:</a>
+            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <br>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
@@ -315,13 +337,13 @@ function load_posts(value) {
     });
 }
 
-function load_following_posts(start) {
+function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
     const user = document.querySelector('#user_tag').dataset.user;
     const effects = document.querySelector('#item_effects').value;
 
-    fetch('/following_posts/' + start, {
+    fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
     })
     .then(reponse => reponse.json())
@@ -348,7 +370,7 @@ function load_following_posts(start) {
             const upload_time = data[i].upload_time
 
             followingPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${username}">${username}:</a>
+            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <br>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>

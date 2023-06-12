@@ -81,8 +81,20 @@ def posts(request):
     else:
         start = int(request.GET.get('start') or 0)
         end = int(request.GET.get('end') or (start + 4))
+        sort = request.GET.get('sort')
 
-        posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        if sort == "new_old":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        elif sort == "old_new":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+        elif sort == "most_likes":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+        elif sort == "least_likes":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+        elif sort == "most_comments":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+        elif sort == "least_comments":
+            posts = Post.objects.all().values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
 
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
@@ -107,6 +119,7 @@ def profile(request, username):
     user = User.objects.get(username = username)
     user_following = UserFollow.objects.filter(user = user)
     user_followers = UserFollow.objects.filter(is_now_following = user)
+    sort = request.GET.get('sort')
 
     user_info  = {
         'id': user.id,
@@ -141,7 +154,7 @@ def profile(request, username):
             }
         )
 
-    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes','likes__username', 'comments', 'upload_time').order_by('-upload_time')
+    posts = Post.objects.filter(user = user).all().values('post', 'text', 'likes','likes__username', 'comments', 'upload_time')
 
     for post in posts:
         if post['likes'] == None:
@@ -163,7 +176,8 @@ def profile(request, username):
         'posts': posts,
         'user_info': user_info, 
         'following_users': following_users,
-        'follower_users': follower_users
+        'follower_users': follower_users,
+        'sort': sort
     })
 
 @login_required
@@ -185,7 +199,7 @@ def following(request):
     })
 
 @login_required
-def following_posts(request, start):
+def following_posts(request, start, sort):
 
     user = request.user.id
     start_post = start
@@ -202,8 +216,20 @@ def following_posts(request, start):
     for user in following_users:
         following.append(User.objects.get(pk=user))
 
+    if sort == "new_old":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+    elif sort == "old_new":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+    elif sort == "most_likes":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+    elif sort == "least_likes":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+    elif sort == "most_comments":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+    elif sort == "least_comments":
+        following_posts = Post.objects.filter(user__in = following).values('post', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+
     data = []
-    following_posts = Post.objects.filter(user__in = following_users).values('post', 'user__username', 'text', 'likes', 'comments', 'upload_time').order_by('-upload_time')
     for post in following_posts[start_post:end + 1]:
             post['upload_time'] = post['upload_time'].strftime("%B %d %Y, %I:%M %p")
             data.append(post)
