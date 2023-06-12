@@ -1,5 +1,6 @@
 
-let counter = 0
+let post_counter = 0
+let following_counter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -14,23 +15,31 @@ document.addEventListener("DOMContentLoaded", () => {
     catch {}
 
     if (window.location.pathname === "/") {
-        load_posts(counter);
+        load_posts(post_counter);
     
         document.querySelector('#previous').addEventListener('click', () => {
-            if (counter >= 5) {
-                counter -= 5;
+            if (post_counter >= 5) {
+                post_counter -= 5;
                 load_posts(counter);
             }
         })
         document.querySelector('#next').addEventListener('click', () => {
-            counter += 5;
+            post_counter += 5;
             load_posts(counter);
         })
     }
 
     if (window.location.pathname === "/following") {
-        load_following_posts(1)
-    }
+        load_following_posts(following_counter);
+
+        console.log(following_counter)
+
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                following_counter += 4;
+                load_following_posts(following_counter);
+        }}
+        )}
 
     document.querySelector('#all_posts, #profile_posts, #following_posts').addEventListener('click', (event) => {
         const post = event.target.dataset.id;
