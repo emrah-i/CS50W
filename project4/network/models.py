@@ -30,8 +30,8 @@ class UserFollow(models.Model):
 
 class Post(models.Model):
     post = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    text = models.CharField(max_length=2000)
+    title = models.CharField(max_length=200, blank=False, null=False)
+    text = models.CharField(max_length=2000, blank=False, null=False)
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="post_poster")
     likes = models.ManyToManyField('User', blank=True, related_name="post_ikers")
     comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE, related_name="post_comments")

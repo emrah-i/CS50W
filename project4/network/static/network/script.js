@@ -278,6 +278,7 @@ function load_posts(value, sort) {
             }
 
             const id = data[i].post
+            const title = data[i].title
             const text = data[i].text
             const username = data[i].user__username
             const likes = data[i].likes
@@ -286,7 +287,9 @@ function load_posts(value, sort) {
 
             existingPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
-            <br>
+            <hr>
+            <h5 id="post_title">${title}</h5>
+            <hr>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
             <p>Comment</p>   
@@ -363,6 +366,7 @@ function load_following_posts(start, sort) {
             }
 
             const id = data[i].post
+            const title = data[i].title
             const text = data[i].text
             const username = data[i].user__username
             const likes = data[i].likes
@@ -371,7 +375,9 @@ function load_following_posts(start, sort) {
 
             followingPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
-            <br>
+            <hr>
+            <h5 id="post_title">${title}</h5>
+            <hr>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
             <p>Comment</p>   
@@ -443,6 +449,7 @@ function load_new_post(event) {
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
             <h2>New Post</h2>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
+            <input type="text" name="title" id="title_input" placeholder="Enter Title" required><br>
             <textarea placeholder="Text" name="text" id="text_input" required></textarea><br>
             <button type="submit">Submit</button>
             <button type="button" id="cancel">Cancel</button>
@@ -475,7 +482,8 @@ function edit_post(id, div_id) {
         post_div.innerHTML =
         `<h2>Edit</h2>
         <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-        <textarea placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
+        <input type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}" required><br>
+        <textarea placeholder="Text" name="text" id="edit_text_input" required>${data.text}</textarea><br>
         <button type="submit" id="save_edit" data-id="${id}">Save</button>
         <button type="button" id="cancel_edit">Cancel</button>
         <button type="button" id="delete_edit" data-id="${id}">Delete</button>`
@@ -485,11 +493,13 @@ function edit_post(id, div_id) {
 function save_edit(id) {
 
     const new_text = document.querySelector('#edit_text_input').value
+    const new_title = document.querySelector('#edit_title_input').value
 
     fetch('/edit/' + id, {
         method: "PUT",
         body: JSON.stringify ({
-            text: new_text
+            text: new_text,
+            title: new_title
         })
     })
     .then(response =>

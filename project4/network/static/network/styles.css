@@ -19,6 +19,9 @@ body button {
 body button:hover {
   background-color: LightSteelBlue;
 }
+body hr {
+  background-color: black;
+}
 
 #all_posts {
   margin: 10px auto 10px auto;
@@ -100,6 +103,9 @@ body button:hover {
   padding: 10px;
   border: 1px solid black;
   border-radius: 6px;
+}
+#profile_posts p {
+  margin: 0;
 }
 
 #following_posts {
@@ -195,7 +201,7 @@ body button:hover {
   color: white !important;
 }
 
-#user_input, #text_input, #edit_text_input {
+#user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
   margin: 10px 5%;
   border-radius: 6px;
   padding: 5px;

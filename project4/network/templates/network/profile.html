@@ -97,6 +97,8 @@
         </div>
         {% for post in posts|sort_posts:sort %}
         <div class="profile_post" id='profile_post{{ forloop.counter }}'>
+            <h4>{{ post.title }}</h4>
+            <hr>
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <p>{{ post.comments_count }} Comments</p>

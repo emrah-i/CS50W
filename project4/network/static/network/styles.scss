@@ -21,6 +21,10 @@ body {
     button:hover {
         background-color: LightSteelBlue;
     }
+
+    hr {
+        background-color: black;
+    }
 }
 
 #all_posts {
@@ -119,6 +123,10 @@ body {
         padding: 10px;
         border: 1px solid black;
         border-radius: 6px;
+    }
+
+    p {
+        margin: 0;
     }
 }
 
@@ -232,7 +240,7 @@ body {
     }
 }
 
-#user_input, #text_input, #edit_text_input {
+#user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
     margin: 10px 5%;
     border-radius: 6px;
     padding: 5px;
