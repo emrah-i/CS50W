@@ -214,7 +214,10 @@ document.addEventListener("DOMContentLoaded", () => {
             edit_post(post, div_id);
         }
         else if (event.target.matches('#save_edit')) {
-            save_edit(post, div_id);
+            document.querySelector('#save_edit').addEventListener('click', function(event) {
+                event.preventDefault();
+                save_edit(post, div_id);
+              });
         }
         else if (event.target.matches('#cancel_edit')) {
             location.reload();
@@ -449,8 +452,8 @@ function load_new_post(event) {
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
             <h2>New Post</h2>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-            <input type="text" name="title" id="title_input" placeholder="Enter Title" required><br>
-            <textarea placeholder="Text" name="text" id="text_input" required></textarea><br>
+            <input required type="text" name="title" id="title_input" placeholder="Enter Title"><br>
+            <textarea required placeholder="Text" name="text" id="text_input"></textarea><br>
             <button type="submit">Submit</button>
             <button type="button" id="cancel">Cancel</button>
         </form>`;
@@ -481,25 +484,27 @@ function edit_post(id, div_id) {
 
         post_div.innerHTML =
         `<h2>Edit</h2>
-        <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-        <input type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}" required><br>
-        <textarea placeholder="Text" name="text" id="edit_text_input" required>${data.text}</textarea><br>
-        <button type="submit" id="save_edit" data-id="${id}">Save</button>
-        <button type="button" id="cancel_edit">Cancel</button>
-        <button type="button" id="delete_edit" data-id="${id}">Delete</button>`
+        <form>
+            <input type="text" disabled value="${user}" name="user" id="user_input"><br>
+            <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
+            <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
+            <button type="submit" id="save_edit" data-id="${id}">Save</button>
+            <button type="button" id="cancel_edit">Cancel</button>
+            <button type="button" id="delete_edit" data-id="${id}">Delete</button>
+        </form>`
     )
 }
 
 function save_edit(id) {
 
-    const new_text = document.querySelector('#edit_text_input').value
-    const new_title = document.querySelector('#edit_title_input').value
+    const new_text = document.querySelector('#edit_text_input')
+    const new_title = document.querySelector('#edit_title_input')
 
     fetch('/edit/' + id, {
         method: "PUT",
         body: JSON.stringify ({
-            text: new_text,
-            title: new_title
+            text: new_text.value,
+            title: new_title.value
         })
     })
     .then(response =>
