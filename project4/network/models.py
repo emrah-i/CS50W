@@ -42,6 +42,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     comment = models.AutoField(primary_key=True)
+    text = models.CharField(max_length=250, blank=False, null=False)
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name="comment_post")
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="comment_poster")
     likes = models.ManyToManyField('User', related_name="comment_likers")

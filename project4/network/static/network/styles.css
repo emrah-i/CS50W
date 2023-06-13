@@ -9,7 +9,6 @@ body textarea {
   margin: 10px 5%;
 }
 body button {
-  margin: 0;
   background-color: aliceblue;
   border-radius: 8px;
   border-style: solid;
@@ -54,6 +53,9 @@ body hr {
 #all_posts ul {
   list-style-type: none;
   line-height: 20px;
+}
+#all_posts #edit_button {
+  margin-left: 5px;
 }
 
 #new_post {
@@ -182,7 +184,6 @@ body hr {
 }
 
 #like_button[data-clicked=true] {
-  margin: 0;
   background-color: LightSteelBlue;
   border-radius: 8px;
   border-style: solid;
@@ -282,4 +283,21 @@ body hr {
   border-radius: 6px;
   background-color: aliceblue;
   border: 1px solid black;
+}
+
+.post_page {
+  background-color: rgb(34, 129, 216);
+  width: 90%;
+  margin: 10px 5%;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+}
+.post_page textarea {
+  width: 90%;
+  height: 30vh;
+  margin: 10px 0;
+}
+.post_page #user_input {
+  margin: 10px 0;
 }/*# sourceMappingURL=styles.css.map */

@@ -10,6 +10,7 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path('get-csrf-token', views.get_csrf_token, name='get-csrf-token'),
     path("posts", views.posts, name="posts"),
+    path("post/<int:post_id>", views.post, name="post"),
     path("profile/<str:username>", views.profile, name="profile"),
     path("following", views.following, name="following"),
     path("following_posts/<int:start>/<str:sort>", views.following_posts, name="following_posts"),

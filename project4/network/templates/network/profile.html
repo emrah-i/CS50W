@@ -102,6 +102,7 @@
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <p>{{ post.comments_count }} Comments</p>
+            <button type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
             {% if post.liked == True %}
             <button id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
             {% else %}

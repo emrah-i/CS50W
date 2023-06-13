@@ -72,8 +72,9 @@ def posts(request):
         
         user = User.objects.get(username = request.user.username)
         text = request.POST.get("text")
+        title = request.POST.get("title")
 
-        newPost = Post.objects.create(user = user, text = text)
+        newPost = Post.objects.create(user=user, text=text, title=title)
         newPost.save()
 
         return HttpResponseRedirect(reverse('index'))
@@ -104,6 +105,25 @@ def posts(request):
             data.append(post)
 
         return JsonResponse(list(data), safe=False)
+    
+def post(request, post_id): 
+
+    post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
+
+    post = {
+        'id': post[0]['post'],
+        'title': post[0]['title'],
+        'text': post[0]['text'],
+        'user': post[0]['user'],
+        'username': post[0]['user__username'],
+        'likes': post[0]['likes'],
+        'comments': post[0]['comments'],
+        'upload_time': post[0]['upload_time'],
+    }
+
+    return render(request, "network/post.html", {
+        'post': post
+    })
 
 def get_csrf_token(request):
     csrf_token = csrf.get_token(request)

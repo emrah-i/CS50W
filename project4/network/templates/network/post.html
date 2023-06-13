@@ -1,0 +1,59 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+    <div id="post_page_{{ post.post }}" class="post_page">
+        <table>
+            <tr>
+                <td>
+                    <h3>{{ post.username }}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ post.title }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ post.text }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ post.upload_time }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if post.likes != None %}
+                    <button id="like_button" data-postid="{{ post.id }}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
+                    {% else %}
+                    <button id="like_button" data-postid="{{ post.id }}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>
+                    {% endif %}
+                    {% if user.id == post.user %}
+                    <button id="edit_button" data-id="{{ post.id }}">Edit</button>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form action="/post" method="post">
+                        <input hidden value="{{ post.id }}" name="post_id">
+                        <input disabled value="{{ user.username }}" id="user_input">
+                        <textarea id="comment_text" name="comment_text" placeholder="Enter Comment" required maxlength="250"></textarea>
+                        <button type="submit">Post</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if post.likes != None %}
+                    {{ post.comments }}
+                    {% else %}
+                    <p>No Comments</p>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

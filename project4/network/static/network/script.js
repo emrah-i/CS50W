@@ -4,21 +4,29 @@ let following_counter = 0
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const sort_select = document.querySelector('#sort')
-    if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/profile/')) {
-        sort_select.value = localStorage.getItem('sort')
-    }
-    const sort = sort_select.value
+    sort = ''
 
-    document.querySelector('#sort').addEventListener('change', (element) => {
-        const change_sort = element.target.value
-        localStorage.setItem('sort', change_sort)
-        location.reload()
-    })
+    try {
 
-    if(localStorage.getItem('item_effects_choice') !== null) {
-        document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
+        const sort_select = document.querySelector('#sort')
+
+        if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/profile/')) {
+            sort_select.value = localStorage.getItem('sort')
+        }
+        
+        sort = sort_select.value
+    
+        document.querySelector('#sort').addEventListener('change', (element) => {
+            const change_sort = element.target.value
+            localStorage.setItem('sort', change_sort)
+            location.reload()
+        })
+
+        if (localStorage.getItem('item_effects_choice') !== null) {
+            document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
+        }
     }
+    catch {}
 
     try {
         document.querySelector('#new_post').addEventListener('click', (event) => {
@@ -228,7 +236,28 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    document.querySelector('#all_posts, #profile_posts, #following_posts').addEventListener('click', (event) => {
+    if (window.location.pathname.startsWith("/post/")) {
+
+        const url = window.location.pathname
+        const id = url.split('/').pop()
+
+        fetch('/like/' + id,{
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+            if (data === true) {
+                like_button.dataset.clicked = 'true';
+            }
+            else if (data === false) {
+                like_button.dataset.clicked = 'false';
+            }
+        })
+    }
+
+    document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page').addEventListener('click', (event) => {
         const post = event.target.dataset.id;
         const div_id = event.target.parentElement.id;
 
@@ -264,6 +293,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const post = event.target.parentElement.dataset.postid;
                 like_post(post);
             }
+        }
+        else if (event.target.matches('#gtp_button')) {
+            const postid =event.target.dataset.postid
+            window.location = `/post/${postid}`
         }
     })
 })
@@ -324,6 +357,7 @@ function load_posts(value, sort, button) {
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
             <p>Comment</p>   
+            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>
             `;
 
             fetch('/auth',{
@@ -354,14 +388,14 @@ function load_posts(value, sort, button) {
                         }
                     })
                 }
+
+                if (username == user) {
+                    existingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
+                }
+                if (comments !== null) {
+                    existingPost.innerHTML += `<p>${comments}</p>`
+                }
             })
-    
-            if (username == user) {
-                existingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>&nbsp`
-            }
-            if (comments !== null) {
-                existingPost.innerHTML += `<p>${comments}</p>`
-            }
 
             all_posts.append(existingPost);
 
@@ -412,7 +446,8 @@ function load_following_posts(start, sort) {
             <hr>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
-            <p>Comment</p>   
+            <p>Comment</p>
+            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
             `;
 
             fetch('/auth',{
@@ -446,7 +481,7 @@ function load_following_posts(start, sort) {
             })
     
             if (username == user) {
-                followingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>&nbsp`
+                followingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
             }
             if (comments !== null) {
                 followingPost.innerHTML += `<p>${comments}</p>`
@@ -481,7 +516,7 @@ function load_new_post(event) {
             <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
             <h2>New Post</h2>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-            <input required type="text" name="title" id="title_input" placeholder="Enter Title"><br>
+            <input required type="text" name="title" id="title_input" placeholder="Enter Title" name="title"><br>
             <textarea required placeholder="Text" name="text" id="text_input"></textarea><br>
             <button type="submit">Submit</button>
             <button type="button" id="cancel">Cancel</button>
