@@ -31,17 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
     catch {}
 
     if (window.location.pathname === "/") {
+        post_counter = 0
         load_posts(post_counter, sort);
     
-        document.querySelector('#previous').addEventListener('click', () => {
+        document.querySelector('#previous').addEventListener('click', (event) => {
+            const button = event.target.id;
+            
             if (post_counter >= 5) {
                 post_counter -= 5;
-                load_posts(post_counter, sort);
+                load_posts(post_counter, sort, button);
             }
         })
-        document.querySelector('#next').addEventListener('click', () => {
+
+        document.querySelector('#previous_2').addEventListener('click', (event) => {
+            const button = event.target.id;
+
+            if (post_counter >= 10) {
+                post_counter -= 10;
+                load_posts(post_counter, sort, button);
+            }
+        })
+
+        document.querySelector('#next').addEventListener('click', (event) => {
+            const button = event.target.id
+
             post_counter += 5;
-            load_posts(post_counter, sort);
+            load_posts(post_counter, sort, button);
+        })
+
+        document.querySelector('#next_2').addEventListener('click', (event) => {
+            const button = event.target.id
+
+            post_counter += 10;
+            load_posts(post_counter, sort, button);
         })
 
         if (document.querySelector('#item_effects').value === 'on') {
@@ -246,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
-function load_posts(value, sort) {
+function load_posts(value, sort, button) {
 
     const user = document.querySelector('#user_tag').dataset.user;
     const all_posts = document.querySelector('#all_posts');
@@ -260,9 +282,15 @@ function load_posts(value, sort) {
     .then(response => response.json())
     .then(data => {
 
-        if (data.length === 0) {
-            counter = value - 5
-            load_posts(counter);
+        if (data.length === 0 && button === 'next') {
+            post_counter = value - 5
+            load_posts(post_counter, sort);
+            alert("No more posts");
+            return;
+        }
+        else if (data.length === 0 && button === 'next_2') {
+            post_counter = value - 10
+            load_posts(post_counter, sort);
             alert("No more posts");
             return;
         }
@@ -336,6 +364,7 @@ function load_posts(value, sort) {
             }
 
             all_posts.append(existingPost);
+
         }
     })
     .catch(error => {
