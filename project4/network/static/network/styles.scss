@@ -24,6 +24,15 @@ body {
     hr {
         background-color: black;
     }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
 }
 
 #all_posts {
@@ -47,7 +56,7 @@ body {
 
     #user_heading {
         font-weight: 600;
-        color: black;
+        color: white;
         font-size: 1.5em;
     }
 
@@ -57,7 +66,7 @@ body {
 
     #timestamp {
         margin: 0;
-        color: black;
+        color: white;
     }
 
     ul {
@@ -102,7 +111,7 @@ body {
 
     #user_heading {
         font-weight: 600;
-        color: black;
+        color: white;
         font-size: 1.5em;
     }
 
@@ -306,7 +315,7 @@ body {
 }
 
 #profile_user_link {
-    color: black;
+    color: white;
 }
 
 #filters {
@@ -347,6 +356,10 @@ body {
     border: 1px solid black;
     border-radius: 6px;
 
+    table {
+        width: 100%
+    }
+
     textarea {
         width: 90%;
         height: 30vh;
@@ -356,4 +369,13 @@ body {
     #user_input {
         margin: 10px 0;
     }
+
+    .post_comments {
+        
+        border: 2px solid black;
+        padding: 10px;
+        margin: 10px 0
+    }
 }
+
+

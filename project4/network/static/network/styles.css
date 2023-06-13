@@ -21,6 +21,13 @@ body button:hover {
 body hr {
   background-color: black;
 }
+body a {
+  color: white;
+  text-decoration: none;
+}
+body a:hover {
+  text-decoration: underline;
+}
 
 #all_posts {
   margin: 10px auto 10px auto;
@@ -40,7 +47,7 @@ body hr {
 }
 #all_posts #user_heading {
   font-weight: 600;
-  color: black;
+  color: white;
   font-size: 1.5em;
 }
 #all_posts #post_text {
@@ -48,7 +55,7 @@ body hr {
 }
 #all_posts #timestamp {
   margin: 0;
-  color: black;
+  color: white;
 }
 #all_posts ul {
   list-style-type: none;
@@ -86,7 +93,7 @@ body hr {
 }
 #profile_posts #user_heading {
   font-weight: 600;
-  color: black;
+  color: white;
   font-size: 1.5em;
 }
 #profile_posts #user_input {
@@ -258,7 +265,7 @@ body hr {
 }
 
 #profile_user_link {
-  color: black;
+  color: white;
 }
 
 #filters {
@@ -293,11 +300,19 @@ body hr {
   border: 1px solid black;
   border-radius: 6px;
 }
+.post_page table {
+  width: 100%;
+}
 .post_page textarea {
   width: 90%;
   height: 30vh;
   margin: 10px 0;
 }
 .post_page #user_input {
+  margin: 10px 0;
+}
+.post_page .post_comments {
+  border: 2px solid black;
+  padding: 10px;
   margin: 10px 0;
 }/*# sourceMappingURL=styles.css.map */

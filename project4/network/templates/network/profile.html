@@ -102,15 +102,20 @@
             <p>{{ post.text }}</p>
             <p>{{ post.upload_time }}</p>
             <p>{{ post.comments_count }} Comments</p>
+            {% if user.is_anonymous %}
+            <p>{{ post.likes }} Likes</p>
+            {% endif %}
             <button type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
-            {% if post.liked == True %}
-            <button id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
-            {% else %}
-            <button id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
-            {% endif %}
-            {% if user.username == user_info.username %}
-            <button id="edit_button" data-id="{{ post.post }}">Edit</button>
-            {% endif %}
+            {% if user.is_authenticated %}
+                {% if post.liked == True %}
+                <button id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
+                {% else %}
+                <button id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.likes }}</span></button>
+                {% endif %}
+                {% if user.username == user_info.username %}
+                <button id="edit_button" data-id="{{ post.post }}">Edit</button>
+                {% endif %}
+            {% endif %} 
         </div>
         {% endfor %}
     </div>

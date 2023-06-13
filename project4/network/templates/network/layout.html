@@ -19,7 +19,7 @@
               <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' user.username %}" data-user="{{ user.username }}" id="user_tag"><strong>{{ user.username }}</strong></a>
+                        <a class="nav-link" data-username="{{ user.username }}" id="layout_user_tag">{{ user.username }}</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">

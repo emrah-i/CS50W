@@ -1,10 +1,20 @@
 
 let post_counter = 0
 let following_counter = 0
+let sort = ''
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    sort = ''
+    try {
+        document.querySelector('#layout_user_tag').addEventListener('click', (event) => {
+            username = event.target.dataset.username
+            sort = localStorage.getItem('sort')
+    
+            window.location = '/profile/' + username + '?sort=' + sort
+        })
+    }
+    catch{}
+
 
     try {
 
@@ -39,6 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
     catch {}
 
     if (window.location.pathname === "/") {
+
+        if (localStorage.getItem('sort') === null) {
+            localStorage.setItem('sort', 'new_old')
+        }
         post_counter = 0
         load_posts(post_counter, sort);
     
@@ -74,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             load_posts(post_counter, sort, button);
         })
 
+        try {
         if (document.querySelector('#item_effects').value === 'on') {
             document.querySelector('#new_post').dataset.effects = 'True'
             document.querySelector('#filters').dataset.effects = 'True'
@@ -108,6 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem('item_effects_choice', effects_choice)
             }
         });
+    }
+    catch {}
     }
 
     if (window.location.pathname === "/following") {
@@ -255,6 +272,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 like_button.dataset.clicked = 'false';
             }
         })
+
+        document.querySelector('#user_page_route').addEventListener('click', (event) => {
+            username = event.target.dataset.username
+            sort = localStorage.getItem('sort')
+
+            window.location = '/profile/' + username + '?sort=' + sort
+        })
     }
 
     document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page').addEventListener('click', (event) => {
@@ -303,7 +327,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function load_posts(value, sort, button) {
 
-    const user = document.querySelector('#user_tag').dataset.user;
+    user = ''
+
+    try {
+        user = document.querySelector('#layout_user_tag').dataset.user;
+    }
+    catch {}
     const all_posts = document.querySelector('#all_posts');
     const effects = document.querySelector('#item_effects').value
 
@@ -409,7 +438,7 @@ function load_posts(value, sort, button) {
 function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
-    const user = document.querySelector('#user_tag').dataset.user;
+    const user = document.querySelector('#layout_user_tag').dataset.user;
     const effects = document.querySelector('#item_effects').value;
 
     fetch(`/following_posts/${start}/${sort}`, {
@@ -497,7 +526,7 @@ function load_following_posts(start, sort) {
 
 function load_new_post(event) {
 
-    const user = document.querySelector('#user_tag').dataset.user
+    const user = document.querySelector('#layout_user_tag').dataset.user
     const button = event.target
 
     button.style.display = 'none'
@@ -537,7 +566,7 @@ function cancel_new_post() {
 
 function edit_post(id, div_id) {
 
-    const user = document.querySelector('#user_tag').dataset.user
+    const user = document.querySelector('#layout_user_tag').dataset.user
     const post_div = document.querySelector('#' + div_id)
 
     fetch('/edit/' + id, {

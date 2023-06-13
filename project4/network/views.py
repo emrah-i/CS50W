@@ -108,23 +108,40 @@ def posts(request):
     
 def post(request, post_id): 
 
-    post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
+    if request.method == "POST":
+        
+        text = request.POST.get('comment_text')
+        user = request.user
 
-    post = {
-        'id': post[0]['post'],
-        'title': post[0]['title'],
-        'text': post[0]['text'],
-        'user': post[0]['user'],
-        'username': post[0]['user__username'],
-        'likes': post[0]['likes'],
-        'comments': post[0]['comments'],
-        'upload_time': post[0]['upload_time'],
-    }
+        post = Post.objects.get(pk=post_id)
+        new_comment = Comment.objects.create(user=user, post=post, text=text)
+        new_comment.save()
 
-    return render(request, "network/post.html", {
-        'post': post
-    })
+        return HttpResponseRedirect(reverse('post', args=(post_id, )))
 
+    else:
+        post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
+        comment_post = Post.objects.get(pk=post_id)
+        comments = Comment.objects.filter(post=comment_post).values('comment', 'text', 'user__username', 'upload_time').order_by('-upload_time')
+
+
+        post = {
+            'id': post[0]['post'],
+            'title': post[0]['title'],
+            'text': post[0]['text'],
+            'user': post[0]['user'],
+            'username': post[0]['user__username'],
+            'likes': post[0]['likes'],
+            'comments': post[0]['comments'],
+            'upload_time': post[0]['upload_time'],
+        }
+
+        return render(request, "network/post.html", {
+            'post': post,
+            'comments': comments
+        })
+
+@login_required
 def get_csrf_token(request):
     csrf_token = csrf.get_token(request)
 
