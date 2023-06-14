@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.middleware import csrf
+from django.utils import timezone
 from datetime import datetime
 import json
 
@@ -289,6 +290,7 @@ def edit(request, post_id):
             post.text = data["text"]
         if data.get("title") is not None:
             post.title = data["title"]
+        post.upload_time = str(timezone.now())
         post.save()
         return HttpResponse(status=204)
     

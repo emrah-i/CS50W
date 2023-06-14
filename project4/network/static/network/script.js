@@ -279,6 +279,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             window.location = '/profile/' + username + '?sort=' + sort
         })
+
+        try { document.querySelector('#pp_edit_button').addEventListener('click', (event) => {
+            const postid = event.target.dataset.id;
+
+            post_page_edit(postid);
+        })
+        }
+        catch{}
     }
 
     document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page').addEventListener('click', (event) => {
@@ -289,10 +297,16 @@ document.addEventListener("DOMContentLoaded", () => {
             edit_post(post, div_id);
         }
         else if (event.target.matches('#save_edit')) {
-            document.querySelector('#save_edit').addEventListener('click', function(event) {
-                event.preventDefault();
-                save_edit(post, div_id);
-              });
+            if (document.querySelector('#edit_text_input').value === '') {
+                alert('Must enter text')
+                return
+            }
+            else if (document.querySelector('#edit_title_input').value === '') {
+                alert('Must enter title')
+                return
+            }
+            
+            save_edit(post)
         }
         else if (event.target.matches('#cancel_edit')) {
             location.reload();
@@ -330,9 +344,10 @@ function load_posts(value, sort, button) {
     user = ''
 
     try {
-        user = document.querySelector('#layout_user_tag').dataset.user;
+        user = document.querySelector('#layout_user_tag').dataset.username;
     }
     catch {}
+
     const all_posts = document.querySelector('#all_posts');
     const effects = document.querySelector('#item_effects').value
 
@@ -526,7 +541,7 @@ function load_following_posts(start, sort) {
 
 function load_new_post(event) {
 
-    const user = document.querySelector('#layout_user_tag').dataset.user
+    const user = document.querySelector('#layout_user_tag').dataset.username
     const button = event.target
 
     button.style.display = 'none'
@@ -566,7 +581,7 @@ function cancel_new_post() {
 
 function edit_post(id, div_id) {
 
-    const user = document.querySelector('#layout_user_tag').dataset.user
+    const user = document.querySelector('#layout_user_tag').dataset.username
     const post_div = document.querySelector('#' + div_id)
 
     fetch('/edit/' + id, {
@@ -581,9 +596,37 @@ function edit_post(id, div_id) {
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
-            <button type="submit" id="save_edit" data-id="${id}">Save</button>
+            <button type="button" id="save_edit" data-id="${id}">Save</button>
             <button type="button" id="cancel_edit">Cancel</button>
             <button type="button" id="delete_edit" data-id="${id}">Delete</button>
+        </form>`
+    )
+}
+
+function post_page_edit(postid) {
+
+    const user = document.querySelector('#layout_user_tag').dataset.username
+    const title = document.querySelector('#pp_title')
+    document.querySelector('#pp_text').innerHTML = ''
+    document.querySelector('#pp_ut').innerHTML = ''
+    document.querySelector('#like_button').style.display = 'none'
+    document.querySelector('#pp_edit_button').style.display = 'none'
+
+    fetch('/edit/' + postid, {
+        method: "GET",
+    })
+    .then(response => response.json())
+    .then(data => 
+
+        title.innerHTML =
+        `<h2>Edit</h2>
+        <form>
+            <input type="text" disabled value="${user}" name="user" id="user_input"><br>
+            <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
+            <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
+            <button type="button" id="save_edit" data-id="${postid}">Save</button>
+            <button type="button" id="cancel_edit">Cancel</button>
+            <button type="button" id="delete_edit" data-id="${postid}">Delete</button>
         </form>`
     )
 }
@@ -596,8 +639,8 @@ function save_edit(id) {
     fetch('/edit/' + id, {
         method: "PUT",
         body: JSON.stringify ({
-            text: new_text.value,
-            title: new_title.value
+            text: new_text.value + ' (edited)',
+            title: new_title.value + ' (edited)'
         })
     })
     .then(response =>
@@ -616,7 +659,12 @@ function delete_post(id) {
             method: "DELETE"
         })
         .then(response => {
-            location.reload()
+            if (window.location.pathname === '/' || window.location.pathname.startsWith('/profile/')) {
+                location.reload()
+            }
+            else if (window.location.pathname.startsWith('/post/')) {
+                window.location = `/`
+            }
         })
     }
     else {

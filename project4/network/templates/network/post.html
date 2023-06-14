@@ -9,17 +9,17 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td id="pp_title">
                     {{ post.title }}
                 </td>
             </tr>
             <tr>
-                <td>
+                <td id="pp_text">
                     {{ post.text }}
                 </td>
             </tr>
             <tr>
-                <td>
+                <td id="pp_ut">
                     {{ post.upload_time }}
                 </td>
             </tr>
@@ -32,7 +32,7 @@
                         <button id="like_button" data-postid="{{ post.id }}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>
                         {% endif %}
                         {% if user.id == post.user %}
-                        <button id="edit_button" data-id="{{ post.id }}">Edit</button>
+                        <button id="pp_edit_button" data-id="{{ post.id }}">Edit</button>
                         {% endif %}
                     {% else %}
                         <p>{{ post.likes }} Likes</p>
