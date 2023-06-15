@@ -1,0 +1,14 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+    <form action="/catergories" method="POST">
+        {% csrf_token %}
+        <select name="catergory">
+            <option selected disabled>Select Catergory</option>
+            {% for catergory in catergories %}
+            <option value="{{ catergory.code }}">{{ catergory.display }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Search</button>
+    </form>
+{% endblock %}

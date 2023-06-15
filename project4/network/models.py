@@ -5,6 +5,28 @@ from django.utils import timezone
 from datetime import datetime
 from django.core.exceptions import ValidationError
 
+CATEGORY_CHOICES = [
+    ('general', 'General Discussion'),
+    ('help', 'Help and Support'),
+    ('suggestions', 'Suggestions and Feedback'),
+    ('introductions', 'Introductions'),
+    ('offtopic', 'Off-Topic Discussion'),
+    ('news', 'News and Announcements'),
+    ('technology', 'Technology and Gadgets'),
+    ('entertainment', 'Entertainment and Media'),
+    ('sports', 'Sports and Fitness'),
+    ('education', 'Education and Learning'),
+    ('arts', 'Arts and Creativity'),
+    ('food', 'Food and Cooking'),
+    ('travel', 'Travel and Adventure'),
+    ('music', 'Music and Audio'),
+    ('movies', 'Movies and TV Shows'),
+    ('books', 'Books and Literature'),
+    ('fashion', 'Fashion and Style'),
+    ('health', 'Health and Wellness'),
+    ('politics', 'Politics and Current Events'),
+    ('business', 'Business and Entrepreneurship'),
+]
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
@@ -35,6 +57,7 @@ class Post(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="post_poster")
     likes = models.ManyToManyField('User', blank=True, related_name="post_ikers")
     comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE, related_name="post_comments")
+    catergory = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
     upload_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

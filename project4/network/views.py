@@ -12,6 +12,29 @@ import json
 
 from .models import User, Post, UserFollow, Comment
 
+CATEGORY_CHOICES = [
+    {'code': 'general', 'display': 'General Discussion'},
+    {'code': 'help', 'display': 'Help and Support'},
+    {'code': 'suggestions', 'display': 'Suggestions and Feedback'},
+    {'code': 'introductions', 'display': 'Introductions'},
+    {'code': 'offtopic', 'display': 'Off-Topic Discussion'},
+    {'code': 'news', 'display': 'News and Announcements'},
+    {'code': 'technology', 'display': 'Technology and Gadgets'},
+    {'code': 'entertainment', 'display': 'Entertainment and Media'},
+    {'code': 'sports', 'display': 'Sports and Fitness'},
+    {'code': 'education', 'display': 'Education and Learning'},
+    {'code': 'arts', 'display': 'Arts and Creativity'},
+    {'code': 'food', 'display': 'Food and Cooking'},
+    {'code': 'travel', 'display': 'Travel and Adventure'},
+    {'code': 'music', 'display': 'Music and Audio'},
+    {'code': 'movies', 'display': 'Movies and TV Shows'},
+    {'code': 'books', 'display': 'Books and Literature'},
+    {'code': 'fashion', 'display': 'Fashion and Style'},
+    {'code': 'health', 'display': 'Health and Wellness'},
+    {'code': 'politics', 'display': 'Politics and Current Events'},
+    {'code': 'business', 'display': 'Business and Entrepreneurship'},
+]
+
 def login_view(request):
     if request.method == "POST":
 
@@ -123,7 +146,7 @@ def post(request, post_id):
     else:
         post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
         comment_post = Post.objects.get(pk=post_id)
-        comments = Comment.objects.filter(post=comment_post, parent_node=None).order_by('-upload_time')
+        comments = Comment.objects.filter(post=comment_post, parent_node=None).order_by('upload_time')
         level = 40 
 
         post = {
@@ -382,6 +405,30 @@ def reply(request, commentid):
     new_reply.save()
 
     return HttpResponseRedirect(reverse('post', args=(postid, )))
+
+def catergories(request):
+
+    if request.method == "POST":
+        
+        catergory = request.POST.get('catergory')
+
+        return HttpResponseRedirect(reverse('catergory', args=(catergory, )))
+
+    else:
+
+        return render(request, 'network/catergories.html', {
+            'catergories': CATEGORY_CHOICES,
+        })
+
+def catergory(request, catergory):
+        
+        # posts = Post.objects.filter(catergory=catergory)
+
+        return render(request, 'network/catergory.html', {
+            'catergory': catergory
+        })
+
+
 
 @login_required
 def auth(request):
