@@ -90,7 +90,7 @@ body {
 
 }
 
-#new_post[data-effects='True']:hover, .profile_post[data-effects='True']:hover, #user_info[data-effects='True']:hover, .posts[data-effects='True']:hover, .following_posts[data-effects='True']:hover, #filters[data-effects='True']:hover {
+#new_post[data-effects='True']:hover, .profile_post[data-effects='True']:hover, #user_info[data-effects='True']:hover, .posts[data-effects='True']:hover, .following_posts[data-effects='True']:hover, #filters[data-effects='True']:hover, #catergory_posts[data-effects='True']:hover {
     transform: scale(1.007);
     box-shadow: 0px 0px 12px rgba(255, 255, 255, 1);
 }
@@ -158,7 +158,7 @@ body {
 
     #user_heading {
         font-weight: 600;
-        color: black;
+        color: white;
         font-size: 1.5em;
     }
 
@@ -217,8 +217,8 @@ body {
 }
 
 #page_buttons {
-    width: 15vw;
-    margin: 30px auto;
+    width: 15%;
+    margin: 30px 42.5%;
 }
 
 #user_info {
@@ -378,4 +378,47 @@ body {
     }
 }
 
+#load_more {
 
+    width: 10vw;
+    margin: 10px auto;
+
+    #load_more_button {
+        width: 70%;
+        margin: 0 15%;
+    }
+}
+
+#catergory_posts {
+
+    margin: 10px auto 10px auto;
+    width: 90vw;
+
+    .catergory_post {
+        background-color: rgb(34, 129, 216);
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 6px;
+    }
+
+    #user_heading {
+        font-weight: 600;
+        color: white;
+        font-size: 1.5em;
+    }
+
+    #user_input {
+        margin: 10px 5%;
+    }
+
+    #user_info {
+        background-color: rgb(34, 129, 216);
+
+        #open_following:hover, #open_followers:hover {
+            text-decoration: underline;
+        }
+    }
+
+}

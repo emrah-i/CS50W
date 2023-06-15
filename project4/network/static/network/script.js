@@ -1,7 +1,7 @@
 
 let post_counter = 0
 let following_counter = 0
-let catergor_counter = 0
+let catergory_counter = 0
 let sort = ''
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -305,9 +305,41 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.location.pathname.startsWith("/catergory/")) {
 
         const catergory = document.querySelector('#catergory_header').dataset.catergory
-        start = catergor_counter
+        start = catergory_counter
+
+        document.querySelector('#load_more_button').addEventListener('click', (event) => {
+            catergory_counter += 5
+            new_start = catergory_counter 
+
+            load_catergory_posts(catergory, new_start, sort);
+        })
 
         load_catergory_posts(catergory, start, sort);
+
+        document.querySelector('#item_effects').addEventListener('change', (event) => {
+            if (event.target.value === "on") {
+                document.querySelector('#filters').dataset.effects = 'True';
+                document.querySelectorAll('.catergory_post').forEach((element) => {
+                    element.dataset.effects = 'True';
+                })
+                
+                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
+                event.target.innerHTML = effects_choice                 
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+            else {
+                document.querySelector('#filters').dataset.effects = 'False';
+                document.querySelectorAll('.catergory_post').forEach((element) => {
+                    element.dataset.effects = 'False';
+                })
+
+                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
+                event.target.innerHTML = effects_choice
+
+                localStorage.setItem('item_effects_choice', effects_choice)
+            }
+        })
     }
 
     try {
@@ -582,6 +614,11 @@ function load_catergory_posts(catergory, start, sort) {
     })
     .then(reponse => reponse.json())
     .then(data => {
+
+        if (data.length === 0) {
+            alert("No more posts");
+            return;
+        }
         
         for(i = 0; i < data.length; i++){
 
