@@ -43,6 +43,7 @@ class Post(models.Model):
 class Comment(models.Model):
     comment = models.AutoField(primary_key=True)
     text = models.CharField(max_length=250, blank=False, null=False)
+    parent_node = models.ForeignKey('self', blank=True, null=True, on_delete=models.PROTECT, default=None, related_name='replies')
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name="comment_post")
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="comment_poster")
     upload_time = models.DateTimeField(default=timezone.now)

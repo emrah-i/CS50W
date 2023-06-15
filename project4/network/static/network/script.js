@@ -287,11 +287,33 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         }
         catch{}
+
+        document.querySelector('#reply_button').addEventListener('click', (event) => {
+            const post = document.querySelector('.post_page').dataset.postid
+            const commentid = event.target.dataset.commentid;
+            const user = document.querySelector('#layout_user_tag').dataset.username;
+            event.target.style.display = 'none';
+
+            event.target.parentElement.innerHTML += `
+            <form action="/reply/${commentid}" method="post">
+                <input hidden value=${post} name="postid">
+                <input disabled value="${user}" id="user_input">
+                <textarea id="comment_text" name="reply_text" placeholder="Enter Comment" required maxlength="250"></textarea><br>
+                <button type="submit">Reply</button>
+            </form>
+            `
+        })
     }
 
     document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page').addEventListener('click', (event) => {
-        const post = event.target.dataset.id;
-        const div_id = event.target.parentElement.id;
+        let post = ''
+        let div_id = ''
+        
+        try {
+        post = event.target.dataset.id;
+        div_id = event.target.parentElement.id;
+        }
+        catch {}
 
         if (event.target.matches('#edit_button')) {
             edit_post(post, div_id);
@@ -404,33 +426,34 @@ function load_posts(value, sort, button) {
             <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>
             `;
 
-            fetch('/auth',{
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data === true) {
-                    if (likes >= 1) {
-                        existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
-                    }
-                    else {
-                        existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-                    }
-
-                    fetch('/like/' + id,{
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
-
-                        if (data === true) {
-                            like_button.dataset.clicked = 'true';
+            if (user !== '') {
+                fetch('/auth',{
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data === true) {
+                        if (likes >= 1) {
+                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
                         }
-                        else if (data === false) {
-                            like_button.dataset.clicked = 'false';
+                        else {
+                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
                         }
-                    })
+
+                        fetch('/like/' + id,{
+                            method: 'GET'
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+                            if (data === true) {
+                                like_button.dataset.clicked = 'true';
+                            }
+                            else if (data === false) {
+                                like_button.dataset.clicked = 'false';
+                            }
+                        })
                 }
 
                 if (username == user) {
@@ -440,6 +463,7 @@ function load_posts(value, sort, button) {
                     existingPost.innerHTML += `<p>${comments}</p>`
                 }
             })
+        }
 
             all_posts.append(existingPost);
 
@@ -674,6 +698,12 @@ function delete_post(id) {
 
 function profile(username, start) {
 
+    user = ''
+    try {
+        user = document.querySelector('#layout_user_tag').dataset.username;
+    }
+    catch {}
+
     innerHTML = `<div class="profile_post" id='profile_post{{ forloop.counter }}'>
     <p>{{ post.text }}</p>
     <p>{{ post.upload_time }}</p>
@@ -682,36 +712,37 @@ function profile(username, start) {
     <button id="edit_button" data-id="{{ post.post }}">Edit</button>
     </div>`
 
-    fetch('/auth',{
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data === true) {
-            if (likes >= 1) {
-                existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
-            }
-            else {
-                existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-            }
-
-            fetch('/like/' + id,{
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
-
-                if (data === true) {
-                    like_button.dataset.clicked = 'true';
+    if (user !== '') {
+        fetch('/auth',{
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data === true) {
+                if (likes >= 1) {
+                    existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
                 }
-                else if (data === false) {
-                    like_button.dataset.clicked = 'false';
+                else {
+                    existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
                 }
-            })
+
+                fetch('/like/' + id,{
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+                    if (data === true) {
+                        like_button.dataset.clicked = 'true';
+                    }
+                    else if (data === false) {
+                        like_button.dataset.clicked = 'false';
+                    }
+                })
         }
     })
-}
+}}
 
 function unfollow(user_uf) {
 

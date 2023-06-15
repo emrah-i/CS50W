@@ -123,8 +123,7 @@ def post(request, post_id):
     else:
         post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
         comment_post = Post.objects.get(pk=post_id)
-        comments = Comment.objects.filter(post=comment_post).values('comment', 'text', 'user__username', 'upload_time').order_by('-upload_time')
-
+        comments = Comment.objects.filter(post=comment_post, parent_node=None).order_by('-upload_time')
 
         post = {
             'id': post[0]['post'],
@@ -366,7 +365,21 @@ def like(request, post_id):
         
         data = False
         return JsonResponse(data, safe=False)
-        
+
+@csrf_exempt  
+@login_required
+def reply(request, commentid):
+    
+    reply_text = request.POST.get('reply_text')
+    postid = request.POST.get('postid')
+    parent_node = Comment.objects.get(pk=commentid)
+    parent_post = Post.objects.get(pk=postid)
+    user = request.user
+
+    new_reply = Comment.objects.create(text=reply_text, user=user, parent_node=parent_node, post=parent_post)
+    new_reply.save()
+
+    return HttpResponseRedirect(reverse('post', args=(postid, )))
 
 @login_required
 def auth(request):
