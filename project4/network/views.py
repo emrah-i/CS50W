@@ -124,6 +124,7 @@ def post(request, post_id):
         post = Post.objects.filter(pk=post_id).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time')
         comment_post = Post.objects.get(pk=post_id)
         comments = Comment.objects.filter(post=comment_post, parent_node=None).order_by('-upload_time')
+        level = 40 
 
         post = {
             'id': post[0]['post'],
@@ -138,7 +139,8 @@ def post(request, post_id):
 
         return render(request, "network/post.html", {
             'post': post,
-            'comments': comments
+            'comments': comments,
+            'level': level
         })
 
 @login_required

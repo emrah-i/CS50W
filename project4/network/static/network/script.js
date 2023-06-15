@@ -288,20 +288,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         catch{}
 
-        document.querySelector('#reply_button').addEventListener('click', (event) => {
-            const post = document.querySelector('.post_page').dataset.postid
-            const commentid = event.target.dataset.commentid;
-            const user = document.querySelector('#layout_user_tag').dataset.username;
-            event.target.style.display = 'none';
+        document.querySelectorAll('.post_comments').forEach((element) => {
+            element.querySelector('#reply_button').addEventListener('click', (event) => {
+                    comment_reply(event);
 
-            event.target.parentElement.innerHTML += `
-            <form action="/reply/${commentid}" method="post">
-                <input hidden value=${post} name="postid">
-                <input disabled value="${user}" id="user_input">
-                <textarea id="comment_text" name="reply_text" placeholder="Enter Comment" required maxlength="250"></textarea><br>
-                <button type="submit">Reply</button>
-            </form>
-            `
+                    element.querySelector('#cancel_reply').addEventListener('click', (event) => {
+                        if (confirm('Are you sure you would like to cancel?')) {
+                            location.reload()
+                        }
+                    })
+                })
         })
     }
 
@@ -344,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const user_f = event.target.dataset.userid;
             follow(user_f);
         }
-        else if (event.target.matches('#like_button') || event.target.parentElement.matches('#like_button')) {
+        else if (event.target.matches('#like_button') || event.target.parentElement.id === 'like_button') {
             if (event.target.matches('#like_button')) {
                 const post = event.target.dataset.postid;
                 like_post(post);
@@ -810,3 +806,21 @@ function like_post(post) {
             console.error('Error:', error);
         });
     }}
+
+function comment_reply(event) {
+
+    const post = document.querySelector('.post_page').dataset.postid
+    const commentid = event.target.dataset.commentid;
+    const user = document.querySelector('#layout_user_tag').dataset.username;
+    event.target.style.display = 'none';
+
+    event.target.parentElement.innerHTML += `
+    <form action="/reply/${commentid}" method="post" id="reply_form">
+        <input hidden value=${post} name="postid">
+        <input disabled value="${user}" id="user_input">
+        <textarea id="comment_text" name="reply_text" placeholder="Enter Comment" required maxlength="250"></textarea><br>
+        <button type="submit">Reply</button>
+        <button type="button" id="cancel_reply">Cancel</button>
+    </form>
+    `
+}

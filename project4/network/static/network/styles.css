@@ -314,11 +314,5 @@ body a:hover {
 .post_page .post_comments {
   border: 2px solid black;
   padding: 10px;
-  margin: 10px 0;
-}
-.post_page .comment_replies {
-  border: 2px solid black;
-  padding: 10px;
-  margin-left: 5vw;
-  margin-top: 0;
+  margin: 5px 0 0 0;
 }/*# sourceMappingURL=styles.css.map */
