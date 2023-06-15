@@ -422,13 +422,44 @@ def catergories(request):
 
 def catergory(request, catergory):
         
-        # posts = Post.objects.filter(catergory=catergory)
-
+        catergorydisplay = {
+            'code': catergory
+        }
+        
+        for choice in CATEGORY_CHOICES:
+            if choice['code'] == catergory:
+                catergorydisplay['display'] = choice['display']
+        
         return render(request, 'network/catergory.html', {
-            'catergory': catergory
+            'catergory': catergorydisplay
         })
 
+def catergory_posts(request, catergory, start, sort):
+    
+    start_post = start
+    end = start_post + 4
 
+    if sort == "new_old":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+    elif sort == "old_new":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+    elif sort == "most_likes":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+    elif sort == "least_likes":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+    elif sort == "most_comments":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+    elif sort == "least_comments":
+        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+
+    for post in posts:
+        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+
+    data = []
+    for post in posts[start_post:end + 1]:
+        data.append(post)
+
+    return JsonResponse(data, safe=False)
 
 @login_required
 def auth(request):

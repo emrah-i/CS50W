@@ -1,6 +1,7 @@
 
 let post_counter = 0
 let following_counter = 0
+let catergor_counter = 0
 let sort = ''
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -301,60 +302,71 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page').addEventListener('click', (event) => {
-        let post = ''
-        let div_id = ''
-        
-        try {
-        post = event.target.dataset.id;
-        div_id = event.target.parentElement.id;
-        }
-        catch {}
+    if (window.location.pathname.startsWith("/catergory/")) {
 
-        if (event.target.matches('#edit_button')) {
-            edit_post(post, div_id);
-        }
-        else if (event.target.matches('#save_edit')) {
-            if (document.querySelector('#edit_text_input').value === '') {
-                alert('Must enter text')
-                return
-            }
-            else if (document.querySelector('#edit_title_input').value === '') {
-                alert('Must enter title')
-                return
-            }
+        const catergory = document.querySelector('#catergory_header').dataset.catergory
+        start = catergor_counter
+
+        load_catergory_posts(catergory, start, sort);
+    }
+
+    try {
+        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #catergory_posts').addEventListener('click', (event) => {
+            let post = ''
+            let div_id = ''
             
-            save_edit(post)
-        }
-        else if (event.target.matches('#cancel_edit')) {
-            location.reload();
-        }
-        else if (event.target.matches('#delete_edit')) {
-            delete_post(post);
-        }
-        else if (event.target.matches('#unfollow_button')) {
-            const user_uf = event.target.dataset.userid;
-            unfollow(user_uf);
-        }
-        else if (event.target.matches('#follow_button')) {
-            const user_f = event.target.dataset.userid;
-            follow(user_f);
-        }
-        else if (event.target.matches('#like_button') || event.target.parentElement.id === 'like_button') {
-            if (event.target.matches('#like_button')) {
-                const post = event.target.dataset.postid;
-                like_post(post);
-            } 
-            else {
-                const post = event.target.parentElement.dataset.postid;
-                like_post(post);
+            try {
+            post = event.target.dataset.id;
+            div_id = event.target.parentElement.id;
             }
-        }
-        else if (event.target.matches('#gtp_button')) {
-            const postid =event.target.dataset.postid
-            window.location = `/post/${postid}`
-        }
-    })
+            catch {}
+
+            if (event.target.matches('#edit_button')) {
+                edit_post(post, div_id);
+            }
+            else if (event.target.matches('#save_edit')) {
+                if (document.querySelector('#edit_text_input').value === '') {
+                    alert('Must enter text')
+                    return
+                }
+                else if (document.querySelector('#edit_title_input').value === '') {
+                    alert('Must enter title')
+                    return
+                }
+                
+                save_edit(post)
+            }
+            else if (event.target.matches('#cancel_edit')) {
+                location.reload();
+            }
+            else if (event.target.matches('#delete_edit')) {
+                delete_post(post);
+            }
+            else if (event.target.matches('#unfollow_button')) {
+                const user_uf = event.target.dataset.userid;
+                unfollow(user_uf);
+            }
+            else if (event.target.matches('#follow_button')) {
+                const user_f = event.target.dataset.userid;
+                follow(user_f);
+            }
+            else if (event.target.matches('#like_button') || event.target.parentElement.id === 'like_button') {
+                if (event.target.matches('#like_button')) {
+                    const post = event.target.dataset.postid;
+                    like_post(post);
+                } 
+                else {
+                    const post = event.target.parentElement.dataset.postid;
+                    like_post(post);
+                }
+            }
+            else if (event.target.matches('#gtp_button')) {
+                const postid =event.target.dataset.postid
+                window.location = `/post/${postid}`
+            }
+        })
+    }
+    catch{}
 })
 
 function load_posts(value, sort, button) {
@@ -552,6 +564,95 @@ function load_following_posts(start, sort) {
             }
 
             main_div.append(followingPost);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function load_catergory_posts(catergory, start, sort) {
+
+    const main_div = document.querySelector('#catergory_posts');
+    const user = document.querySelector('#layout_user_tag').dataset.user;
+    const effects = document.querySelector('#item_effects').value;
+
+    fetch(`/catergory_posts/${catergory}/${start}/${sort}`, {
+        method: "GET"
+    })
+    .then(reponse => reponse.json())
+    .then(data => {
+        
+        for(i = 0; i < data.length; i++){
+
+            const catergoryPost = document.createElement('div');
+            catergoryPost.id = 'catergor_post' + i;
+            catergoryPost.className = 'catergory_post';
+
+            if (effects === 'on') {
+                catergoryPost.dataset.effects = 'True';
+            }
+            else {
+                catergoryPost.dataset.effects = 'False';
+            }
+
+            const id = data[i].post
+            const title = data[i].title
+            const text = data[i].text
+            const username = data[i].user__username
+            const likes = data[i].likes
+            const comments = data[i].comments
+            const upload_time = data[i].upload_time
+
+            catergoryPost.innerHTML = 
+            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
+            <hr>
+            <h5 id="post_title">${title}</h5>
+            <hr>
+            <p id="post_text">${text}</p>
+            <p id="timestamp">${upload_time}</p>
+            <p>Comment</p>
+            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
+            `;
+
+            fetch('/auth',{
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data === true) {
+                    if (likes >= 1) {
+                        catergoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+                    }
+                    else {
+                        catergoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
+                    }
+
+                    fetch('/like/' + id,{
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+
+                        if (data === true) {
+                            like_button.dataset.clicked = 'true';
+                        }
+                        else if (data === false) {
+                            like_button.dataset.clicked = 'false';
+                        }
+                    })
+                }
+            })
+    
+            if (username == user) {
+                catergoryPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
+            }
+            if (comments !== null) {
+                catergoryPost.innerHTML += `<p>${comments}</p>`
+            }
+
+            main_div.append(catergoryPost);
         }
     })
     .catch(error => {

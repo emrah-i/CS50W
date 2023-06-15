@@ -20,6 +20,7 @@ urlpatterns = [
     path("like/<int:post_id>", views.like, name="like"),
     path("catergories", views.catergories, name="catergories"),
     path("catergory/<str:catergory>", views.catergory, name="catergory"),
+    path("catergory_posts/<str:catergory>/<int:start>/<str:sort>", views.catergory_posts, name="catergory_posts"),
     path("reply/<int:commentid>", views.reply, name="reply"),
     path("auth", views.auth, name="auth")
 ]
