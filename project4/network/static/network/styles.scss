@@ -125,6 +125,14 @@ body {
         #open_following:hover, #open_followers:hover {
             text-decoration: underline;
         }
+
+        table {
+            width: 20%;
+        }
+
+        button {
+            margin-top: 5px;
+        }
     }
 
     #filters {
@@ -164,14 +172,6 @@ body {
 
     #user_input {
         margin: 10px 5%;
-    }
-
-    #user_info {
-        background-color: rgb(34, 129, 216);
-
-        #open_following:hover, #open_followers:hover {
-            text-decoration: underline;
-        }
     }
 
     #following_user_link {
@@ -389,12 +389,12 @@ body {
     }
 }
 
-#catergory_posts {
+#category_posts {
 
     margin: 10px auto 10px auto;
     width: 90vw;
 
-    .catergory_post {
+    .category_post {
         background-color: rgb(34, 129, 216);
         width: 100%;
         margin: 10px 0;

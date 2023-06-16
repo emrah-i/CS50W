@@ -189,6 +189,7 @@ def profile(request, username):
         'username': user.username,
         'following': len(user_following),
         'followers': len(user_followers),
+        'avatar': user.avatar
     }
 
     following = UserFollow.objects.filter(user = user).values('is_now_following')
@@ -434,17 +435,17 @@ def category_posts(request, category, start, sort):
     end = start_post + 4
 
     if sort == "new_old":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-upload_time')
     elif sort == "old_new":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('upload_time')
     elif sort == "most_likes":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-like_count')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-like_count')
     elif sort == "least_likes":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('like_count')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('like_count')
     elif sort == "most_comments":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-comments')
     elif sort == "least_comments":
-        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+        posts = Post.objects.filter(category=category).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('comments')
 
     for post in posts:
         post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")

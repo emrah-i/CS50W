@@ -1,5 +1,6 @@
 {% extends "network/layout.html" %}
 {% load myfilter %}
+{% load static %}
 
 {% block body %}
 <div id="dialog_backdrop"></div>
@@ -53,18 +54,31 @@
             </dialog>
             </div>
         <div id="user_info">
-            <h3>{{ user_info.username }}</h3>
-            <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
-            <p><span id="open_following">Following: {{ user_info.following }}</span></p>
-            {% if user.is_authenticated and user.username != user_info.username %}
-            {% for follower in follower_users %}
-                {% if user.username == follower.username %}
-                <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
-                {% endif %}
-            {% empty %}
-                <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
-            {% endfor %}
-            {% endif %}
+            <table>
+                <tr>
+                    <td>
+                        <img src="{% static user_info.avatar %}" alt="My Image" width="150"></img>
+                    </td>
+                    <td>
+                        <h3>{{ user_info.username }}</h3>
+                        <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
+                        <p><span id="open_following">Following: {{ user_info.following }}</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% if user.is_authenticated and user.username != user_info.username %}
+                        {% for follower in follower_users %}
+                            {% if user.username == follower.username %}
+                            <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+                            {% endif %}
+                        {% empty %}
+                        <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
         </div>
         {% if user.username == user_info.username %}
         <h2>All My Posts</h2>

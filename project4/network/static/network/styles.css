@@ -105,6 +105,12 @@ body a:hover {
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
   text-decoration: underline;
 }
+#profile_posts #user_info table {
+  width: 20%;
+}
+#profile_posts #user_info button {
+  margin-top: 5px;
+}
 #profile_posts #filters {
   background-color: rgb(34, 129, 216);
   width: 100%;
@@ -136,12 +142,6 @@ body a:hover {
 }
 #following_posts #user_input {
   margin: 10px 5%;
-}
-#following_posts #user_info {
-  background-color: rgb(34, 129, 216);
-}
-#following_posts #user_info #open_following:hover, #following_posts #user_info #open_followers:hover {
-  text-decoration: underline;
 }
 #following_posts #following_user_link {
   color: white;
@@ -326,11 +326,11 @@ body a:hover {
   margin: 0 15%;
 }
 
-#catergory_posts {
+#category_posts {
   margin: 10px auto 10px auto;
   width: 90vw;
 }
-#catergory_posts .catergory_post {
+#category_posts .category_post {
   background-color: rgb(34, 129, 216);
   width: 100%;
   margin: 10px 0;
@@ -338,17 +338,17 @@ body a:hover {
   border: 1px solid black;
   border-radius: 6px;
 }
-#catergory_posts #user_heading {
+#category_posts #user_heading {
   font-weight: 600;
   color: white;
   font-size: 1.5em;
 }
-#catergory_posts #user_input {
+#category_posts #user_input {
   margin: 10px 5%;
 }
-#catergory_posts #user_info {
+#category_posts #user_info {
   background-color: rgb(34, 129, 216);
 }
-#catergory_posts #user_info #open_following:hover, #catergory_posts #user_info #open_followers:hover {
+#category_posts #user_info #open_following:hover, #category_posts #user_info #open_followers:hover {
   text-decoration: underline;
 }/*# sourceMappingURL=styles.css.map */
