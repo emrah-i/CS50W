@@ -57,7 +57,7 @@ class Post(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name="post_poster")
     likes = models.ManyToManyField('User', blank=True, related_name="post_ikers")
     comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE, related_name="post_comments")
-    catergory = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
     upload_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

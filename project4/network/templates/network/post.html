@@ -65,7 +65,7 @@
                         {% if user.is_authenticated %}
                         <button type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
                         {% if user == comment.user %}
-                        <button>Delete</button>
+                        <button id="delete_comment" data-commentid="{{ comment.comment }}">Delete</button>
                         {% endif %}
                         {% endif %}
                     </div>

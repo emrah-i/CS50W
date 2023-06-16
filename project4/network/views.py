@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -109,17 +110,17 @@ def posts(request):
         sort = request.GET.get('sort')
 
         if sort == "new_old":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-upload_time')
         elif sort == "old_new":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('upload_time')
         elif sort == "most_likes":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-like_count')
         elif sort == "least_likes":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('like_count')
         elif sort == "most_comments":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-comments')
         elif sort == "least_comments":
-            posts = Post.objects.all().values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+            posts = Post.objects.all().annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('comments')
 
         for post in posts:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
@@ -193,7 +194,6 @@ def profile(request, username):
     following = UserFollow.objects.filter(user = user).values('is_now_following')
     followers = UserFollow.objects.filter(is_now_following = user).values('user')
 
-
     following_users = []
     for follow in following:
         current_user = User.objects.get(id = follow['is_now_following'])
@@ -216,23 +216,20 @@ def profile(request, username):
             }
         )
 
-    posts = Post.objects.filter(user = user).all().values('post', 'title', 'text', 'likes','likes__username', 'comments', 'upload_time')
+    posts = Post.objects.filter(user = user).annotate(like_count=Count('likes')).values('like_count', 'post', 'comments', 'category', 'upload_time', 'title', 'text', 'user')
+    likers = Post.objects.filter(user = user).values_list('likes__username', flat=True)
 
     for post in posts:
-        if post['likes'] == None:
-            post['likes'] = 0
 
-        likers = Post.objects.get(pk=post['post'])
-        likers_list = likers.likes.all()
-        likers_list = [liker.username for liker in likers_list]
+        post['comments_count'] = 0
+        post['liked'] = False
 
-        if post['likes'] > 0:
-            if request.user.username in likers_list:
+        if post.get('like_count') != 0:
+            if request.user.username in likers:
                 post['liked'] = True
-            else:
-                post['liked'] = False
-        else:
-            post['liked'] = False
+
+        if post.get('comments') != None:
+            post['comments_count'] = len(post.get('comments'))
     
     return render(request, "network/profile.html", {
         'posts': posts,
@@ -279,17 +276,17 @@ def following_posts(request, start, sort):
         following.append(User.objects.get(pk=user))
 
     if sort == "new_old":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-upload_time')
     elif sort == "old_new":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('upload_time')
     elif sort == "most_likes":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-like_count')
     elif sort == "least_likes":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('like_count')
     elif sort == "most_comments":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('-comments')
     elif sort == "least_comments":
-        following_posts = Post.objects.filter(user__in = following).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+        following_posts = Post.objects.filter(user__in = following).annotate(like_count=Count('likes')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comments', 'upload_time').order_by('comments')
 
     data = []
     for post in following_posts[start_post:end + 1]:
@@ -363,26 +360,23 @@ def follow(request, user_f):
 def like(request, post_id):
 
     try:
-        user = request.user
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
 
+    user = request.user
     
     if request.method == "POST":
 
         post.likes.add(user)
-        data = {'message': 'Post request processed successfully'}
-        return JsonResponse(data, safe=True)
+        return HttpResponse(status=204)
 
     elif request.method == "PUT": 
 
         post.likes.remove(user)
-        data = {'message': 'Put request processed successfully'}
-        return JsonResponse(data, safe=True)
+        return HttpResponse(status=204)
 
     else:
-
         for liker in post.likes.all():
             if user == liker:
                 data = True
@@ -406,51 +400,51 @@ def reply(request, commentid):
 
     return HttpResponseRedirect(reverse('post', args=(postid, )))
 
-def catergories(request):
+def categories(request):
 
     if request.method == "POST":
         
-        catergory = request.POST.get('catergory')
+        category = request.POST.get('category')
 
-        return HttpResponseRedirect(reverse('catergory', args=(catergory, )))
+        return HttpResponseRedirect(reverse('category', args=(category, )))
 
     else:
 
-        return render(request, 'network/catergories.html', {
-            'catergories': CATEGORY_CHOICES,
+        return render(request, 'network/categories.html', {
+            'categories': CATEGORY_CHOICES,
         })
 
-def catergory(request, catergory):
+def category(request, category):
         
-        catergorydisplay = {
-            'code': catergory
+        categorydisplay = {
+            'code': category
         }
         
         for choice in CATEGORY_CHOICES:
-            if choice['code'] == catergory:
-                catergorydisplay['display'] = choice['display']
+            if choice['code'] == category:
+                categorydisplay['display'] = choice['display']
         
-        return render(request, 'network/catergory.html', {
-            'catergory': catergorydisplay
+        return render(request, 'network/category.html', {
+            'category': categorydisplay
         })
 
-def catergory_posts(request, catergory, start, sort):
+def category_posts(request, category, start, sort):
     
     start_post = start
     end = start_post + 4
 
     if sort == "new_old":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-upload_time')
     elif sort == "old_new":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('upload_time')
     elif sort == "most_likes":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-likes')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-like_count')
     elif sort == "least_likes":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('likes')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('like_count')
     elif sort == "most_comments":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('-comments')
     elif sort == "least_comments":
-        posts = Post.objects.filter(catergory=catergory).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
+        posts = Post.objects.filter(catergory=category).values('post', 'title', 'text','user', 'user__username', 'likes', 'comments', 'upload_time').order_by('comments')
 
     for post in posts:
         post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
@@ -470,3 +464,20 @@ def auth(request):
     else:
         user = False
         return JsonResponse(user, safe=False)
+    
+@csrf_exempt
+@login_required 
+def comment(request, commentid): 
+
+    try:
+        comment = Comment.objects.get(pk=commentid)
+    except Comment.DoesNotExist:
+        return JsonResponse({"error": "Comment not found."}, status=404)
+
+    data = json.loads(request.body)
+    title = data.get('title')
+    text = data.get('text')
+    comment.text = text
+    comment.save()
+    return HttpResponse(status=204)
+

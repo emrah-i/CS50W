@@ -1,7 +1,7 @@
 
 let post_counter = 0
 let following_counter = 0
-let catergory_counter = 0
+let category_counter = 0
 let sort = ''
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -274,13 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
 
-        document.querySelector('#user_page_route').addEventListener('click', (event) => {
-            username = event.target.dataset.username
-            sort = localStorage.getItem('sort')
-
-            window.location = '/profile/' + username + '?sort=' + sort
-        })
-
         try { document.querySelector('#pp_edit_button').addEventListener('click', (event) => {
             const postid = event.target.dataset.id;
 
@@ -290,36 +283,64 @@ document.addEventListener("DOMContentLoaded", () => {
         catch{}
 
         document.querySelectorAll('.post_comments').forEach((element) => {
-            element.querySelector('#reply_button').addEventListener('click', (event) => {
-                    comment_reply(event);
+            const replyButton = element.querySelector('#reply_button');
+            const cancelButton = element.querySelector('#cancel_reply');
+            const deleteButton = element.querySelector('#delete_comment');
+            const userButton = element.querySelector('#user_page_route');
 
-                    element.querySelector('#cancel_reply').addEventListener('click', (event) => {
-                        if (confirm('Are you sure you would like to cancel?')) {
-                            location.reload()
-                        }
-                    })
+
+
+            if (replyButton) {
+                replyButton.addEventListener('click', (event) => {
+                comment_reply(event);
+             });
+
+            if (cancelButton) {
+                cancelButton.addEventListener('click', () => {
+                if (confirm('Are you sure you would like to cancel?')) {
+                    location.reload();
+                }
+                });
+            }
+
+            if (userButton) {
+                userButton.addEventListener('click', (event) => {
+                    username = event.target.dataset.username
+                    sort = localStorage.getItem('sort')
+        
+                    window.location = '/profile/' + username + '?sort=' + sort
                 })
-        })
+            }
+  }
+
+  if (deleteButton) {
+    deleteButton.addEventListener('click', (event) => {
+      if (confirm('Are you sure you would like to delete this reply?')) {
+        delete_comment(event);
+      }
+    });
+  }
+});
     }
 
-    if (window.location.pathname.startsWith("/catergory/")) {
+    if (window.location.pathname.startsWith("/category/")) {
 
-        const catergory = document.querySelector('#catergory_header').dataset.catergory
-        start = catergory_counter
+        const category = document.querySelector('#category_header').dataset.category
+        start = category_counter
 
         document.querySelector('#load_more_button').addEventListener('click', (event) => {
-            catergory_counter += 5
-            new_start = catergory_counter 
+            category_counter += 5
+            new_start = category_counter 
 
-            load_catergory_posts(catergory, new_start, sort);
+            load_category_posts(category, new_start, sort);
         })
 
-        load_catergory_posts(catergory, start, sort);
+        load_category_posts(category, start, sort);
 
         document.querySelector('#item_effects').addEventListener('change', (event) => {
             if (event.target.value === "on") {
                 document.querySelector('#filters').dataset.effects = 'True';
-                document.querySelectorAll('.catergory_post').forEach((element) => {
+                document.querySelectorAll('.category_post').forEach((element) => {
                     element.dataset.effects = 'True';
                 })
                 
@@ -330,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else {
                 document.querySelector('#filters').dataset.effects = 'False';
-                document.querySelectorAll('.catergory_post').forEach((element) => {
+                document.querySelectorAll('.category_post').forEach((element) => {
                     element.dataset.effects = 'False';
                 })
 
@@ -343,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #catergory_posts').addEventListener('click', (event) => {
+        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #category_posts').addEventListener('click', (event) => {
             let post = ''
             let div_id = ''
             
@@ -451,7 +472,7 @@ function load_posts(value, sort, button) {
             const title = data[i].title
             const text = data[i].text
             const username = data[i].user__username
-            const likes = data[i].likes
+            const like_count = data[i].like_count
             const comments = data[i].comments
             const upload_time = data[i].upload_time
 
@@ -473,8 +494,8 @@ function load_posts(value, sort, button) {
                 .then(response => response.json())
                 .then(data => {
                     if (data === true) {
-                        if (likes >= 1) {
-                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+                        if (like_count >= 1) {
+                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
                         }
                         else {
                             existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
@@ -543,7 +564,7 @@ function load_following_posts(start, sort) {
             const title = data[i].title
             const text = data[i].text
             const username = data[i].user__username
-            const likes = data[i].likes
+            const like_count = data[i].like_count
             const comments = data[i].comments
             const upload_time = data[i].upload_time
 
@@ -564,8 +585,8 @@ function load_following_posts(start, sort) {
             .then(response => response.json())
             .then(data => {
                 if (data === true) {
-                    if (likes >= 1) {
-                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+                    if (like_count >= 1) {
+                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
                     }
                     else {
                         followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
@@ -603,13 +624,13 @@ function load_following_posts(start, sort) {
     });
 }
 
-function load_catergory_posts(catergory, start, sort) {
+function load_category_posts(category, start, sort) {
 
-    const main_div = document.querySelector('#catergory_posts');
+    const main_div = document.querySelector('#category_posts');
     const user = document.querySelector('#layout_user_tag').dataset.user;
     const effects = document.querySelector('#item_effects').value;
 
-    fetch(`/catergory_posts/${catergory}/${start}/${sort}`, {
+    fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
     })
     .then(reponse => reponse.json())
@@ -622,26 +643,26 @@ function load_catergory_posts(catergory, start, sort) {
         
         for(i = 0; i < data.length; i++){
 
-            const catergoryPost = document.createElement('div');
-            catergoryPost.id = 'catergor_post' + i;
-            catergoryPost.className = 'catergory_post';
+            const categoryPost = document.createElement('div');
+            categoryPost.id = 'category_post' + i;
+            categoryPost.className = 'category_post';
 
             if (effects === 'on') {
-                catergoryPost.dataset.effects = 'True';
+                categoryPost.dataset.effects = 'True';
             }
             else {
-                catergoryPost.dataset.effects = 'False';
+                categoryPost.dataset.effects = 'False';
             }
 
             const id = data[i].post
             const title = data[i].title
             const text = data[i].text
             const username = data[i].user__username
-            const likes = data[i].likes
+            const like_count = data[i].like_count
             const comments = data[i].comments
             const upload_time = data[i].upload_time
 
-            catergoryPost.innerHTML = 
+            categoryPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <hr>
             <h5 id="post_title">${title}</h5>
@@ -658,11 +679,11 @@ function load_catergory_posts(catergory, start, sort) {
             .then(response => response.json())
             .then(data => {
                 if (data === true) {
-                    if (likes >= 1) {
-                        catergoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
+                    if (like_count >= 1) {
+                        categoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
                     }
                     else {
-                        catergoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
+                        categoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
                     }
 
                     fetch('/like/' + id,{
@@ -683,13 +704,13 @@ function load_catergory_posts(catergory, start, sort) {
             })
     
             if (username == user) {
-                catergoryPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
+                categoryPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
             }
             if (comments !== null) {
-                catergoryPost.innerHTML += `<p>${comments}</p>`
+                categoryPost.innerHTML += `<p>${comments}</p>`
             }
 
-            main_div.append(catergoryPost);
+            main_div.append(categoryPost);
         }
     })
     .catch(error => {
@@ -950,6 +971,7 @@ function comment_reply(event) {
     const post = document.querySelector('.post_page').dataset.postid
     const commentid = event.target.dataset.commentid;
     const user = document.querySelector('#layout_user_tag').dataset.username;
+    document.querySelector('#delete_comment').style.display = 'none';
     event.target.style.display = 'none';
 
     event.target.parentElement.innerHTML += `
@@ -961,4 +983,23 @@ function comment_reply(event) {
         <button type="button" id="cancel_reply">Cancel</button>
     </form>
     `
+}
+
+function delete_comment(event) {
+    
+    const id = event.target.dataset.commentid;
+    console.log(id)
+    
+    fetch('/comment/' + id, {
+        method: "PUT",
+        body: JSON.stringify ({
+            text: '[DELETED]'
+        })
+    })
+    .then(response =>
+        location.reload()
+    )
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }

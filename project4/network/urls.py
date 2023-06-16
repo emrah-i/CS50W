@@ -18,9 +18,10 @@ urlpatterns = [
     path("unfollow/<int:user_uf>", views.unfollow, name="unfollow"),
     path("follow/<int:user_f>", views.follow, name="follow"),
     path("like/<int:post_id>", views.like, name="like"),
-    path("catergories", views.catergories, name="catergories"),
-    path("catergory/<str:catergory>", views.catergory, name="catergory"),
-    path("catergory_posts/<str:catergory>/<int:start>/<str:sort>", views.catergory_posts, name="catergory_posts"),
+    path("categories", views.categories, name="categories"),
+    path("category/<str:category>", views.category, name="category"),
+    path("category_posts/<str:category>/<int:start>/<str:sort>", views.category_posts, name="category_posts"),
+    path("comment/<str:commentid>", views.comment, name="comment"),
     path("reply/<int:commentid>", views.reply, name="reply"),
     path("auth", views.auth, name="auth")
 ]
