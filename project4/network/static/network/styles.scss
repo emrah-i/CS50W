@@ -88,6 +88,16 @@ body {
     margin: 10px auto 10px auto;
     width: 90vw;
 
+    #category_input {
+        margin: 10px 5%;
+        border-radius: 6px;
+        height: 4vh;
+    }
+
+    #new_post_buttons {
+        margin: 10px 5%;
+    }
+
 }
 
 #new_post[data-effects='True']:hover, .profile_post[data-effects='True']:hover, #user_info[data-effects='True']:hover, .posts[data-effects='True']:hover, .following_posts[data-effects='True']:hover, #filters[data-effects='True']:hover, #catergory_posts[data-effects='True']:hover {
@@ -234,7 +244,6 @@ body {
     border-radius: 8px;
     border-style: solid;
     border-color: black;
-    height: 5vh;
 }
 
 #like_button[data-clicked="true"]:hover {
@@ -315,7 +324,7 @@ body {
 }
 
 #profile_user_link {
-    color: white;
+    color: black;
 }
 
 #filters {

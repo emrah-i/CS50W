@@ -5,16 +5,16 @@ register = template.Library()
 @register.filter
 def sort_posts(posts, sort):
     if sort == "new_old":
-        return sorted(posts, key=lambda post: post.get('upload_time'), reverse=True)
+        return sorted(posts, key=lambda post: post['upload_time'], reverse=True)
     elif sort == "old_new":
-        return sorted(posts, key=lambda post: post.get('upload_time'))
+        return sorted(posts, key=lambda post: post['upload_time'])
     elif sort == "most_likes":
-        return sorted(posts, key=lambda post: post.get('like_count'), reverse=True)
+        return sorted(posts, key=lambda post: post['like_count'], reverse=True)
     elif sort == "least_likes":
-        return sorted(posts, key=lambda post: post.get('like_count'))
+        return sorted(posts, key=lambda post: post['like_count'])
     elif sort == "most_comments":
-        return sorted(posts, key=lambda post: post.get('comments_count'), reverse=True)
+        return sorted(posts, key=lambda post: post['comment_count'], reverse=True)
     elif sort == "least_comments":
-        return sorted(posts, key=lambda post: post.get('comments_count'))
+        return sorted(posts, key=lambda post: post['comment_count'])
     else:
         return posts

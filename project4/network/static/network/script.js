@@ -4,6 +4,29 @@ let following_counter = 0
 let category_counter = 0
 let sort = ''
 
+CATEGORY_CHOICES = [
+    {'code': 'general', 'display': 'General Discussion'},
+    {'code': 'help', 'display': 'Help and Support'},
+    {'code': 'suggestions', 'display': 'Suggestions and Feedback'},
+    {'code': 'introductions', 'display': 'Introductions'},
+    {'code': 'offtopic', 'display': 'Off-Topic Discussion'},
+    {'code': 'news', 'display': 'News and Announcements'},
+    {'code': 'technology', 'display': 'Technology and Gadgets'},
+    {'code': 'entertainment', 'display': 'Entertainment and Media'},
+    {'code': 'sports', 'display': 'Sports and Fitness'},
+    {'code': 'education', 'display': 'Education and Learning'},
+    {'code': 'arts', 'display': 'Arts and Creativity'},
+    {'code': 'food', 'display': 'Food and Cooking'},
+    {'code': 'travel', 'display': 'Travel and Adventure'},
+    {'code': 'music', 'display': 'Music and Audio'},
+    {'code': 'movies', 'display': 'Movies and TV Shows'},
+    {'code': 'books', 'display': 'Books and Literature'},
+    {'code': 'fashion', 'display': 'Fashion and Style'},
+    {'code': 'health', 'display': 'Health and Wellness'},
+    {'code': 'politics', 'display': 'Politics and Current Events'},
+    {'code': 'business', 'display': 'Business and Entrepreneurship'},
+]
+
 document.addEventListener("DOMContentLoaded", () => {
 
     try {
@@ -473,17 +496,25 @@ function load_posts(value, sort, button) {
             const text = data[i].text
             const username = data[i].user__username
             const like_count = data[i].like_count
-            const comments = data[i].comments
+            const comments = data[i].comment_count
             const upload_time = data[i].upload_time
+
+            category = data[i].category
+            for (j = 0; j < CATEGORY_CHOICES.length; j++) {
+                if (CATEGORY_CHOICES[j].code === category) {
+                    category = CATEGORY_CHOICES[j].display
+                }
+            }
 
             existingPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <hr>
             <h5 id="post_title">${title}</h5>
             <hr>
+            <p id="post_category">${category}</p>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
-            <p>Comment</p>   
+            <p>${comments} Comments</p>   
             <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>
             `;
 
@@ -519,9 +550,6 @@ function load_posts(value, sort, button) {
 
                 if (username == user) {
                     existingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
-                }
-                if (comments !== null) {
-                    existingPost.innerHTML += `<p>${comments}</p>`
                 }
             })
         }
@@ -565,17 +593,25 @@ function load_following_posts(start, sort) {
             const text = data[i].text
             const username = data[i].user__username
             const like_count = data[i].like_count
-            const comments = data[i].comments
+            const comments = data[i].comment_count
             const upload_time = data[i].upload_time
+
+            category = data[i].category
+            for (j = 0; j < CATEGORY_CHOICES.length; j++) {
+                if (CATEGORY_CHOICES[j].code === category) {
+                    category = CATEGORY_CHOICES[j].display
+                }
+            }
 
             followingPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <hr>
             <h5 id="post_title">${title}</h5>
             <hr>
+            <p id="post_category">${category}</p>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
-            <p>Comment</p>
+            <p>${comments} Comments</p>
             <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
             `;
 
@@ -611,9 +647,6 @@ function load_following_posts(start, sort) {
     
             if (username == user) {
                 followingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
-            }
-            if (comments !== null) {
-                followingPost.innerHTML += `<p>${comments}</p>`
             }
 
             main_div.append(followingPost);
@@ -659,17 +692,25 @@ function load_category_posts(category, start, sort) {
             const text = data[i].text
             const username = data[i].user__username
             const like_count = data[i].like_count
-            const comments = data[i].comments
+            const comments = data[i].comment_count
             const upload_time = data[i].upload_time
+
+            category = data[i].category
+            for (j = 0; j < CATEGORY_CHOICES.length; j++) {
+                if (CATEGORY_CHOICES[j].code === category) {
+                    category = CATEGORY_CHOICES[j].display
+                }
+            }
 
             categoryPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <hr>
             <h5 id="post_title">${title}</h5>
             <hr>
+            <p id="post_category">${category}</p>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
-            <p>Comment</p>
+            <p>${comments} Comments</p>
             <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
             `;
 
@@ -706,9 +747,6 @@ function load_category_posts(category, start, sort) {
             if (username == user) {
                 categoryPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
             }
-            if (comments !== null) {
-                categoryPost.innerHTML += `<p>${comments}</p>`
-            }
 
             main_div.append(categoryPost);
         }
@@ -741,8 +779,15 @@ function load_new_post(event) {
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <input required type="text" name="title" id="title_input" placeholder="Enter Title" name="title"><br>
             <textarea required placeholder="Text" name="text" id="text_input"></textarea><br>
-            <button type="submit">Submit</button>
-            <button type="button" id="cancel">Cancel</button>
+            <select required name="category" id="category_input">
+                <option selected disabled>Select Category</option>
+                ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
+            </select>
+            <br>
+            <div id="new_post_buttons">
+                <button type="submit">Submit</button>
+                <button type="button" id="cancel">Cancel</button>
+            </div>
         </form>`;
 
         existing.append(newPost);
