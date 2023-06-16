@@ -695,19 +695,11 @@ function load_category_posts(category, start, sort) {
             const comments = data[i].comment_count
             const upload_time = data[i].upload_time
 
-            category = data[i].category
-            for (j = 0; j < CATEGORY_CHOICES.length; j++) {
-                if (CATEGORY_CHOICES[j].code === category) {
-                    category = CATEGORY_CHOICES[j].display
-                }
-            }
-
             categoryPost.innerHTML = 
             `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
             <hr>
             <h5 id="post_title">${title}</h5>
             <hr>
-            <p id="post_category">${category}</p>
             <p id="post_text">${text}</p>
             <p id="timestamp">${upload_time}</p>
             <p>${comments} Comments</p>

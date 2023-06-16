@@ -14,6 +14,11 @@
                 </td>
             </tr>
             <tr>
+                <td id="pp_category">
+                    {{ post.category }}
+                </td>
+            </tr>
+            <tr>
                 <td id="pp_text">
                     {{ post.text }}
                 </td>
@@ -53,9 +58,10 @@
             </tr>
             <tr>
                 <td>
-                    {% if comments == 0 %}
+                    {% if post.comments == 0 %}
                     <p>No Comments</p>
                     {% else %}
+                    <p>{{ post.comments }} Comments</p>
                     {% for comment in comments %}
                     <div id="comment{{ comment.comment }}" class="post_comments">
                         <p id="user_page_route" data-username="{{ comment.user }}">{{ comment.user }}</p>
