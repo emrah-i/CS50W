@@ -324,13 +324,42 @@ def edit(request, post_id):
 
         post.delete()
     
+    else:   
+
+        data = {
+            'post': post.post,
+            'text': post.text,
+            'title': post.title
+        }
+
+        return JsonResponse(data, safe=False)
+    
+@csrf_exempt
+@login_required
+def edit_comment(request, comment_id):
+
+    try:
+        comment = Comment.objects.get(user=request.user, pk=comment_id)
+    except Comment.DoesNotExist:
+        return JsonResponse({"error": "Comment not found."}, status=404)
+    
+    if request.method == "PUT":
+
+        data = json.loads(request.body)
+        if data.get("text") is not None:
+            comment.text = data["text"]
+        comment.upload_time = str(timezone.now())
+        comment.save()
+        return HttpResponse(status=204)
+    
+    elif request.method == "DELETE":
+
+        comment.delete()
+    
     else:
-        post_data = Post.objects.get(pk=post_id)
         
         data = {
-            'post': post_data.post,
-            'text': post_data.text,
-            'title': post_data.title
+            'text': comment.text,
         }
 
         return JsonResponse(data, safe=False)
@@ -478,7 +507,6 @@ def comment(request, commentid):
         return JsonResponse({"error": "Comment not found."}, status=404)
 
     data = json.loads(request.body)
-    title = data.get('title')
     text = data.get('text')
     comment.text = text
     comment.save()

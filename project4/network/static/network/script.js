@@ -279,6 +279,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.location.pathname.startsWith("/post/")) {
 
+        clickCounter = 0
+
         const url = window.location.pathname
         const id = url.split('/').pop()
 
@@ -297,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
 
-        try { document.querySelector('#pp_edit_button').addEventListener('click', (event) => {
+        try {document.querySelector('#pp_edit_button').addEventListener('click', (event) => {
             const postid = event.target.dataset.id;
 
             post_page_edit(postid);
@@ -307,24 +309,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelectorAll('.post_comments').forEach((element) => {
             const replyButton = element.querySelector('#reply_button');
-            const cancelButton = element.querySelector('#cancel_reply');
             const deleteButton = element.querySelector('#delete_comment');
-            const userButton = element.querySelector('#user_page_route');
-
-
+            const editButton = element.querySelector('#edit_comment');
+            let userButton = element.querySelector('#user_page_route');
 
             if (replyButton) {
                 replyButton.addEventListener('click', (event) => {
                 comment_reply(event);
-             });
 
-            if (cancelButton) {
+                let cancelButton = element.querySelector('#cancel_reply');
+
                 cancelButton.addEventListener('click', () => {
-                if (confirm('Are you sure you would like to cancel?')) {
-                    location.reload();
-                }
-                });
+                    if (confirm('Are you sure you would like to cancel?')) {
+                        location.reload();
+                    }
+                    });
+
+                userButton = element.querySelector('#user_page_route');
+
+                userButton.addEventListener('click', (event) => {
+                    username = event.target.dataset.username
+                    sort = localStorage.getItem('sort')
+        
+                    window.location = '/profile/' + username + '?sort=' + sort
+                    });
+            });
             }
+
 
             if (userButton) {
                 userButton.addEventListener('click', (event) => {
@@ -332,18 +343,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     sort = localStorage.getItem('sort')
         
                     window.location = '/profile/' + username + '?sort=' + sort
-                })
+                });
             }
-  }
 
-  if (deleteButton) {
-    deleteButton.addEventListener('click', (event) => {
-      if (confirm('Are you sure you would like to delete this reply?')) {
-        delete_comment(event);
-      }
+            if (deleteButton) {
+                deleteButton.addEventListener('click', (event) => {
+                if (confirm('Are you sure you would like to delete this reply?')) {
+                    delete_comment(event);
+                }
+                });
+            }
+
+            if (editButton) {
+                editButton.addEventListener('click', (event) => {
+                    comment_id = event.target.dataset.commentid;
+                    edit_comment(comment_id);
+
+                    const submitButton = element.querySelector('#submit_comment_edit');
+
+                    submitButton.addEventListener('click', () => {
+                        submit_comment_edit(comment_id)
+                    })
+
+                    let cancelButton = element.querySelector('#cancel_reply');
+
+                    cancelButton.addEventListener('click', () => {
+                        if (confirm('Are you sure you would like to cancel?')) {
+                            location.reload();
+                        }
+                        });
+                });
+            }
     });
-  }
-});
     }
 
     if (window.location.pathname.startsWith("/category/")) {
@@ -426,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const user_f = event.target.dataset.userid;
                 follow(user_f);
             }
-            else if (event.target.matches('#like_button') || event.target.parentElement.id === 'like_button') {
+            else if (event.target.matches('#like_button') || event.target.closest('#like_button')) {
                 if (event.target.matches('#like_button')) {
                     const post = event.target.dataset.postid;
                     like_post(post);
@@ -1009,6 +1040,7 @@ function comment_reply(event) {
     const commentid = event.target.dataset.commentid;
     const user = document.querySelector('#layout_user_tag').dataset.username;
     document.querySelector('#delete_comment').style.display = 'none';
+    document.querySelector('#edit_comment').style.display = 'none';
     event.target.style.display = 'none';
 
     event.target.parentElement.innerHTML += `
@@ -1036,6 +1068,57 @@ function delete_comment(event) {
     .then(response =>
         location.reload()
     )
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function edit_comment(comment_id) {
+
+    const main_div = document.querySelector('#comment' + comment_id);
+    const user = document.querySelector('#layout_user_tag').dataset.username;
+    document.querySelector('#delete_comment').style.display = 'none';
+    document.querySelector('#edit_comment').style.display = 'none';
+    document.querySelector('#reply_button').style.display = 'none';
+
+    fetch('/edit_comment/' + comment_id, {
+        method: "GET"
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        text = data['text']
+
+        if (text !== '[DELETED]') {
+            main_div.innerHTML += `
+            <form>
+                <input disabled value="${user}" id="user_input">
+                <textarea id="comment_text" name="edited_comment_text" placeholder="Enter Comment" required maxlength="250">${text}</textarea><br>
+                <button type="button" id="submit_comment_edit">Post</button>
+                <button type="button" id="cancel_reply">Cancel</button>
+            </form>
+            `
+        }
+        else {
+            alert('You cannot edit a deleted comment!')
+            location.reload()
+        }
+    })
+}
+
+function submit_comment_edit(comment_id) {
+
+    new_text = document.querySelector('#edited_comment_text').value
+
+    fetch('/edit_comment/' + comment_id, {
+        method: 'PUT',
+        body: JSON.stringify ({
+            text: new_text.value + ' (edited)',
+        })
+    })
+    .then(response => {
+        location.reload()
+    })
     .catch(error => {
         console.error('Error:', error);
     });
