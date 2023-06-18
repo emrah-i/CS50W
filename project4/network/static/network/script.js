@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 replyButton.addEventListener('click', (event) => {
                 comment_reply(event);
 
-                let cancelButton = element.querySelector('#cancel_reply');
+                let cancelButton = document.querySelector('#cancel_reply');
 
                 cancelButton.addEventListener('click', () => {
                     if (confirm('Are you sure you would like to cancel?')) {
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                     });
 
-                userButton = element.querySelector('#user_page_route');
+                let userButton = element.querySelector('#user_page_route');
 
                 userButton.addEventListener('click', (event) => {
                     username = event.target.dataset.username
@@ -335,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
             });
             }
-
 
             if (userButton) {
                 userButton.addEventListener('click', (event) => {
@@ -359,22 +358,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     comment_id = event.target.dataset.commentid;
                     edit_comment(comment_id);
 
-                    const submitButton = element.querySelector('#submit_comment_edit');
-
-                    submitButton.addEventListener('click', () => {
-                        submit_comment_edit(comment_id)
-                    })
-
-                    let cancelButton = element.querySelector('#cancel_reply');
-
-                    cancelButton.addEventListener('click', () => {
-                        if (confirm('Are you sure you would like to cancel?')) {
-                            location.reload();
-                        }
+                    setTimeout(() => {
+                        const submitButton = element.querySelector('#submit_comment_edit');
+                        const cancelButton = element.querySelector('#cancel_reply');
+                  
+                        cancelButton.addEventListener('click', () => {
+                            if (confirm('Are you sure you would like to cancel?')) {
+                                location.reload();
+                            }
                         });
+
+                  
+                        submitButton.addEventListener('click', () => {
+
+                            new_text = element.querySelector('#comment_text')
+
+                            submit_comment_edit(comment_id, new_text);
+                        });
+                        
+                      }, 50);
                 });
             }
-    });
+        });
     }
 
     if (window.location.pathname.startsWith("/category/")) {
@@ -524,7 +529,10 @@ function load_posts(value, sort, button) {
 
             const id = data[i].post
             const title = data[i].title
-            const text = data[i].text
+            let text = data[i].text
+            if (text.length > 150) {
+                text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+            }
             const username = data[i].user__username
             const like_count = data[i].like_count
             const comments = data[i].comment_count
@@ -621,7 +629,10 @@ function load_following_posts(start, sort) {
 
             const id = data[i].post
             const title = data[i].title
-            const text = data[i].text
+            let text = data[i].text
+            if (text.length > 150) {
+                text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+            }
             const username = data[i].user__username
             const like_count = data[i].like_count
             const comments = data[i].comment_count
@@ -720,7 +731,10 @@ function load_category_posts(category, start, sort) {
 
             const id = data[i].post
             const title = data[i].title
-            const text = data[i].text
+            let text = data[i].text
+            if (text.length > 150) {
+                text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+            }
             const username = data[i].user__username
             const like_count = data[i].like_count
             const comments = data[i].comment_count
@@ -1038,9 +1052,10 @@ function comment_reply(event) {
 
     const post = document.querySelector('.post_page').dataset.postid
     const commentid = event.target.dataset.commentid;
+    const main_div = '#comment' + commentid
     const user = document.querySelector('#layout_user_tag').dataset.username;
-    document.querySelector('#delete_comment').style.display = 'none';
-    document.querySelector('#edit_comment').style.display = 'none';
+    document.querySelector(main_div + ' #delete_comment').style.display = 'none';
+    document.querySelector(main_div + ' #edit_comment').style.display = 'none';
     event.target.style.display = 'none';
 
     event.target.parentElement.innerHTML += `
@@ -1075,11 +1090,12 @@ function delete_comment(event) {
 
 function edit_comment(comment_id) {
 
-    const main_div = document.querySelector('#comment' + comment_id);
+    const main = '#comment' + comment_id
+    const main_div = document.querySelector(main);
     const user = document.querySelector('#layout_user_tag').dataset.username;
-    document.querySelector('#delete_comment').style.display = 'none';
-    document.querySelector('#edit_comment').style.display = 'none';
-    document.querySelector('#reply_button').style.display = 'none';
+    document.querySelector(main + ' #delete_comment').style.display = 'none';
+    document.querySelector(main + ' #edit_comment').style.display = 'none';
+    document.querySelector(main + ' #reply_button').style.display = 'none';
 
     fetch('/edit_comment/' + comment_id, {
         method: "GET"
@@ -1091,7 +1107,7 @@ function edit_comment(comment_id) {
 
         if (text !== '[DELETED]') {
             main_div.innerHTML += `
-            <form>
+            <form id="comment_edit_form">
                 <input disabled value="${user}" id="user_input">
                 <textarea id="comment_text" name="edited_comment_text" placeholder="Enter Comment" required maxlength="250">${text}</textarea><br>
                 <button type="button" id="submit_comment_edit">Post</button>
@@ -1106,14 +1122,14 @@ function edit_comment(comment_id) {
     })
 }
 
-function submit_comment_edit(comment_id) {
+function submit_comment_edit(comment_id, new_text) {
 
-    new_text = document.querySelector('#edited_comment_text').value
+    console.log(new_text.value)
 
     fetch('/edit_comment/' + comment_id, {
         method: 'PUT',
         body: JSON.stringify ({
-            text: new_text.value + ' (edited)',
+            text: new_text + ' (edited)',
         })
     })
     .then(response => {

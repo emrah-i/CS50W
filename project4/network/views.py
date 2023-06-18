@@ -98,8 +98,9 @@ def posts(request):
         user = User.objects.get(username = request.user.username)
         text = request.POST.get("text")
         title = request.POST.get("title")
+        category = request.POST.get("category")
 
-        newPost = Post.objects.create(user=user, text=text, title=title)
+        newPost = Post.objects.create(user=user, text=text, title=title, category=category)
         newPost.save()
 
         return HttpResponseRedirect(reverse('index'))

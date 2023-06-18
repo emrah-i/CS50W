@@ -1,4 +1,5 @@
 from django import template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -18,3 +19,13 @@ def sort_posts(posts, sort):
         return sorted(posts, key=lambda post: post['comment_count'])
     else:
         return posts
+    
+@register.filter
+def limit(text):
+    if len(text) > 150:
+        truncated_text = text[:150]
+        read_more = '...(read more)'
+        styled_read_more = f'<span style="font-style: italic; color: lightGray;">{read_more}</span>'
+        return mark_safe(truncated_text + styled_read_more)
+    else: 
+        return text
