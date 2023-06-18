@@ -109,12 +109,14 @@ body a:hover {
 }
 #profile_posts #user_info {
   background-color: rgb(34, 129, 216);
+  height: 45vh;
 }
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
   text-decoration: underline;
 }
 #profile_posts #user_info table {
-  width: 20%;
+  width: 45%;
+  height: 100%;
 }
 #profile_posts #user_info button {
   margin-top: 5px;

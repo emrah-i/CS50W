@@ -66,6 +66,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>{{ user_info.bio }}</td>
+                </tr>
+                <tr>
                     <td>
                         {% if user.is_authenticated and user.username != user_info.username %}
                         {% for follower in follower_users %}
@@ -73,8 +76,11 @@
                             <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
                             {% endif %}
                         {% empty %}
-                        <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+                            <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
                         {% endfor %}
+                        {% endif %}
+                        {% if user.is_authenticated and user.username == user_info.username %}
+                            <button type="button" id="edit_page">Edit Profile</button>
                         {% endif %}
                     </td>
                 </tr>

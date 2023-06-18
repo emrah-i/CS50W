@@ -131,13 +131,15 @@ body {
 
     #user_info {
         background-color: rgb(34, 129, 216);
+        height: 45vh;
 
         #open_following:hover, #open_followers:hover {
             text-decoration: underline;
         }
 
         table {
-            width: 20%;
+            width: 45%;
+            height: 100%;
         }
 
         button {

@@ -32,6 +32,7 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = models.CharField(unique=True, max_length=26)
     avatar = models.ImageField(upload_to='network/images/', default='network/images/default.jpeg', unique=False)
+    bio = models.CharField(max_length=150, default='Welcome to my account!')
     datetime_joined = models.DateTimeField(default=timezone.now)
 
 class UserFollow(models.Model):

@@ -193,7 +193,8 @@ def profile(request, username):
         'username': user.username,
         'following': len(user_following),
         'followers': len(user_followers),
-        'avatar': user.avatar
+        'avatar': user.avatar,
+        'bio': user.bio,
     }
 
     following = UserFollow.objects.filter(user = user).values('is_now_following')
