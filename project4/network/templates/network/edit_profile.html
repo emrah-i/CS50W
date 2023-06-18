@@ -4,15 +4,17 @@
 {% block body %}
     <div id="edit_profile">
         <div id="ep_info">
-        <label for="img">Current Profile Picture:</label>
-        <img src="{{ avatar }}" alt="avatar" width="250">
+        <label for="img">Current Profile Picture:</label><br>
+        <img src="{% static avatar %}" alt="avatar" width="250">
         <br><br>
         <form action="/edit_profile" method="post" enctype="multipart/form-data"> 
             {% csrf_token %}
-            <label for="input">New Profile Picture:</label>
-            <input type="file" name="avatar" accept="image/*">
+            <label for="input">New Profile Picture:</label><br>
+            <input type="file" name="avatar" accept="image/*"><br>
+            <label for="bio">Bio:</label><br>
             <textarea name="bio" maxlength="350" required>{{ bio }}</textarea>
-            <button type="submit">Update</button>
+            <br>
+            <button type="submit" onClick="alert('Saved')">Update</button>
         </form>
         </div>
     </div>

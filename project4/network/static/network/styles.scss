@@ -444,8 +444,18 @@ body {
     border-radius: 6px;
 
     #ep_info {
-        width: 70%;
+        width: 50%;
         margin: auto;
-        text-align: center;
+        text-align: left;
+    }
+
+    label {
+        margin-top: 30px;
+    }
+
+    textarea {
+        width: 90%;
+        padding: 5px;
+        margin: 0;
     }
 }

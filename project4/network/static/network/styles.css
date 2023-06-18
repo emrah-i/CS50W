@@ -371,7 +371,15 @@ body a:hover {
   border-radius: 6px;
 }
 #edit_profile #ep_info {
-  width: 70%;
+  width: 50%;
   margin: auto;
-  text-align: center;
+  text-align: left;
+}
+#edit_profile label {
+  margin-top: 30px;
+}
+#edit_profile textarea {
+  width: 90%;
+  padding: 5px;
+  margin: 0;
 }/*# sourceMappingURL=styles.css.map */

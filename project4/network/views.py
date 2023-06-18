@@ -191,7 +191,7 @@ def get_csrf_token(request):
 
 def profile(request, username):
     
-    user = User.objects.get(username = username)
+    user = User.objects.get(username=username)
     user_following = UserFollow.objects.filter(user = user)
     user_followers = UserFollow.objects.filter(is_now_following = user)
     sort = request.GET.get('sort')
@@ -261,10 +261,13 @@ def edit_profile(request):
 
     if request.method == "POST":
 
-        avatar = request.FILES['avatar']
         bio = request.POST.get('bio')
 
-        if avatar is not None:
+        if 'avatar' in request.FILES:
+            avatar = request.FILES['avatar']
+            extension = avatar.name.split('.')[-1]
+            random_name = f'{uuid.uuid4().hex}.{extension}'
+            avatar.name = random_name
             user.avatar = avatar
         
         user.bio = bio
