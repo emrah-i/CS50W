@@ -275,6 +275,10 @@ document.addEventListener("DOMContentLoaded", () => {
             url.searchParams.set('sort', change_sort);
             window.location.href = url.href;
         })
+
+        document.querySelector('#edit_profile_button').addEventListener('click', (event) => {
+            window.location = "/edit_profile"
+        })
     }
 
     if (window.location.pathname.startsWith("/post/")) {

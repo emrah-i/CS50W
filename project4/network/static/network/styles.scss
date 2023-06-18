@@ -433,3 +433,19 @@ body {
     }
 
 }
+
+#edit_profile {
+
+    background-color: rgb(34, 129, 216);
+    width: 90%;
+    margin: 10px 5%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+
+    #ep_info {
+        width: 70%;
+        margin: auto;
+        text-align: center;
+    }
+}

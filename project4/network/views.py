@@ -1,14 +1,18 @@
+import os
+import uuid
+from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.middleware import csrf
 from django.utils import timezone
 from datetime import datetime
+from django import forms
 import json
 
 from .models import User, Post, UserFollow, Comment
@@ -35,6 +39,10 @@ CATEGORY_CHOICES = [
     {'code': 'politics', 'display': 'Politics and Current Events'},
     {'code': 'business', 'display': 'Business and Entrepreneurship'},
 ]
+
+class ProfileForm(forms.Form):
+    avatar = forms.ImageField()
+    bio = forms.CharField(max_length=350)
 
 def login_view(request):
     if request.method == "POST":
@@ -245,6 +253,32 @@ def profile(request, username):
         'follower_users': follower_users,
         'sort': sort
     })
+
+@login_required
+def edit_profile(request):
+
+    user = User.objects.get(pk=request.user.id)
+
+    if request.method == "POST":
+
+        avatar = request.FILES['avatar']
+        bio = request.POST.get('bio')
+
+        if avatar is not None:
+            user.avatar = avatar
+        
+        user.bio = bio
+        user.save()
+
+        last_page = request.META.get('HTTP_REFERER')
+        return redirect(last_page)
+
+    else:
+
+        return render(request, "network/edit_profile.html", {
+            'avatar': user.avatar,
+            'bio': user.bio
+        })
 
 @login_required
 def following(request):

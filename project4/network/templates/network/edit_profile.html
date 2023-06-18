@@ -1,0 +1,19 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="edit_profile">
+        <div id="ep_info">
+        <label for="img">Current Profile Picture:</label>
+        <img src="{{ avatar }}" alt="avatar" width="250">
+        <br><br>
+        <form action="/edit_profile" method="post" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <label for="input">New Profile Picture:</label>
+            <input type="file" name="avatar" accept="image/*">
+            <textarea name="bio" maxlength="350" required>{{ bio }}</textarea>
+            <button type="submit">Update</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}
