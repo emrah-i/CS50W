@@ -355,6 +355,8 @@ def edit(request, post_id):
             post.text = data["text"]
         if data.get("title") is not None:
             post.title = data["title"]
+        if data.get("category") is not None:
+            post.category = data["category"]
         post.upload_time = str(timezone.now())
         post.save()
         return HttpResponse(status=204)

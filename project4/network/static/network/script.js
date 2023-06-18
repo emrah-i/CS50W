@@ -893,7 +893,7 @@ function post_page_edit(postid) {
         `<h2>Edit</h2>
         <form>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
-            <select>
+            <select id="edit_category_input">
                 <option value="${data.category}" selected>${data.category_display}</option>
                 ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
             </select><br>
@@ -911,12 +911,14 @@ function save_edit(id) {
 
     const new_text = document.querySelector('#edit_text_input')
     const new_title = document.querySelector('#edit_title_input')
+    const new_category = document.querySelector('#edit_category_input')
 
     fetch('/edit/' + id, {
         method: "PUT",
         body: JSON.stringify ({
             text: new_text.value + ' (edited)',
-            title: new_title.value + ' (edited)'
+            title: new_title.value + ' (edited)',
+            category: new_category.value
         })
     })
     .then(response =>
