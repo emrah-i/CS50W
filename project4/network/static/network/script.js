@@ -861,6 +861,11 @@ function edit_post(id, div_id) {
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
+            <select>
+                <option value="${data.category}" selected>${data.category_display}</option>
+                ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
+            </select>
+            <br><br>
             <button type="button" id="save_edit" data-id="${id}">Save</button>
             <button type="button" id="cancel_edit">Cancel</button>
             <button type="button" id="delete_edit" data-id="${id}">Delete</button>
@@ -872,8 +877,9 @@ function post_page_edit(postid) {
 
     const user = document.querySelector('#layout_user_tag').dataset.username
     const title = document.querySelector('#pp_title')
-    document.querySelector('#pp_text').innerHTML = ''
-    document.querySelector('#pp_ut').innerHTML = ''
+    document.querySelector('#pp_text').style.display = 'none'
+    document.querySelector('#pp_ut').style.display = 'none'
+    document.querySelector('#pp_category').style.display = 'none'
     document.querySelector('#like_button').style.display = 'none'
     document.querySelector('#pp_edit_button').style.display = 'none'
 
@@ -887,11 +893,16 @@ function post_page_edit(postid) {
         `<h2>Edit</h2>
         <form>
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
+            <select>
+                <option value="${data.category}" selected>${data.category_display}</option>
+                ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
+            </select><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
             <button type="button" id="save_edit" data-id="${postid}">Save</button>
             <button type="button" id="cancel_edit">Cancel</button>
             <button type="button" id="delete_edit" data-id="${postid}">Delete</button>
+            <hr>
         </form>`
     )
 }

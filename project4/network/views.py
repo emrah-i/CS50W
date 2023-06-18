@@ -152,7 +152,7 @@ def post(request, post_id):
         return HttpResponseRedirect(reverse('post', args=(post_id, )))
 
     else:
-        post = Post.objects.filter(pk=post_id).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'likes', 'comment_count', 'upload_time', 'category')
+        post = Post.objects.filter(pk=post_id).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category')
         comment_post = Post.objects.get(pk=post_id)
         comments = Comment.objects.filter(post=comment_post, parent_node=None).order_by('upload_time')
         level = 40 
@@ -167,7 +167,7 @@ def post(request, post_id):
             'text': post[0]['text'],
             'user': post[0]['user'],
             'username': post[0]['user__username'],
-            'likes': post[0]['likes'],
+            'likes': post[0]['like_count'],
             'comments': post[0]['comment_count'],
             'category': category,
             'upload_time': post[0]['upload_time'],
@@ -368,7 +368,9 @@ def edit(request, post_id):
         data = {
             'post': post.post,
             'text': post.text,
-            'title': post.title
+            'title': post.title,
+            'category_display': post.get_category_display(),
+            'category': post.category,
         }
 
         return JsonResponse(data, safe=False)
