@@ -41,10 +41,9 @@ body {
     width: 90vw;
 
     .posts {
-        background-color: rgb(34, 129, 216);
+        display: flex;
         width: 100%;
-        margin: 15px 0;
-        padding: 10px;
+        margin: 10px 0;
         border: 1px solid black;
         border-radius: 6px;
         transition: transform 0.3s ease;
@@ -52,12 +51,6 @@ body {
         #user_input {
             margin: 10px 5%;
         }
-    }
-
-    #user_heading {
-        font-weight: 600;
-        color: white;
-        font-size: 1.5em;
     }
 
     #post_text {
@@ -77,6 +70,7 @@ body {
     #edit_button {
         margin-left: 5px;
     }
+
 }
 
 #new_post {
@@ -111,8 +105,8 @@ body {
     width: 90vw;
 
     .profile_post {
-        background-color: rgb(34, 129, 216);
         width: 100%;
+        display: flex;
         margin: 10px 0;
         padding: 10px;
         border: 1px solid black;
@@ -122,7 +116,7 @@ body {
     #user_heading {
         font-weight: 600;
         color: white;
-        font-size: 1.5em;
+        font-size: 1em;
     }
 
     #user_input {
@@ -168,18 +162,11 @@ body {
     width: 90vw;
 
     .following_posts {
-        background-color: rgb(34, 129, 216);
+        display: flex;
         width: 100%;
         margin: 10px 0;
-        padding: 10px;
         border: 1px solid black;
         border-radius: 6px;
-    }
-
-    #user_heading {
-        font-weight: 600;
-        color: white;
-        font-size: 1.5em;
     }
 
     #user_input {
@@ -406,18 +393,11 @@ body {
     width: 90vw;
 
     .category_post {
-        background-color: rgb(34, 129, 216);
+        display: flex;
         width: 100%;
         margin: 10px 0;
-        padding: 10px;
         border: 1px solid black;
         border-radius: 6px;
-    }
-
-    #user_heading {
-        font-weight: 600;
-        color: white;
-        font-size: 1.5em;
     }
 
     #user_input {
@@ -458,4 +438,29 @@ body {
         padding: 5px;
         margin: 0;
     }
+}
+
+#user_heading {
+    font-weight: 600;
+    color: white;
+}
+
+#post_user_block, #post_info_block, #post_button_block {
+    flex: 1;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(34, 129, 216);
+    margin-right: 10px;
+    padding: 10px;
+}
+
+#post_text_block {
+    flex: 3;
+    border-radius: 5px;
+    background-color: rgb(34, 129, 216);
+    margin-right: 10px;
+    padding: 10px;
+}
+#post_button_block {
+    margin-right: 0;
 }

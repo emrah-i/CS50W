@@ -755,7 +755,6 @@ async function load_category_posts(category, start, sort) {
         categoryPost.innerHTML = 
         `
         <div id="post_text_block">
-            <p id="post_category">${category}</p>
             <h5 id="post_title">${title}</h5>
             <p id="post_text">${text}</p>
         </div>

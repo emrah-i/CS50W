@@ -34,21 +34,15 @@ body a:hover {
   width: 90vw;
 }
 #all_posts .posts {
-  background-color: rgb(34, 129, 216);
+  display: flex;
   width: 100%;
-  margin: 15px 0;
-  padding: 10px;
+  margin: 10px 0;
   border: 1px solid black;
   border-radius: 6px;
   transition: transform 0.3s ease;
 }
 #all_posts .posts #user_input {
   margin: 10px 5%;
-}
-#all_posts #user_heading {
-  font-weight: 600;
-  color: white;
-  font-size: 1.5em;
 }
 #all_posts #post_text {
   margin: 0;
@@ -92,8 +86,8 @@ body a:hover {
   width: 90vw;
 }
 #profile_posts .profile_post {
-  background-color: rgb(34, 129, 216);
   width: 100%;
+  display: flex;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid black;
@@ -102,7 +96,7 @@ body a:hover {
 #profile_posts #user_heading {
   font-weight: 600;
   color: white;
-  font-size: 1.5em;
+  font-size: 1em;
 }
 #profile_posts #user_input {
   margin: 10px 5%;
@@ -138,17 +132,11 @@ body a:hover {
   width: 90vw;
 }
 #following_posts .following_posts {
-  background-color: rgb(34, 129, 216);
+  display: flex;
   width: 100%;
   margin: 10px 0;
-  padding: 10px;
   border: 1px solid black;
   border-radius: 6px;
-}
-#following_posts #user_heading {
-  font-weight: 600;
-  color: white;
-  font-size: 1.5em;
 }
 #following_posts #user_input {
   margin: 10px 5%;
@@ -340,17 +328,11 @@ body a:hover {
   width: 90vw;
 }
 #category_posts .category_post {
-  background-color: rgb(34, 129, 216);
+  display: flex;
   width: 100%;
   margin: 10px 0;
-  padding: 10px;
   border: 1px solid black;
   border-radius: 6px;
-}
-#category_posts #user_heading {
-  font-weight: 600;
-  color: white;
-  font-size: 1.5em;
 }
 #category_posts #user_input {
   margin: 10px 5%;
@@ -382,4 +364,30 @@ body a:hover {
   width: 90%;
   padding: 5px;
   margin: 0;
+}
+
+#user_heading {
+  font-weight: 600;
+  color: white;
+}
+
+#post_user_block, #post_info_block, #post_button_block {
+  flex: 1;
+  text-align: center;
+  border-radius: 5px;
+  background-color: rgb(34, 129, 216);
+  margin-right: 10px;
+  padding: 10px;
+}
+
+#post_text_block {
+  flex: 3;
+  border-radius: 5px;
+  background-color: rgb(34, 129, 216);
+  margin-right: 10px;
+  padding: 10px;
+}
+
+#post_button_block {
+  margin-right: 0;
 }/*# sourceMappingURL=styles.css.map */
