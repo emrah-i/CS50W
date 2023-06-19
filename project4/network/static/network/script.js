@@ -485,7 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
     catch{}
 })
 
-function load_posts(value, sort, button) {
+async function load_posts(value, sort, button) {
 
     user = ''
 
@@ -499,124 +499,130 @@ function load_posts(value, sort, button) {
 
     all_posts.innerHTML = "";
 
-    fetch(`/posts?start=${value}&sort=${sort}`, {
-        method: "GET",
-    })
-    .then(response => response.json())
-    .then(data => {
+    const response = await fetch(`/posts?start=${value}&sort=${sort}`);
+    const data = await response.json();
 
-        if (data.length === 0 && button === 'next') {
-            post_counter = value - 5
-            load_posts(post_counter, sort);
-            alert("No more posts");
-            return;
+    if (data.length === 0 && button === 'next') {
+        post_counter = value - 5
+        load_posts(post_counter, sort);
+        alert("No more posts");
+        return;
+    }
+    else if (data.length === 0 && button === 'next_2') {
+        post_counter = value - 10
+        load_posts(post_counter, sort);
+        alert("No more posts");
+        return;
+    }
+
+    for (i = 0; i < data.length; i++) {
+
+        const existingPost = document.createElement('div');
+        existingPost.id = 'post' + i;
+        existingPost.className = 'posts';
+
+        if (effects === 'on') {
+            existingPost.dataset.effects = 'True';
         }
-        else if (data.length === 0 && button === 'next_2') {
-            post_counter = value - 10
-            load_posts(post_counter, sort);
-            alert("No more posts");
-            return;
+        else {
+            existingPost.dataset.effects = 'False';
         }
 
-        for (i = 0; i < data.length; i++) {
+        const id = data[i].post
+        const title = data[i].title
+        let text = data[i].text
+        if (text.length > 150) {
+            text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+        }
+        const username = data[i].user__username
+        const like_count = data[i].like_count
+        const comments = data[i].comment_count
+        const upload_time = data[i].upload_time
 
-            const existingPost = document.createElement('div');
-            existingPost.id = 'post' + i;
-            existingPost.className = 'posts';
-
-            if (effects === 'on') {
-                existingPost.dataset.effects = 'True';
+        category = data[i].category
+        for (j = 0; j < CATEGORY_CHOICES.length; j++) {
+            if (CATEGORY_CHOICES[j].code === category) {
+                category = CATEGORY_CHOICES[j].display
             }
-            else {
-                existingPost.dataset.effects = 'False';
-            }
+        }
 
-            const id = data[i].post
-            const title = data[i].title
-            let text = data[i].text
-            if (text.length > 150) {
-                text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
-            }
-            const username = data[i].user__username
-            const like_count = data[i].like_count
-            const comments = data[i].comment_count
-            const upload_time = data[i].upload_time
-
-            category = data[i].category
-            for (j = 0; j < CATEGORY_CHOICES.length; j++) {
-                if (CATEGORY_CHOICES[j].code === category) {
-                    category = CATEGORY_CHOICES[j].display
-                }
-            }
-
-            existingPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
-            <hr>
-            <h5 id="post_title">${title}</h5>
-            <hr>
+        existingPost.innerHTML = `
+        <div id="post_text_block">
             <p id="post_category">${category}</p>
+            <h5 id="post_title">${title}</h5>
             <p id="post_text">${text}</p>
+        </div>
+        <div id="post_user_block">
             <p id="timestamp">${upload_time}</p>
+            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+        </div>
+        <div id="post_info_block">
             <p>${comments} Comments</p>   
-            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>
-            `;
+        </div>
+        `;
 
-            if (user !== '') {
-                fetch('/auth',{
-                    method: 'GET'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data === true) {
-                        if (like_count >= 1) {
-                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
-                        }
-                        else {
-                            existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-                        }
+        buttonsBlock = document.createElement('div')
+        buttonsBlock.id = 'post_button_block'
+        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+        existingPost.appendChild(buttonsBlock);
 
-                        fetch('/like/' + id,{
-                            method: 'GET'
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
+        if (user !== '') {
+            const authResponse = await fetch('/auth', {
+                method: 'GET',
+                });
+            const data = await authResponse.json();
+            if (data === true) {
 
-                            if (data === true) {
-                                like_button.dataset.clicked = 'true';
-                            }
-                            else if (data === false) {
-                                like_button.dataset.clicked = 'false';
-                            }
-                        })
+                const likeButton = document.createElement('button');
+                likeButton.id = 'like_button';
+                likeButton.dataset.postid = id;
+
+                if (like_count >= 1) {
+                    likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
+                    buttonsBlock.appendChild(likeButton);
+                }
+                else {
+                    likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
+                    buttonsBlock.appendChild(likeButton);
                 }
 
-                if (username == user) {
-                    existingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
-                }
-            })
-        }
+                const likeResponse = await fetch('/like/' + id, {
+                    method: 'GET',
+                    });
+                const likeData = await likeResponse.json();
+
+                    if (likeData === true) {
+                        likeButton.dataset.clicked = 'true';
+                    }
+                    else if (likeData === false) {
+                        likeButton.dataset.clicked = 'false';
+                    }
+            }
+
+            if (username == user) {
+                const editButton = document.createElement('button');
+                editButton.id = 'edit_button';
+                editButton.dataset.postid = id;
+                editButton.innerHTML = 'Edit'
+                buttonsBlock.appendChild(editButton);
+
+            }
 
             all_posts.append(existingPost);
+        };
+    }
+}   
 
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
 
-function load_following_posts(start, sort) {
+async function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
-    const user = document.querySelector('#layout_user_tag').dataset.user;
     const effects = document.querySelector('#item_effects').value;
 
-    fetch(`/following_posts/${start}/${sort}`, {
+    const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
-    })
-    .then(reponse => reponse.json())
-    .then(data => {
+    });
+    const data = await response.json()
         
         for(i = 0; i < data.length; i++){
 
@@ -650,152 +656,168 @@ function load_following_posts(start, sort) {
             }
 
             followingPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
-            <hr>
-            <h5 id="post_title">${title}</h5>
-            <hr>
-            <p id="post_category">${category}</p>
-            <p id="post_text">${text}</p>
-            <p id="timestamp">${upload_time}</p>
-            <p>${comments} Comments</p>
-            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
+            `
+            <div id="post_text_block">
+                <p id="post_category">${category}</p>
+                <h5 id="post_title">${title}</h5>
+                <p id="post_text">${text}</p>
+            </div>
+            <div id="post_user_block">
+                <p id="timestamp">${upload_time}</p>
+                <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+            </div>
+            <div id="post_info_block">
+                <p>${comments} Comments</p>   
+            </div>
             `;
 
-            fetch('/auth',{
+            buttonsBlock = document.createElement('div')
+            buttonsBlock.id = 'post_button_block'
+            buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+            followingPost.appendChild(buttonsBlock);
+
+            const authResponse = await fetch('/auth',{
                 method: 'GET'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data === true) {
-                    if (like_count >= 1) {
-                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
-                    }
-                    else {
-                        followingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-                    }
+            const authData = await authResponse.json()
+            if (authData === true) {
+        
+                const likeButton = document.createElement('button');
+                likeButton.id = 'like_button';
+                likeButton.dataset.postid = id;
 
-                    fetch('/like/' + id,{
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
-
-                        if (data === true) {
-                            like_button.dataset.clicked = 'true';
-                        }
-                        else if (data === false) {
-                            like_button.dataset.clicked = 'false';
-                        }
-                    })
+                if (like_count >= 1) {
+                    likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
+                    buttonsBlock.appendChild(likeButton);
                 }
-            })
-    
-            if (username == user) {
-                followingPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
+                else {
+                    likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
+                    buttonsBlock.appendChild(likeButton);
+                }
+
+                const likeResponse = await fetch('/like/' + id, {
+                    method: 'GET',
+                    });
+                const likeData = await likeResponse.json();
+
+                if (likeData === true) {
+                    likeButton.dataset.clicked = 'true';
+                }
+                else if (likeData === false) {
+                    likeButton.dataset.clicked = 'false';
+                }
             }
 
-            main_div.append(followingPost);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        main_div.append(followingPost);
+    };
 }
 
-function load_category_posts(category, start, sort) {
+async function load_category_posts(category, start, sort) {
 
     const main_div = document.querySelector('#category_posts');
-    const user = document.querySelector('#layout_user_tag').dataset.user;
+    const user = document.querySelector('#layout_user_tag').dataset.username;
     const effects = document.querySelector('#item_effects').value;
 
-    fetch(`/category_posts/${category}/${start}/${sort}`, {
+    const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
     })
-    .then(reponse => reponse.json())
-    .then(data => {
+    const data = await response.json()
 
-        if (data.length === 0) {
-            alert("No more posts");
-            return;
+    if (data.length === 0) {
+        alert("No more posts");
+        return;
+    }
+    
+    for(i = 0; i < data.length; i++){
+
+        const categoryPost = document.createElement('div');
+        categoryPost.id = 'category_post' + i;
+        categoryPost.className = 'category_post';
+
+        if (effects === 'on') {
+            categoryPost.dataset.effects = 'True';
         }
-        
-        for(i = 0; i < data.length; i++){
+        else {
+            categoryPost.dataset.effects = 'False';
+        }
 
-            const categoryPost = document.createElement('div');
-            categoryPost.id = 'category_post' + i;
-            categoryPost.className = 'category_post';
+        const id = data[i].post
+        const title = data[i].title
+        let text = data[i].text
+        if (text.length > 150) {
+            text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+        }
+        const username = data[i].user__username
+        const like_count = data[i].like_count
+        const comments = data[i].comment_count
+        const upload_time = data[i].upload_time
 
-            if (effects === 'on') {
-                categoryPost.dataset.effects = 'True';
+        categoryPost.innerHTML = 
+        `
+        <div id="post_text_block">
+            <p id="post_category">${category}</p>
+            <h5 id="post_title">${title}</h5>
+            <p id="post_text">${text}</p>
+        </div>
+        <div id="post_user_block">
+            <p id="timestamp">${upload_time}</p>
+            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+        </div>
+        <div id="post_info_block">
+            <p>${comments} Comments</p>   
+        </div>
+        `;
+
+        buttonsBlock = document.createElement('div')
+        buttonsBlock.id = 'post_button_block'
+        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+        categoryPost.appendChild(buttonsBlock);
+
+        const authResponse = await fetch('/auth',{
+            method: 'GET'
+        })
+        const authData = await authResponse.json()
+        if (authData === true) {
+    
+            const likeButton = document.createElement('button');
+            likeButton.id = 'like_button';
+            likeButton.dataset.postid = id;
+
+            if (like_count >= 1) {
+                likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
+                buttonsBlock.appendChild(likeButton);
             }
             else {
-                categoryPost.dataset.effects = 'False';
+                likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
+                buttonsBlock.appendChild(likeButton);
             }
 
-            const id = data[i].post
-            const title = data[i].title
-            let text = data[i].text
-            if (text.length > 150) {
-                text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+            const likeResponse = await fetch('/like/' + id, {
+                method: 'GET',
+                });
+            const likeData = await likeResponse.json();
+
+            if (likeData === true) {
+                likeButton.dataset.clicked = 'true';
             }
-            const username = data[i].user__username
-            const like_count = data[i].like_count
-            const comments = data[i].comment_count
-            const upload_time = data[i].upload_time
+            else if (likeData === false) {
+                likeButton.dataset.clicked = 'false';
+            }
 
-            categoryPost.innerHTML = 
-            `<a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a>
-            <hr>
-            <h5 id="post_title">${title}</h5>
-            <hr>
-            <p id="post_text">${text}</p>
-            <p id="timestamp">${upload_time}</p>
-            <p>${comments} Comments</p>
-            <button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>   
-            `;
-
-            fetch('/auth',{
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data === true) {
-                    if (like_count >= 1) {
-                        categoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span></button>`
-                    }
-                    else {
-                        categoryPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-                    }
-
-                    fetch('/like/' + id,{
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
-
-                        if (data === true) {
-                            like_button.dataset.clicked = 'true';
-                        }
-                        else if (data === false) {
-                            like_button.dataset.clicked = 'false';
-                        }
-                    })
-                }
-            })
-    
             if (username == user) {
-                categoryPost.innerHTML += `<button id="edit_button" data-id="${id}">Edit</button>`
-            }
+                const editButton = document.createElement('button');
+                editButton.id = 'edit_button';
+                editButton.dataset.postid = id;
+                editButton.innerHTML = 'Edit'
+                buttonsBlock.appendChild(editButton);
 
-            main_div.append(categoryPost);
+            }
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+
+    main_div.append(categoryPost);
+};
 }
+
 
 function load_new_post(event) {
 
