@@ -1,6 +1,6 @@
 body {
     font-size: 1.15vw;
-    background-color: black;
+    background-color: white;
     color: white;
 
     textarea {
@@ -70,12 +70,11 @@ body {
     #edit_button {
         margin-left: 5px;
     }
-
 }
 
 #new_post {
 
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(46, 134, 193, .75);
     border: 1px solid black;
     border-radius: 6px;
     padding: 15px;
@@ -106,7 +105,7 @@ body {
 
     .profile_post {
         width: 100%;
-        display: flex;
+        background-color: rgba(46, 134, 193, .75);;
         margin: 10px 0;
         padding: 10px;
         border: 1px solid black;
@@ -124,7 +123,7 @@ body {
     }
 
     #user_info {
-        background-color: rgb(34, 129, 216);
+        background-color: rgba(46, 134, 193, .75);
         height: 45vh;
 
         #open_following:hover, #open_followers:hover {
@@ -143,7 +142,7 @@ body {
 
     #filters {
 
-        background-color: rgb(34, 129, 216);
+        background-color: rgba(46, 134, 193, .75);
         width: 100%;
         margin: 10px auto;
         padding: 10px;
@@ -185,7 +184,7 @@ body {
     
         table {
             width: 30%;
-            background-color: rgb(34, 129, 216);
+            background-color: rgba(46, 134, 193, .75);
             margin: auto;
             border: 1px solid black;
             border-radius: 6px;
@@ -206,7 +205,7 @@ body {
     }
 
     #filters {
-        background-color: rgb(34, 129, 216);
+        background-color: rgba(46, 134, 193, .75);
         width: 100%;
         margin: 10px auto;
         padding: 10px;
@@ -241,7 +240,7 @@ body {
 
 #nav_item {
     
-    background-color: rgb(34, 129, 216) !important;
+    background-color: rgba(46, 134, 193, .75) !important;
     
     a {
         color: white !important;
@@ -269,7 +268,7 @@ body {
         top: 25%;
         position: fixed;
         border-radius: 6px;
-        background-color: rgb(34, 129, 216);
+        background-color: rgba(46, 134, 193, .75);
 
     }
     table {
@@ -318,7 +317,7 @@ body {
 
 #filters {
 
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(46, 134, 193, .75);
     width: 90%;
     margin: 10px 5%;
     padding: 10px;
@@ -347,7 +346,7 @@ body {
 
 .post_page {
 
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(46, 134, 193, .75);
     width: 90%;
     margin: 10px 5%;
     padding: 10px;
@@ -405,7 +404,7 @@ body {
     }
 
     #user_info {
-        background-color: rgb(34, 129, 216);
+        background-color: rgba(46, 134, 193, .75);
 
         #open_following:hover, #open_followers:hover {
             text-decoration: underline;
@@ -416,7 +415,7 @@ body {
 
 #edit_profile {
 
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(46, 134, 193, .75);
     width: 90%;
     margin: 10px 5%;
     padding: 10px;
@@ -449,7 +448,7 @@ body {
     flex: 1;
     text-align: center;
     border-radius: 5px;
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(31, 97, 141 , .75);
     margin-right: 10px;
     padding: 10px;
 }
@@ -457,10 +456,24 @@ body {
 #post_text_block {
     flex: 3;
     border-radius: 5px;
-    background-color: rgb(34, 129, 216);
+    background-color: rgba(46, 134, 193, .75);
     margin-right: 10px;
     padding: 10px;
 }
+
 #post_button_block {
     margin-right: 0;
+}
+
+#posts_heading {
+    width: 90%;
+    background-color: rgba(26, 82, 118, .75);
+    border-radius: 5px;
+    height: 6vh;
+    margin: auto;
+
+    h4 {
+        line-height: 6vh;
+        padding-left: 10px;
+    }
 }
