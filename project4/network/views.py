@@ -1,6 +1,4 @@
-import os
 import uuid
-from django.core.files.storage import default_storage
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -12,7 +10,6 @@ from django.urls import reverse
 from django.middleware import csrf
 from django.utils import timezone
 from datetime import datetime
-from django import forms
 import json
 
 from .models import User, Post, UserFollow, Comment
@@ -39,10 +36,6 @@ CATEGORY_CHOICES = [
     {'code': 'politics', 'display': 'Politics and Current Events'},
     {'code': 'business', 'display': 'Business and Entrepreneurship'},
 ]
-
-class ProfileForm(forms.Form):
-    avatar = forms.ImageField()
-    bio = forms.CharField(max_length=350)
 
 def login_view(request):
     if request.method == "POST":
@@ -115,11 +108,11 @@ def posts(request):
 
     else:
         start = int(request.GET.get('start') or 0)
-        end = int(request.GET.get('end') or (start + 4))
+        end = start + 9
         sort = request.GET.get('sort')
 
         if sort == "new_old":
-            posts = Post.objects.all().annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-upload_time')
+            posts = Post.objects.all().annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category').order_by('-upload_time')
         elif sort == "old_new":
             posts = Post.objects.all().annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('upload_time')
         elif sort == "most_likes":
@@ -132,8 +125,17 @@ def posts(request):
             posts = Post.objects.all().annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('comment_count')
 
         data = []
+        
         for post in posts[start:end + 1]:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+            unique_users = []
+            comments = Comment.objects.filter(post=post['post'])
+
+            for comment in comments:
+                if comment.user not in unique_users:
+                    unique_users.append(comment.user)
+                    
+            post["unique_users"] = len(unique_users)
             data.append(post)
 
         return JsonResponse(list(data), safe=False)
@@ -238,13 +240,25 @@ def profile(request, username):
             if choice['code'] == post['category']:
                     post['category'] = choice['display']
 
-    for post in posts:
-
         post['liked'] = False
 
         if post.get('like_count') != 0:
             if request.user.username in likers:
                 post['liked'] = True
+        
+        unique_users = []
+        comments = Comment.objects.filter(post=post['post'])
+
+        for comment in comments:
+            if comment.user not in unique_users:
+                unique_users.append(comment.user)
+
+        count = len(unique_users)
+
+        if count == 1:
+            post["unique_users"] = "by 1 user"
+        else:
+            post["unique_users"] = f"by {count} users"
     
     return render(request, "network/profile.html", {
         'posts': posts,
@@ -306,7 +320,7 @@ def following_posts(request, start, sort):
 
     user = request.user.id
     start_post = start
-    end = start_post + 4
+    end = start_post + 9
 
     following = UserFollow.objects.filter(user = user).values('is_now_following')
 
@@ -334,8 +348,16 @@ def following_posts(request, start, sort):
 
     data = []
     for post in following_posts[start_post:end + 1]:
-            post['upload_time'] = post['upload_time'].strftime("%B %d %Y, %I:%M %p")
-            data.append(post)
+        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+        unique_users = []
+        comments = Comment.objects.filter(post=post['post'])
+
+        for comment in comments:
+            if comment.user not in unique_users:
+                unique_users.append(comment.user)
+                
+        post["unique_users"] = len(unique_users)
+        data.append(post)
 
     return JsonResponse(list(data), safe=False)
 
@@ -508,7 +530,7 @@ def category(request, category):
 def category_posts(request, category, start, sort):
     
     start_post = start
-    end = start_post + 4
+    end = start_post + 9
 
     if sort == "new_old":
         posts = Post.objects.filter(category=category).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-upload_time')
@@ -526,6 +548,14 @@ def category_posts(request, category, start, sort):
     data = []
     for post in posts[start_post:end + 1]:
         post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+        unique_users = []
+        comments = Comment.objects.filter(post=post['post'])
+
+        for comment in comments:
+            if comment.user not in unique_users:
+                unique_users.append(comment.user)
+                
+        post["unique_users"] = len(unique_users)
         data.append(post)
 
     return JsonResponse(data, safe=False)

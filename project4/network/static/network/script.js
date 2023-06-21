@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#previous').addEventListener('click', (event) => {
             const button = event.target.id;
             
-            if (post_counter >= 5) {
-                post_counter -= 5;
+            if (post_counter >= 10) {
+                post_counter -= 10;
                 load_posts(post_counter, sort, button);
             }
         })
@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#previous_2').addEventListener('click', (event) => {
             const button = event.target.id;
 
-            if (post_counter >= 10) {
-                post_counter -= 10;
+            if (post_counter >= 20) {
+                post_counter -= 20;
                 load_posts(post_counter, sort, button);
             }
         })
@@ -101,14 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#next').addEventListener('click', (event) => {
             const button = event.target.id
 
-            post_counter += 5;
+            post_counter += 10;
             load_posts(post_counter, sort, button);
         })
 
         document.querySelector('#next_2').addEventListener('click', (event) => {
             const button = event.target.id
 
-            post_counter += 10;
+            post_counter += 20;
             load_posts(post_counter, sort, button);
         })
 
@@ -426,6 +426,27 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    if (window.location.pathname === "/edit_profile") {
+        const imageInput = document.querySelector('#image_input');
+        const uploadedImage = document.querySelector('#uploaded_image');
+        const imageContainer = document.querySelector('#image_container_new');
+
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', (event) => {
+                    imageContainer.style.display = 'block';
+                    uploadedImage.src = event.target.result;
+                });
+
+                reader.readAsDataURL(file);
+            }
+            });
+    }
+
     try {
         document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #category_posts').addEventListener('click', (event) => {
             let post = ''
@@ -503,17 +524,21 @@ async function load_posts(value, sort, button) {
     const data = await response.json();
 
     if (data.length === 0 && button === 'next') {
-        post_counter = value - 5
-        load_posts(post_counter, sort);
-        alert("No more posts");
-        return;
-    }
-    else if (data.length === 0 && button === 'next_2') {
         post_counter = value - 10
         load_posts(post_counter, sort);
         alert("No more posts");
         return;
     }
+    else if (data.length === 0 && button === 'next_2') {
+        post_counter = value - 20
+        load_posts(post_counter, sort);
+        alert("No more posts");
+        return;
+    }
+
+    page_count = value / 10 + 1
+
+    document.querySelector('#page_count').innerHTML= `Page: ${page_count}`
 
     for (i = 0; i < data.length; i++) {
 
@@ -538,6 +563,17 @@ async function load_posts(value, sort, button) {
         const like_count = data[i].like_count
         const comments = data[i].comment_count
         const upload_time = data[i].upload_time
+        let unique_users = 'by ' + data[i].unique_users
+
+        if (data[i].unique_users === 1) {
+            unique_users += ' user'
+        }
+        else if (data[i].unique_users === 0) {
+            unique_users = ''
+        }
+        else {
+            unique_users += ' users'
+        }
 
         category = data[i].category
         for (j = 0; j < CATEGORY_CHOICES.length; j++) {
@@ -557,13 +593,13 @@ async function load_posts(value, sort, button) {
             <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
         </div>
         <div id="post_info_block">
-            <p>${comments} Comments</p>   
+            <p>${comments} comment(s) ${unique_users}</p>   
         </div>
         `;
 
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'
-        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
         existingPost.appendChild(buttonsBlock);
 
         if (user !== '') {
@@ -597,15 +633,6 @@ async function load_posts(value, sort, button) {
                     else if (likeData === false) {
                         likeButton.dataset.clicked = 'false';
                     }
-            }
-
-            if (username == user) {
-                const editButton = document.createElement('button');
-                editButton.id = 'edit_button';
-                editButton.dataset.postid = id;
-                editButton.innerHTML = 'Edit'
-                buttonsBlock.appendChild(editButton);
-
             }
 
             all_posts.append(existingPost);
@@ -647,6 +674,17 @@ async function load_following_posts(start, sort) {
             const like_count = data[i].like_count
             const comments = data[i].comment_count
             const upload_time = data[i].upload_time
+            let unique_users = 'by ' + data[i].unique_users
+    
+            if (data[i].unique_users === 1) {
+                unique_users += ' user'
+            }
+            else if (data[i].unique_users === 0) {
+                unique_users = ''
+            }
+            else {
+                unique_users += ' users'
+            }
 
             category = data[i].category
             for (j = 0; j < CATEGORY_CHOICES.length; j++) {
@@ -667,13 +705,14 @@ async function load_following_posts(start, sort) {
                 <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
             </div>
             <div id="post_info_block">
-                <p>${comments} Comments</p>   
+                <p>${comments} comment(s) ${unique_users}</p>   
             </div>
             `;
 
+
             buttonsBlock = document.createElement('div')
             buttonsBlock.id = 'post_button_block'
-            buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+            buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
             followingPost.appendChild(buttonsBlock);
 
             const authResponse = await fetch('/auth',{
@@ -751,25 +790,38 @@ async function load_category_posts(category, start, sort) {
         const like_count = data[i].like_count
         const comments = data[i].comment_count
         const upload_time = data[i].upload_time
+        let unique_users = 'by ' + data[i].unique_users
+
+        if (data[i].unique_users === 1) {
+            unique_users += ' user'
+        }
+        else if (data[i].unique_users === 0) {
+            unique_users = ''
+        }
+        else {
+            unique_users += ' users'
+        }
 
         categoryPost.innerHTML = 
         `
         <div id="post_text_block">
-            <h5 id="post_title">${title}</h5>
-            <p id="post_text">${text}</p>
+        <p id="post_category">${category}</p>
+        <h5 id="post_title">${title}</h5>
+        <p id="post_text">${text}</p>
         </div>
         <div id="post_user_block">
             <p id="timestamp">${upload_time}</p>
             <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
         </div>
         <div id="post_info_block">
-            <p>${comments} Comments</p>   
+            <p>${comments} comment(s) ${unique_users}</p>   
         </div>
         `;
 
+
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'
-        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
         categoryPost.appendChild(buttonsBlock);
 
         const authResponse = await fetch('/auth',{
@@ -801,15 +853,6 @@ async function load_category_posts(category, start, sort) {
             }
             else if (likeData === false) {
                 likeButton.dataset.clicked = 'false';
-            }
-
-            if (username == user) {
-                const editButton = document.createElement('button');
-                editButton.id = 'edit_button';
-                editButton.dataset.postid = id;
-                editButton.innerHTML = 'Edit'
-                buttonsBlock.appendChild(editButton);
-
             }
         }
 

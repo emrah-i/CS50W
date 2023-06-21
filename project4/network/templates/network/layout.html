@@ -13,10 +13,10 @@
     <body>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav_item">
-            <a class="navbar-brand" href="/">Website</a>
+            <a class="navbar-brand" href="/">Social Network</a>
           
-            <div id="nav_bar_items">
-              <ul class="navbar-nav mr-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" data-username="{{ user.username }}" id="layout_user_tag">{{ user.username }}</a>
@@ -43,6 +43,11 @@
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                 {% endif %}
+                    <form id="search_form" class="form-inline my-2 my-lg-0" action="/" method="post">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                        <button type="submit">Search</button>
+                    </form>
               </ul>
             </div>
           </nav>

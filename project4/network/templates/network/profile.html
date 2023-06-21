@@ -57,7 +57,7 @@
             <table>
                 <tr>
                     <td>
-                        <img src="{% static user_info.avatar %}" alt="My Image" width="150"></img>
+                        <img src="{% static user_info.avatar %}" alt="My Image" width="150" height="150"></img>
                     </td>
                     <td>
                         <h3>{{ user_info.username }}</h3>
@@ -122,7 +122,7 @@
             <p>{{ post.text|limit }}</p>
             <p>{{ post.upload_time }}</p>
             <p>{{ post.category }}</p>
-            <p>{{ post.comments_count }} Comments</p>
+            <p>{{ post.comment_count }} comment(s) {{ post.unique_users }}</p>
             {% if user.is_anonymous %}
             <p>{{ post.like_count }} Likes</p>
             {% endif %}
