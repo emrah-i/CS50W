@@ -28,6 +28,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'categories' %}">Catergories</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_page' %}">Search</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'following' %}">Following</a>
@@ -43,10 +46,6 @@
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                 {% endif %}
-                    <form id="search_form" class="form-inline my-2 my-lg-0">
-                        <input required class="form-control mr-sm-2" type="text" placeholder="Search" name="query" id="search_query">
-                        <button type="button" id="search_form_submit">Search</button>
-                    </form>
               </ul>
             </div>
           </nav>

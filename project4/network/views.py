@@ -99,7 +99,7 @@ def search_page(request):
     
 def search(request, query): 
 
-    start = request.GET.get('start') or 0
+    start = int(request.GET.get('start')) or 0
     end = start + 9
     sort = request.GET.get('sort')
 

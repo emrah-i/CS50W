@@ -2,6 +2,7 @@
 let post_counter = 0
 let following_counter = 0
 let category_counter = 0
+let search_counter = 0
 let sort = ''
 
 CATEGORY_CHOICES = [
@@ -72,29 +73,43 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#new_post_button').addEventListener('click', load_new_post);
     }
    
-    const search_form = document.querySelector('#search_form_submit')
 
-    search_form.addEventListener('click', () => {
+    if (window.location.pathname === '/search_page') {
 
+        const search_form = document.querySelector('#search_form_submit')
         let query = document.querySelector('#search_query').value
         let sort_new = 'rel'
         const sort_change = document.querySelector('#search_sort')
 
-        if (sort_change) {
-            sort_new = sort_change.value
-        }
+        search_form.addEventListener('click', () => {
 
-        if (query.trim().length !== 0 ) {
-            // window.location.pathname = "/search_page"
-        }
-        else {
-            return
-        }
+            search_counter = 0;
 
-        if (window.location.pathname === "/search_page") {
-            setTimeout(load_search_results(query, sort_new), 1000)
-        }
-    })
+            if (sort_change) {
+                sort_new = sort_change.value
+            }
+
+            if (query.trim().length !== 0 ) {
+                load_search_results(query, sort_new, search_counter)
+            }
+            else {
+                alert('You must enter a keyword');
+                return;
+            }
+        })
+
+        sort_change.addEventListener('change', () => {
+            load_search_results(query, sort_new, search_counter)
+        })
+
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                search_counter += 4;
+                load_search_results(query, sort_new, search_counter);
+        }})
+
+    }
+
 
     if (window.location.pathname === "/") {
 
@@ -884,12 +899,14 @@ async function load_category_posts(category, start, sort) {
 };
 }
 
-async function load_search_results(query, sort) {
+async function load_search_results(query, sort, start) {
 
     const main = document.querySelector('#search_posts');
     const effects = document.querySelector('#item_effects').value;
 
-    const response = await fetch(`/search/${query}?sort=${sort}`, {
+    main.innerHTML = ''
+
+    const response = await fetch(`/search/${query}?sort=${sort}&start=${start}`, {
         method: "GET"
     })
     const data = await response.json()
