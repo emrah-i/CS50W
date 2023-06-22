@@ -28,6 +28,20 @@ body a {
 body a:hover {
   text-decoration: underline;
 }
+body #menu_list a {
+  color: black;
+}
+body #dropdown_button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.15vw;
+}
+body #dropdown_button:hover {
+  background-color: none;
+}
+body #dropdown_button:focus {
+  box-shadow: none;
+}
 
 #all_posts {
   margin: 10px auto 10px auto;
