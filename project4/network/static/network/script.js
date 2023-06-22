@@ -83,23 +83,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         search_form.addEventListener('click', () => {
 
+            query = document.querySelector('#search_query').value
+
             search_counter = 0;
 
             if (sort_change) {
                 sort_new = sort_change.value
             }
 
-            if (query.trim().length !== 0 ) {
+            console.log(query)
+
+            if (query.trim().length !== 0) {
                 load_search_results(query, sort_new, search_counter)
             }
             else {
                 alert('You must enter a keyword');
                 return;
             }
-        })
-
-        sort_change.addEventListener('change', () => {
-            load_search_results(query, sort_new, search_counter)
         })
 
         window.addEventListener('scroll', () => {
@@ -490,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #category_posts').addEventListener('click', (event) => {
+        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #category_posts, #search_posts').addEventListener('click', (event) => {
             let post = ''
             let div_id = ''
             
@@ -902,9 +902,10 @@ async function load_category_posts(category, start, sort) {
 async function load_search_results(query, sort, start) {
 
     const main = document.querySelector('#search_posts');
-    const effects = document.querySelector('#item_effects').value;
 
-    main.innerHTML = ''
+    if (start === 0) {
+        main.innerHTML = ''
+    }
 
     const response = await fetch(`/search/${query}?sort=${sort}&start=${start}`, {
         method: "GET"
@@ -921,13 +922,6 @@ async function load_search_results(query, sort, start) {
         const searchResult = document.createElement('div');
         searchResult.id = 'search_post' + i;
         searchResult.className = 'search_posts';
-
-        if (effects === 'on') {
-            searchResult.dataset.effects = 'True';
-        }
-        else {
-            searchResult.dataset.effects = 'False';
-        }
 
         const id = data[i].post
         const title = data[i].title

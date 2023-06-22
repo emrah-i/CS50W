@@ -110,38 +110,41 @@ def search(request, query):
             Q(user__username__icontains=query) |
             Q(comment_post__text__icontains=query)
         ).distinct()
+    else:
+        return
 
-        posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category', 'comment_post__text')
+    posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category', 'comment_post__text')
 
-        if sort == "new_old":
-            return sorted(posts, key=lambda post: post['upload_time'], reverse=True)
-        elif sort == "old_new":
-            return sorted(posts, key=lambda post: post['upload_time'])
-        elif sort == "most_likes":
-            return sorted(posts, key=lambda post: post['like_count'], reverse=True)
-        elif sort == "least_likes":
-            return sorted(posts, key=lambda post: post['like_count'])
-        elif sort == "most_comments":
-            return sorted(posts, key=lambda post: post['comment_count'], reverse=True)
-        elif sort == "least_comments":
-            return sorted(posts, key=lambda post: post['comment_count'])
-        elif sort == "rel":
-            posts = sorted(posts, key=lambda post: get_relavance_score(post, query), reverse=True)
-            
-    data = []
-    for post in posts[start:end + 1]:
-        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+    for post in posts:
         unique_users = []
         comments = Comment.objects.filter(post=post['post'])
-
+        post['comment_count'] = len(comments)
+        
         for comment in comments:
             if comment.user not in unique_users:
                 unique_users.append(comment.user)
                 
         post["unique_users"] = len(unique_users)
-        data.append(post)
 
-    print(data)
+    if sort == "new_old":
+        posts = sorted(posts, key=lambda post: post['upload_time'], reverse=True)
+    elif sort == "old_new":
+        posts = sorted(posts, key=lambda post: post['upload_time'])
+    elif sort == "most_likes":
+        posts = sorted(posts, key=lambda post: post['like_count'], reverse=True)
+    elif sort == "least_likes":
+        posts = sorted(posts, key=lambda post: post['like_count'])
+    elif sort == "most_comments":
+        posts = sorted(posts, key=lambda post: post['comment_count'], reverse=True)
+    elif sort == "least_comments":
+        posts = sorted(posts, key=lambda post: post['comment_count'])
+    elif sort == "rel":
+        posts = sorted(posts, key=lambda post: get_relavance_score(post, query), reverse=True)
+            
+    data = []
+    for post in posts[start:end + 1]:
+        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+        data.append(post)
 
     return JsonResponse(data, safe=False)
 
