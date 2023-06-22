@@ -71,15 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         document.querySelector('#new_post_button').addEventListener('click', load_new_post);
     }
+   
+    const search_form =  document.querySelector('#search_form_submit')
 
-    document.querySelector('#search_form_submit').addEventListener('click', () => {
-        const query = document.querySelector('#search_query').value
-        
-        if (query.trim().length !== 0 ) {
-            window.location.pathname = "/search_page"
-            load_search_results(query, sort);
-        }
-    })
+    if (search_form) {
+        search_form.addEventListener('click', () => {
+            const query = document.querySelector('#search_query').value
+
+            if (query.trim().length !== 0 ) {
+                window.location.pathname = "/search_page"
+                load_search_results(query, sort);
+            }
+        })
+    }
 
     if (window.location.pathname === "/") {
 
@@ -875,6 +879,8 @@ async function load_search_results(query, sort) {
     const main_div = document.querySelector('#search_posts');
     const effects = document.querySelector('#item_effects').value;
 
+    console.log(query)
+
     const response = await fetch(`/search/${query}?sort=${sort}`, {
         method: "GET"
     })
@@ -1129,54 +1135,6 @@ function delete_post(id) {
         location.reload()
     }
 }
-
-function profile(username, start) {
-
-    user = ''
-    try {
-        user = document.querySelector('#layout_user_tag').dataset.username;
-    }
-    catch {}
-
-    innerHTML = `<div class="profile_post" id='profile_post{{ forloop.counter }}'>
-    <p>{{ post.text }}</p>
-    <p>{{ post.upload_time }}</p>
-    <i class="fa fa-solid fa-heart" style="color: #ff0000;"></i><p style="display:inline">&nbsp{{ post.likes_count }}</p>
-    <p>{{ post.comments_count }} Comments</p>
-    <button id="edit_button" data-id="{{ post.post }}">Edit</button>
-    </div>`
-
-    if (user !== '') {
-        fetch('/auth',{
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data === true) {
-                if (likes >= 1) {
-                    existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${likes}</span></button>`
-                }
-                else {
-                    existingPost.innerHTML += `<button id="like_button" data-postid="${id}"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span></button>`
-                }
-
-                fetch('/like/' + id,{
-                    method: 'GET'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const like_button = document.querySelector('#like_button[data-postid="' + id + '"]');
-
-                    if (data === true) {
-                        like_button.dataset.clicked = 'true';
-                    }
-                    else if (data === false) {
-                        like_button.dataset.clicked = 'false';
-                    }
-                })
-        }
-    })
-}}
 
 function unfollow(user_uf) {
 

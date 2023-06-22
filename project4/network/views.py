@@ -95,23 +95,26 @@ def index(request):
 
 def search_page(request): 
 
-    return(request, "network/search.html")
+    return render(request, "network/search.html")
     
 def search(request, query): 
 
-    start = request.GET.get('start') or 0
+    # request.GET.get('start') or
+
+    start = 0
     end = start + 9
     sort = request.GET.get('sort') or None
+    search_query = query
 
-    if query != None:
+    if search_query:
         posts = Post.objects.filter(
-            Q(title__icontains=query) |  
-            Q(text__icontains=query) |  
-            Q(user__username__icontains=query) |
-            Q(comment_post__text__icontains=query)
+            Q(title__icontains=search_query) |  
+            Q(text__icontains=search_query) |  
+            Q(user__username__icontains=search_query) |
+            Q(comment_post__text__icontains=search_query)
         ).distinct()
 
-        posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category')
+        posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category', 'comment_post__text')
 
         if sort == "new_old":
             return sorted(posts, key=lambda post: post['upload_time'], reverse=True)
@@ -126,7 +129,7 @@ def search(request, query):
         elif sort == "least_comments":
             return sorted(posts, key=lambda post: post['comment_count'])
         else:
-            posts = sorted(posts, key=lambda post: get_relavance_score(post, query), reverse=True)
+            posts = sorted(posts, key=lambda post: get_relavance_score(post, search_query), reverse=True)
             
     data = []
     for post in posts[start:end + 1]:
@@ -145,10 +148,12 @@ def search(request, query):
 
 def get_relavance_score(post, query):
 
-    title_count = post.title.lower().count(query.lower())
-    text_count = post.text.lower().count(query.lower())
-    username_count = post.user.username.lower().count(query.lower())
-    comment_count = post.comment.text.lower().count(query.lower())
+    title_count = post['title'].lower().count(query.lower())
+    text_count = post['text'].lower().count(query.lower())
+    username_count = post['user__username'].lower().count(query.lower())
+    comment_count = 0
+    if post['comment_post__text'] is not None:
+        comment_count = post['comment_post__text'].lower().count(query.lower())
     return title_count + text_count + username_count + comment_count
 
 def posts(request):
