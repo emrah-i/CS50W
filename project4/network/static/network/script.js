@@ -29,20 +29,20 @@ CATEGORY_CHOICES = [
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    try {
-        document.querySelector('#layout_user_tag').addEventListener('click', (event) => {
+    const layout_user_tag = document.querySelector('#layout_user_tag')
+
+    if (layout_user_tag){
+        layout_user_tag.addEventListener('click', (event) => {
             username = event.target.dataset.username
             sort = localStorage.getItem('sort')
     
             window.location = '/profile/' + username + '?sort=' + sort
         })
     }
-    catch{}
 
+    const sort_select = document.querySelector('#sort')
 
-    try {
-
-        const sort_select = document.querySelector('#sort')
+    if (sort_select) {
 
         if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/profile/')) {
             sort_select.value = localStorage.getItem('sort')
@@ -60,17 +60,26 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
         }
     }
-    catch {}
 
-    try {
-        document.querySelector('#new_post').addEventListener('click', (event) => {
+    const new_post = document.querySelector('#new_post')
+
+    if (new_post) {
+        new_post.addEventListener('click', (event) => {
             if (event.target.matches('#cancel')) {
                 cancel_new_post();
             }
         });
         document.querySelector('#new_post_button').addEventListener('click', load_new_post);
     }
-    catch {}
+
+    document.querySelector('#search_form_submit').addEventListener('click', () => {
+        const query = document.querySelector('#search_query').value
+        
+        if (query.trim().length !== 0 ) {
+            window.location.pathname = "/search_page"
+            load_search_results(query, sort);
+        }
+    })
 
     if (window.location.pathname === "/") {
 
@@ -113,43 +122,43 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         try {
-        if (document.querySelector('#item_effects').value === 'on') {
-            document.querySelector('#new_post').dataset.effects = 'True'
-            document.querySelector('#filters').dataset.effects = 'True'
-        }
-        else if (document.querySelector('#item_effects').value === 'off') {
-            document.querySelector('#new_post').dataset.effects = 'False'
-            document.querySelector('#filters').dataset.effects = 'False'
-        }
-
-        document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.value === "on") {
+            if (document.querySelector('#item_effects').value === 'on') {
                 document.querySelector('#new_post').dataset.effects = 'True'
                 document.querySelector('#filters').dataset.effects = 'True'
-                document.querySelectorAll('.posts').forEach((element) => {
-                    element.dataset.effects = 'True'
-                })
-                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
-                event.target.innerHTML = effects_choice                 
-
-                localStorage.setItem('item_effects_choice', effects_choice)
             }
-            else {
+            else if (document.querySelector('#item_effects').value === 'off') {
                 document.querySelector('#new_post').dataset.effects = 'False'
                 document.querySelector('#filters').dataset.effects = 'False'
-                document.querySelectorAll('.posts').forEach((element) => {
-                    element.dataset.effects = 'False'
-                })
-
-                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
-                event.target.innerHTML = effects_choice
-
-                localStorage.setItem('item_effects_choice', effects_choice)
             }
+
+            document.querySelector('#item_effects').addEventListener('change', (event) => {
+                if (event.target.value === "on") {
+                    document.querySelector('#new_post').dataset.effects = 'True'
+                    document.querySelector('#filters').dataset.effects = 'True'
+                    document.querySelectorAll('.posts').forEach((element) => {
+                        element.dataset.effects = 'True'
+                    })
+                    const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
+                    event.target.innerHTML = effects_choice                 
+
+                    localStorage.setItem('item_effects_choice', effects_choice)
+                }
+                else {
+                    document.querySelector('#new_post').dataset.effects = 'False'
+                    document.querySelector('#filters').dataset.effects = 'False'
+                    document.querySelectorAll('.posts').forEach((element) => {
+                        element.dataset.effects = 'False'
+                    })
+
+                    const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
+                    event.target.innerHTML = effects_choice
+
+                    localStorage.setItem('item_effects_choice', effects_choice)
+                }
         });
-    }
-    catch {}
-    }
+        }
+        catch {}
+        }
 
     if (window.location.pathname === "/following") {
         load_following_posts(following_counter, sort);
@@ -264,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         const sort_select = document.querySelector('#sort')
+
         if (localStorage.getItem('sort') !== null) {
             sort_select.value = localStorage.getItem('sort')
         }
@@ -303,13 +313,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
 
-        try {document.querySelector('#pp_edit_button').addEventListener('click', (event) => {
+        const pp_edit_button = document.querySelector('#pp_edit_button')
+
+        if (pp_edit_button) {
+            pp_edit_button.addEventListener('click', (event) => {
             const postid = event.target.dataset.id;
 
             post_page_edit(postid);
         })
         }
-        catch{}
 
         document.querySelectorAll('.post_comments').forEach((element) => {
             const replyButton = element.querySelector('#reply_button');
@@ -640,7 +652,6 @@ async function load_posts(value, sort, button) {
     }
 }   
 
-
 async function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
@@ -754,7 +765,6 @@ async function load_following_posts(start, sort) {
 async function load_category_posts(category, start, sort) {
 
     const main_div = document.querySelector('#category_posts');
-    const user = document.querySelector('#layout_user_tag').dataset.username;
     const effects = document.querySelector('#item_effects').value;
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
@@ -860,6 +870,112 @@ async function load_category_posts(category, start, sort) {
 };
 }
 
+async function load_search_results(query, sort) {
+
+    const main_div = document.querySelector('#search_posts');
+    const effects = document.querySelector('#item_effects').value;
+
+    const response = await fetch(`/search/${query}?sort=${sort}`, {
+        method: "GET"
+    })
+    const data = await response.json()
+
+    if (data.length === 0) {
+        alert(`No posts found with "${query}"`);
+        return;
+    }
+    
+    for(i = 0; i < data.length; i++){
+
+        const searchResult = document.createElement('div');
+        searchResult.id = 'search_post' + i;
+        searchResult.className = 'search_posts';
+
+        if (effects === 'on') {
+            searchResult.dataset.effects = 'True';
+        }
+        else {
+            searchResult.dataset.effects = 'False';
+        }
+
+        const id = data[i].post
+        const title = data[i].title
+        let text = data[i].text
+        if (text.length > 150) {
+            text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+        }
+        const username = data[i].user__username
+        const like_count = data[i].like_count
+        const comments = data[i].comment_count
+        const upload_time = data[i].upload_time
+        let unique_users = 'by ' + data[i].unique_users
+
+        if (data[i].unique_users === 1) {
+            unique_users += ' user'
+        }
+        else if (data[i].unique_users === 0) {
+            unique_users = ''
+        }
+        else {
+            unique_users += ' users'
+        }
+
+        searchResult.innerHTML = 
+        `
+        <div id="post_text_block">
+        <p id="post_category">${category}</p>
+        <h5 id="post_title">${title}</h5>
+        <p id="post_text">${text}</p>
+        </div>
+        <div id="post_user_block">
+            <p id="timestamp">${upload_time}</p>
+            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+        </div>
+        <div id="post_info_block">
+            <p>${comments} comment(s) ${unique_users}</p>   
+        </div>
+        `;
+
+        buttonsBlock = document.createElement('div')
+        buttonsBlock.id = 'post_button_block'
+        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
+        searchResult.appendChild(buttonsBlock);
+
+        const authResponse = await fetch('/auth',{
+            method: 'GET'
+        })
+        const authData = await authResponse.json()
+        if (authData === true) {
+    
+            const likeButton = document.createElement('button');
+            likeButton.id = 'like_button';
+            likeButton.dataset.postid = id;
+
+            if (like_count >= 1) {
+                likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
+                buttonsBlock.appendChild(likeButton);
+            }
+            else {
+                likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
+                buttonsBlock.appendChild(likeButton);
+            }
+
+            const likeResponse = await fetch('/like/' + id, {
+                method: 'GET',
+                });
+            const likeData = await likeResponse.json();
+
+            if (likeData === true) {
+                likeButton.dataset.clicked = 'true';
+            }
+            else if (likeData === false) {
+                likeButton.dataset.clicked = 'false';
+            }
+        }
+
+    main_div.append(searchResult);
+};
+}
 
 function load_new_post(event) {
 

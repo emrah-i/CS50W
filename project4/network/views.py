@@ -2,7 +2,7 @@ import uuid
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
@@ -90,7 +90,66 @@ def register(request):
     
 
 def index(request):
+
     return render(request, "network/index.html")
+
+def search_page(request): 
+
+    return(request, "network/search.html")
+    
+def search(request, query): 
+
+    start = request.GET.get('start') or 0
+    end = start + 9
+    sort = request.GET.get('sort') or None
+
+    if query != None:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |  
+            Q(text__icontains=query) |  
+            Q(user__username__icontains=query) |
+            Q(comment_post__text__icontains=query)
+        ).distinct()
+
+        posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category')
+
+        if sort == "new_old":
+            return sorted(posts, key=lambda post: post['upload_time'], reverse=True)
+        elif sort == "old_new":
+            return sorted(posts, key=lambda post: post['upload_time'])
+        elif sort == "most_likes":
+            return sorted(posts, key=lambda post: post['like_count'], reverse=True)
+        elif sort == "least_likes":
+            return sorted(posts, key=lambda post: post['like_count'])
+        elif sort == "most_comments":
+            return sorted(posts, key=lambda post: post['comment_count'], reverse=True)
+        elif sort == "least_comments":
+            return sorted(posts, key=lambda post: post['comment_count'])
+        else:
+            posts = sorted(posts, key=lambda post: get_relavance_score(post, query), reverse=True)
+            
+    data = []
+    for post in posts[start:end + 1]:
+        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
+        unique_users = []
+        comments = Comment.objects.filter(post=post['post'])
+
+        for comment in comments:
+            if comment.user not in unique_users:
+                unique_users.append(comment.user)
+                
+        post["unique_users"] = len(unique_users)
+        data.append(post)
+
+    return JsonResponse(data, safe=False)
+
+def get_relavance_score(post, query):
+
+    title_count = post.title.lower().count(query.lower())
+    text_count = post.text.lower().count(query.lower())
+    username_count = post.user.username.lower().count(query.lower())
+    comment_count = post.comment.text.lower().count(query.lower())
+    return title_count + text_count + username_count + comment_count
 
 def posts(request):
 
@@ -125,7 +184,6 @@ def posts(request):
             posts = Post.objects.all().annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('comment_count')
 
         data = []
-        
         for post in posts[start:end + 1]:
             post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
             unique_users = []

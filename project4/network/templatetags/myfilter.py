@@ -17,8 +17,6 @@ def sort_posts(posts, sort):
         return sorted(posts, key=lambda post: post['comment_count'], reverse=True)
     elif sort == "least_comments":
         return sorted(posts, key=lambda post: post['comment_count'])
-    else:
-        return posts
     
 @register.filter
 def limit(text):
