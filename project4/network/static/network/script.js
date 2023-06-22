@@ -72,18 +72,29 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#new_post_button').addEventListener('click', load_new_post);
     }
    
-    const search_form =  document.querySelector('#search_form_submit')
+    const search_form = document.querySelector('#search_form_submit')
 
-    if (search_form) {
-        search_form.addEventListener('click', () => {
-            const query = document.querySelector('#search_query').value
+    search_form.addEventListener('click', () => {
 
-            if (query.trim().length !== 0 ) {
-                window.location.pathname = "/search_page"
-                load_search_results(query, sort);
-            }
-        })
-    }
+        let query = document.querySelector('#search_query').value
+        let sort_new = 'rel'
+        const sort_change = document.querySelector('#search_sort')
+
+        if (sort_change) {
+            sort_new = sort_change.value
+        }
+
+        if (query.trim().length !== 0 ) {
+            // window.location.pathname = "/search_page"
+        }
+        else {
+            return
+        }
+
+        if (window.location.pathname === "/search_page") {
+            setTimeout(load_search_results(query, sort_new), 1000)
+        }
+    })
 
     if (window.location.pathname === "/") {
 
@@ -724,7 +735,6 @@ async function load_following_posts(start, sort) {
             </div>
             `;
 
-
             buttonsBlock = document.createElement('div')
             buttonsBlock.id = 'post_button_block'
             buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
@@ -862,12 +872,12 @@ async function load_category_posts(category, start, sort) {
                 });
             const likeData = await likeResponse.json();
 
-            if (likeData === true) {
-                likeButton.dataset.clicked = 'true';
-            }
-            else if (likeData === false) {
-                likeButton.dataset.clicked = 'false';
-            }
+                if (likeData === true) {
+                    likeButton.dataset.clicked = 'true';
+                }
+                else if (likeData === false) {
+                    likeButton.dataset.clicked = 'false';
+                }
         }
 
     main_div.append(categoryPost);
@@ -876,10 +886,8 @@ async function load_category_posts(category, start, sort) {
 
 async function load_search_results(query, sort) {
 
-    const main_div = document.querySelector('#search_posts');
+    const main = document.querySelector('#search_posts');
     const effects = document.querySelector('#item_effects').value;
-
-    console.log(query)
 
     const response = await fetch(`/search/${query}?sort=${sort}`, {
         method: "GET"
@@ -924,6 +932,13 @@ async function load_search_results(query, sort) {
         }
         else {
             unique_users += ' users'
+        }
+
+        category = data[i].category
+        for (j = 0; j < CATEGORY_CHOICES.length; j++) {
+            if (CATEGORY_CHOICES[j].code === category) {
+                category = CATEGORY_CHOICES[j].display
+            }
         }
 
         searchResult.innerHTML = 
@@ -971,16 +986,16 @@ async function load_search_results(query, sort) {
                 });
             const likeData = await likeResponse.json();
 
-            if (likeData === true) {
-                likeButton.dataset.clicked = 'true';
-            }
-            else if (likeData === false) {
-                likeButton.dataset.clicked = 'false';
-            }
+                if (likeData === true) {
+                    likeButton.dataset.clicked = 'true';
+                }
+                else if (likeData === false) {
+                    likeButton.dataset.clicked = 'false';
+                }
         }
 
-    main_div.append(searchResult);
-};
+    main.appendChild(searchResult);
+    };  
 }
 
 function load_new_post(event) {

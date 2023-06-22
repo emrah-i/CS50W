@@ -99,19 +99,16 @@ def search_page(request):
     
 def search(request, query): 
 
-    # request.GET.get('start') or
-
-    start = 0
+    start = request.GET.get('start') or 0
     end = start + 9
-    sort = request.GET.get('sort') or None
-    search_query = query
+    sort = request.GET.get('sort')
 
-    if search_query:
+    if query is not None:
         posts = Post.objects.filter(
-            Q(title__icontains=search_query) |  
-            Q(text__icontains=search_query) |  
-            Q(user__username__icontains=search_query) |
-            Q(comment_post__text__icontains=search_query)
+            Q(title__icontains=query) |  
+            Q(text__icontains=query) |  
+            Q(user__username__icontains=query) |
+            Q(comment_post__text__icontains=query)
         ).distinct()
 
         posts = posts.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category', 'comment_post__text')
@@ -128,8 +125,8 @@ def search(request, query):
             return sorted(posts, key=lambda post: post['comment_count'], reverse=True)
         elif sort == "least_comments":
             return sorted(posts, key=lambda post: post['comment_count'])
-        else:
-            posts = sorted(posts, key=lambda post: get_relavance_score(post, search_query), reverse=True)
+        elif sort == "rel":
+            posts = sorted(posts, key=lambda post: get_relavance_score(post, query), reverse=True)
             
     data = []
     for post in posts[start:end + 1]:
@@ -143,6 +140,8 @@ def search(request, query):
                 
         post["unique_users"] = len(unique_users)
         data.append(post)
+
+    print(data)
 
     return JsonResponse(data, safe=False)
 
