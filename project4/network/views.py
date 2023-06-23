@@ -574,8 +574,16 @@ def categories(request):
 
     else:
 
+        for category in CATEGORY_CHOICES:
+            post_count = Post.objects.filter(category=category['code'])
+            comment_count = Comment.objects.filter(post__category=category['code'])
+            category['post_count'] = len(post_count)
+            category['comment_count'] = len(comment_count)
+
+        print(CATEGORY_CHOICES)
+
         return render(request, 'network/categories.html', {
-            'categories': CATEGORY_CHOICES,
+            'categories': CATEGORY_CHOICES
         })
 
 def category(request, category):

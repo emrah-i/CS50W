@@ -1,6 +1,6 @@
 body {
   font-size: 1.15vw;
-  background-color: black;
+  background-color: white;
   color: white;
 }
 body textarea {
@@ -28,8 +28,10 @@ body a {
 body a:hover {
   text-decoration: underline;
 }
-body #menu_list a {
+body #menu_list {
   color: black;
+  padding: 10px;
+  min-width: 180px;
 }
 body #dropdown_button {
   background-color: transparent;
@@ -391,6 +393,45 @@ body #dropdown_button:focus {
   position: relative;
   overflow: hidden;
   background-color: white;
+}
+
+#category {
+  width: 90vw;
+  margin: 20px auto;
+  color: black;
+}
+#category table {
+  background-color: white;
+  width: 50vw;
+  margin: auto;
+}
+#category tr {
+  height: 10vh;
+  border: 2px solid black;
+}
+#category td {
+  padding: 10px;
+}
+#category th {
+  text-align: center;
+}
+#category #post_count, #category #comment_count {
+  text-align: center;
+}
+#category #post_count p, #category #comment_count p {
+  color: gray;
+  margin-bottom: 2px;
+}
+#category #categories_heading {
+  height: 10vh;
+  text-align: center;
+  background-color: rgba(46, 134, 193, 0.75);
+  width: 90vw;
+  margin: auto;
+  border-radius: 5px;
+}
+#category #categories_heading h3 {
+  line-height: 10vh;
 }
 
 #user_heading {

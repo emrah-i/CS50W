@@ -1,6 +1,6 @@
 body {
     font-size: 1.15vw;
-    background-color: black;
+    background-color: white;
     color: white;
 
     textarea {
@@ -34,8 +34,10 @@ body {
         text-decoration: underline;
     }
 
-    #menu_list a {
+    #menu_list {
         color: black;
+        padding: 10px;
+        min-width: 180px;
     }
 
     #dropdown_button {
@@ -470,6 +472,55 @@ body {
         background-color: white;
       }
 }
+
+#category {
+
+    width: 90vw;
+    margin: 20px auto;
+    color: black;
+
+    table {
+        background-color: white;
+        width: 50vw;
+        margin: auto;
+    }
+
+    tr {
+        height: 10vh;
+        border: 2px solid black;
+    }
+
+    td {
+        padding: 10px;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    #post_count, #comment_count {
+        text-align: center;
+    }
+
+    #post_count p, #comment_count p {
+        color: gray;
+        margin-bottom: 2px;
+    }
+
+    #categories_heading {
+        height: 10vh;
+        text-align: center;
+        background-color: rgba(46, 134, 193, .75);
+        width: 90vw;
+        margin: auto;
+        border-radius: 5px;
+
+        h3 {
+            line-height: 10vh;
+        }
+    }
+}
+
 
 #user_heading {
     font-weight: 600;

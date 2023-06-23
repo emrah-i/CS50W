@@ -30,6 +30,39 @@ CATEGORY_CHOICES = [
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const dropdowns = document.getElementById('menu_list');
+
+    dropdowns.addEventListener('click', (event) => {
+        event.stopPropagation();
+        });
+
+    const dark_mode = document.querySelector('#dark_mode')
+
+    if (localStorage.getItem('dark_mode') !== null) {
+
+        const mode = localStorage.getItem('dark_mode')
+        dark_mode.value = mode
+
+        if (mode === 'on') {
+            document.querySelector('body').style.backgroundColor = 'black';
+        }
+        else {
+            document.querySelector('body').style.backgroundColor = 'white';
+        }
+    }
+
+    dark_mode.addEventListener('change', () => {
+        localStorage.setItem('dark_mode', dark_mode.value)
+
+        if (dark_mode.value === 'on') {
+            document.querySelector('body').style.backgroundColor = 'black';
+        }
+        else {
+            document.querySelector('body').style.backgroundColor = 'white';
+        }
+    })
+
+
     const layout_user_tag = document.querySelector('#layout_user_tag')
 
     if (layout_user_tag){
@@ -109,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }})
 
     }
-
 
     if (window.location.pathname === "/") {
 
@@ -240,22 +272,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.location.pathname.startsWith("/profile/")) {
         document.querySelector('#open_following').addEventListener('click', () => {
-            document.querySelector('#following_users_popup dialog').open = true;
-            document.querySelector('#followers_user_popup dialog').open = false;
+            document.querySelector('#following_users_popup').style.display = 'block';
+            document.querySelector('#followers_user_popup').style.display = 'none';
             document.querySelector('#dialog_backdrop').style.display = 'block';
         });
         document.querySelectorAll('#close_following, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
-            document.querySelector('#following_users_popup dialog').open = false;
+            document.querySelector('#following_users_popup').style.display = 'none';
             document.querySelector('#dialog_backdrop').style.display = 'none';
             })
         });
         document.querySelector('#open_followers').addEventListener('click', () => {
-            document.querySelector('#followers_user_popup dialog').open = true;
-            document.querySelector('#following_users_popup dialog').open = false;
+            document.querySelector('#followers_user_popup').style.display = 'block';
+            document.querySelector('#following_users_popup').style.display = 'none';
             document.querySelector('#dialog_backdrop').style.display = 'block';
         });
         document.querySelectorAll('#close_followers, #dialog_backdrop').forEach(element => {element.addEventListener('click', () => {
-            document.querySelector('#followers_user_popup dialog').open = false;
+            document.querySelector('#followers_user_popup').style.display = 'none';
             document.querySelector('#dialog_backdrop').style.display = 'none';
             })
         });
@@ -546,7 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
     catch{}
-})
+});
 
 async function load_posts(value, sort, button) {
 

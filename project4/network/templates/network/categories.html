@@ -1,14 +1,24 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
+<div id="category">
+    <div id="categories_heading">
+        <h3>All Our Categories</h3>
+    </div>
     <form action="/categories" method="POST">
         {% csrf_token %}
-        <select name="category">
-            <option selected disabled>Select Category</option>
+        <input hidden name="category">
+        <table>
+            <tbody>
             {% for category in categories %}
-            <option value="{{ category.code }}">{{ category.display }}</option>
+                <tr value="{{ category.code }}">
+                    <td>{{ category.display }}</td>
+                    <td id="post_count"><p>Posts:</p>{{ category.post_count }}</td>
+                    <td id="comment_count"><p>Total comments:</p>{{ category.comment_count }}</td>
+                </tr>
             {% endfor %}
-        </select>
-        <button type="submit">Search</button>
+            </tbody>
+        </table>
     </form>
+</div>
 {% endblock %}

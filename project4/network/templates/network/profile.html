@@ -4,55 +4,55 @@
 
 {% block body %}
 <div id="dialog_backdrop"></div>
-    <div id="profile_posts">
-        <div id="following_users_popup">
-        <dialog close>  
-            <button type="button" id="close_following">X</button>       
-            <h2>Following</h2>                   
-            <div id="following_content">
+    <div id="following_users_popup" style="display:none">
+    <dialog>  
+        <button type="button" id="close_following">X</button>       
+        <h2>Following</h2>                   
+        <div id="following_content">
+            <table>
+                <thead>
+                    <th>Username</th>
+                    {% if user.username == user_info.username %}
+                    <th id="left-border">Unfollow</th>
+                    {% endif %}
+                </thead>
+                {% for user2 in following_users %}
+                <tr>
+                    <td id="col"><a href="{% url 'profile' user2.username %}" id="profile_user_link">{{ user2.username }}</a></td>
+                    {% if user.username == user_info.username %}
+                    <td id="col"><button id="remove_follower_button" data-userid="{{ user2.id }}">Unfollow</button></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </dialog>
+    </div>
+    <div id="followers_user_popup" style="display:none">
+        <dialog>  
+            <button type="button" id="close_followers">X</button>  
+            <h2>Followers</h2>            
+            <div id="follower_content">
                 <table>
                     <thead>
                         <th>Username</th>
                         {% if user.username == user_info.username %}
-                        <th id="left-border">Unfollow</th>
+                        <th id="left-border">Remove</th>
                         {% endif %}
                     </thead>
-                    {% for user2 in following_users %}
+                    {% for user2 in follower_users %}
                     <tr>
                         <td id="col"><a href="{% url 'profile' user2.username %}" id="profile_user_link">{{ user2.username }}</a></td>
                         {% if user.username == user_info.username %}
-                        <td id="col"><button id="remove_follower_button" data-userid="{{ user2.id }}">Unfollow</button></td>
+                        <td id="col"><button id="unfollow_button" data-userid="{{ user2.id }}">Remove</button></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
                 </table>
             </div>
         </dialog>
-        </div>
-        <div id="followers_user_popup">
-            <dialog close>  
-                <button type="button" id="close_followers">X</button>  
-                <h2>Followers</h2>            
-                <div id="follower_content">
-                    <table>
-                        <thead>
-                            <th>Username</th>
-                            {% if user.username == user_info.username %}
-                            <th id="left-border">Remove</th>
-                            {% endif %}
-                        </thead>
-                        {% for user2 in follower_users %}
-                        <tr>
-                            <td id="col"><a href="{% url 'profile' user2.username %}" id="profile_user_link">{{ user2.username }}</a></td>
-                            {% if user.username == user_info.username %}
-                            <td id="col"><button id="unfollow_button" data-userid="{{ user2.id }}">Remove</button></td>
-                            {% endif %}
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </dialog>
-            </div>
+    </div>
+    <div id="profile_posts">
         <div id="user_info">
             <table>
                 <tr>
@@ -103,13 +103,6 @@
                             <option value="least_likes">Least Likes</option>
                             <option value="most_comments">Most Comments</option>
                             <option value="least_comments">Least Comments</option>
-                        </select>
-                    </td>
-                    <td id="row2">
-                        <p style="display:inline">Item Effects:</p>
-                        <select id="item_effects">
-                            <option selected value="off">Off</option>
-                            <option value="on">On</option>
                         </select>
                     </td>
                 </tr>
