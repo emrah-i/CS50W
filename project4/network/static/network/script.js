@@ -767,10 +767,12 @@ async function load_following_posts(start, sort) {
             followingPost.innerHTML = 
             `
             <div id="post_text_block">
-                <p id="post_category">${category}</p>
-                <h5 id="post_title">${title}</h5>
+                <h4 id="post_title">${title}</h4>
                 <p id="post_text">${text}</p>
             </div>
+            <div id="post_category_block">
+                <p id="post_category">${category}</p>
+            </div>  
             <div id="post_user_block">
                 <p id="timestamp">Posted ${upload_time}</p>
                 <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>

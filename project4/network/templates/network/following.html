@@ -1,21 +1,23 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div id="following_posts">
-        <div id="following_users">
-        <table>
-            <thead>
-                <th>User</th>
-                <th id="left-border">Unfollow</th>
-            </thead>
-            {% for user in following_users %}
-            <tr>
-                <td id="col"><a href="{% url 'profile' user.username %}" id="following_user_link">{{ user.username }}</a></td>
-                <td id="col"><button id="unfollow_button" data-userid="{{ user.id }}">Unfollow</button></td>
-            </tr>
-            {% endfor %}
-        </table>
+    <div id="following_users">
+        <div id="table">
+            <table>
+                <thead>
+                    <th>User</th>
+                    <th id="left-border">Unfollow</th>
+                </thead>
+                {% for user in following_users %}
+                <tr>
+                    <td id="col"><a href="{% url 'profile' user.username %}" id="following_user_link">{{ user.username }}</a></td>
+                    <td id="col"><button id="unfollow_button" data-userid="{{ user.id }}">Unfollow</button></td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
+    </div>
+    <div id="following_posts">
         <div id="filters">
             <table>
                 <tr>
@@ -36,6 +38,22 @@
                 </tr>
             </table>
         </div>
-
+        <div id="posts_categories" class="posts">
+            <div id="post_text_block">
+                <p id="post_title">Topics</p>
+            </div>
+            <div id="post_category_block">
+                <p id="post_category">Category</p>
+            </div>  
+            <div id="post_user_block">
+                <p>Info</p>
+            </div>
+            <div id="post_info_block">
+                <p>Comments</p>   
+            </div>
+            <div id="post_button_block">
+                <p>Options</p>   
+            </div>
+        </div>
     </div>
 {% endblock %}
