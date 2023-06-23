@@ -654,13 +654,15 @@ async function load_posts(value, sort, button) {
 
         existingPost.innerHTML = `
         <div id="post_text_block">
-            <p id="post_category">${category}</p>
-            <h5 id="post_title">${title}</h5>
+            <h4 id="post_title">${title}</h4>
             <p id="post_text">${text}</p>
         </div>
+        <div id="post_category_block">
+            <p id="post_category">${category}</p>
+        </div>  
         <div id="post_user_block">
-            <p id="timestamp">${upload_time}</p>
-            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+            <p id="timestamp">Posted ${upload_time}</p>
+            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
         </div>
         <div id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   
@@ -770,8 +772,8 @@ async function load_following_posts(start, sort) {
                 <p id="post_text">${text}</p>
             </div>
             <div id="post_user_block">
-                <p id="timestamp">${upload_time}</p>
-                <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+                <p id="timestamp">Posted ${upload_time}</p>
+                <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
             </div>
             <div id="post_info_block">
                 <p>${comments} comment(s) ${unique_users}</p>   
@@ -876,8 +878,8 @@ async function load_category_posts(category, start, sort) {
         <p id="post_text">${text}</p>
         </div>
         <div id="post_user_block">
-            <p id="timestamp">${upload_time}</p>
-            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+            <p id="timestamp">Posted ${upload_time}</p>
+            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
         </div>
         <div id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   
@@ -990,8 +992,8 @@ async function load_search_results(query, sort, start) {
         <p id="post_text">${text}</p>
         </div>
         <div id="post_user_block">
-            <p id="timestamp">${upload_time}</p>
-            <p>Posted by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}:</a></p>
+            <p id="timestamp">Posted ${upload_time}</p>
+            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
         </div>
         <div id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   

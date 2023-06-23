@@ -1,6 +1,11 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+    {% if user.is_authenticated %}
+    <div id="new_post">
+        <button id="new_post_button" data-user="{{ user.username }}">New Post</button>
+    </div>
+    {% endif %}
     <div id="filters">
         <table>
             <tr>
@@ -21,11 +26,23 @@
             </tr>
         </table>
     </div>
-    {% if user.is_authenticated %}
-    <div id="new_post">
-        <button id="new_post_button" data-user="{{ user.username }}">New Post</button>
+    <div id="posts_categories" class="posts">
+        <div id="post_text_block">
+            <p id="post_title">Topics</p>
+        </div>
+        <div id="post_category_block">
+            <p id="post_category">Category</p>
+        </div>  
+        <div id="post_user_block">
+            <p>Info</p>
+        </div>
+        <div id="post_info_block">
+            <p>Comments</p>   
+        </div>
+        <div id="post_button_block">
+            <p>Options</p>   
+        </div>
     </div>
-    {% endif %}
     <div id="all_posts">
     </div>
     <div id="page_buttons">

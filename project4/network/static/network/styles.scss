@@ -57,48 +57,77 @@ body {
 
 #all_posts {
 
-    margin: 10px auto 10px auto;
+    margin: auto;
     width: 90vw;
-
-    .posts {
-        display: flex;
-        width: 100%;
-        margin: 10px 0;
-        border: 1px solid black;
-        border-radius: 6px;
-        transition: transform 0.3s ease;
-
-        #user_input {
-            margin: 10px 5%;
-        }
-    }
-
-    #post_text {
-        margin: 0;
-    }
+    border-bottom: 1px solid black;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    border-radius: 0 0 5px 5px ;
 
     #timestamp {
         margin: 0;
         color: white;
     }
+}
 
-    ul {
-        list-style-type: none;
-        line-height: 20px;
+#post_user_block, #post_info_block, #post_button_block, #post_category_block {
+    flex: 1;
+    text-align: center;
+    background-color: rgba(46, 134, 193, .75);
+    padding: 20px 10px;
+}
+
+#post_text_block {
+    flex: 5;
+    background-color: rgba(46, 134, 193, .75);
+    padding: 20px 10px;
+}
+
+#gtp_button {
+    margin: 5px;
+}
+
+#posts_categories {
+    margin: 0 auto;
+    width: 90vw;
+    font-size: 1.1em;
+    height: 6vh;
+    border-top: 1px solid rgba(26, 82, 118, .75);
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+
+    div {
+        background-color: rgba(26, 82, 118, .75);
+        padding: 0 10px;
     }
 
-    #edit_button {
-        margin-left: 5px;
+    p {
+        line-height: 6vh;
+    }
+}
+
+.posts {
+    display: flex;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    transition: transform 0.3s ease;
+    height: 15vh;
+    
+    #user_input {
+        margin: 10px 5%;
     }
 }
 
 #new_post {
 
     background-color: rgba(46, 134, 193, .75);
-    border: 1px solid black;
-    border-radius: 6px;
+    border-radius: 0 0 5px 5px;
     padding: 15px;
-    margin: 10px auto 10px auto;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: 2px solid black;
+    ;
     width: 90vw;
 
     #category_input {
@@ -344,10 +373,13 @@ body {
 
     background-color: rgba(26, 82, 118, .75);
     width: 90%;
-    margin: 10px 5%;
+    margin: 10px 5% 0 5%;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 6px;
+    border-bottom: 2px solid rgba(26, 82, 118, .75);
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    border-radius: 5px 5px 0 0;
 
     #row1 {
         text-align: right;
@@ -575,22 +607,7 @@ body {
     color: white;
 }
 
-#post_user_block, #post_info_block, #post_button_block {
-    flex: 1;
-    text-align: center;
-    border-radius: 5px;
-    background-color: rgba(46, 134, 193, .75);
-    margin-right: 10px;
-    padding: 10px;
-}
 
-#post_text_block {
-    flex: 5;
-    border-radius: 5px;
-    background-color: rgba(46, 134, 193, .75);
-    margin-right: 10px;
-    padding: 10px;
-}
 
 #post_button_block {
     margin-right: 0;
@@ -611,8 +628,4 @@ body {
 
 #search_form {
     justify-content: flex-end;
-}
-
-#gtp_button {
-    margin: 10px;
 }
