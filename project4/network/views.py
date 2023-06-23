@@ -15,27 +15,32 @@ import json
 from .models import User, Post, UserFollow, Comment
 
 CATEGORY_CHOICES = [
-    {'code': 'general', 'display': 'General Discussion'},
-    {'code': 'help', 'display': 'Help and Support'},
-    {'code': 'suggestions', 'display': 'Suggestions and Feedback'},
-    {'code': 'introductions', 'display': 'Introductions'},
-    {'code': 'offtopic', 'display': 'Off-Topic Discussion'},
-    {'code': 'news', 'display': 'News and Announcements'},
-    {'code': 'technology', 'display': 'Technology and Gadgets'},
-    {'code': 'entertainment', 'display': 'Entertainment and Media'},
-    {'code': 'sports', 'display': 'Sports and Fitness'},
-    {'code': 'education', 'display': 'Education and Learning'},
-    {'code': 'arts', 'display': 'Arts and Creativity'},
-    {'code': 'food', 'display': 'Food and Cooking'},
-    {'code': 'travel', 'display': 'Travel and Adventure'},
-    {'code': 'music', 'display': 'Music and Audio'},
-    {'code': 'movies', 'display': 'Movies and TV Shows'},
-    {'code': 'books', 'display': 'Books and Literature'},
-    {'code': 'fashion', 'display': 'Fashion and Style'},
-    {'code': 'health', 'display': 'Health and Wellness'},
-    {'code': 'politics', 'display': 'Politics and Current Events'},
-    {'code': 'business', 'display': 'Business and Entrepreneurship'},
+    {'code': 'general', 'display': 'General Discussion', 'parent': 'General'},
+    {'code': 'help', 'display': 'Help and Support', 'parent': 'General'},
+    {'code': 'suggestions', 'display': 'Suggestions and Feedback', 'parent': 'General'},
+    {'code': 'introductions', 'display': 'Introductions', 'parent': 'General'},
+    {'code': 'offtopic', 'display': 'Off-Topic Discussion', 'parent': 'General'},
+
+    {'code': 'news', 'display': 'News and Announcements', 'parent': 'Current Events'},
+    {'code': 'education', 'display': 'Education and Learning', 'parent': 'Current Events'},
+    {'code': 'health', 'display': 'Health and Wellness', 'parent': 'Current Events'},
+    {'code': 'politics', 'display': 'Politics and Current Events', 'parent': 'Current Events'},
+    {'code': 'business', 'display': 'Business and Entrepreneurship', 'parent': 'Current Events'},
+
+    {'code': 'travel', 'display': 'Travel and Adventure', 'parent': 'Entertainment'},
+    {'code': 'technology', 'display': 'Technology and Gadgets', 'parent': 'Entertainment'},
+    {'code': 'entertainment', 'display': 'Entertainment and Media', 'parent': 'Entertainment'},
+    {'code': 'sports', 'display': 'Sports and Fitness', 'parent': 'Entertainment'},
+    {'code': 'food', 'display': 'Food and Cooking', 'parent': 'Entertainment'},
+
+    {'code': 'arts', 'display': 'Arts and Creativity', 'parent': 'Art'},
+    {'code': 'music', 'display': 'Music and Audio', 'parent': 'Art'},
+    {'code': 'movies', 'display': 'Movies and TV Shows', 'parent': 'Art'},
+    {'code': 'books', 'display': 'Books and Literature', 'parent': 'Art'},
+    {'code': 'fashion', 'display': 'Fashion and Style', 'parent': 'Art'},
 ]
+
+parents = ['General', 'Current Events', 'Entertainment', 'Art']
 
 def login_view(request):
     if request.method == "POST":
@@ -566,25 +571,16 @@ def reply(request, commentid):
 
 def categories(request):
 
-    if request.method == "POST":
-        
-        category = request.POST.get('category')
+    for category in CATEGORY_CHOICES:
+        post_count = Post.objects.filter(category=category['code'])
+        comment_count = Comment.objects.filter(post__category=category['code'])
+        category['post_count'] = len(post_count)
+        category['comment_count'] = len(comment_count)
 
-        return HttpResponseRedirect(reverse('category', args=(category, )))
-
-    else:
-
-        for category in CATEGORY_CHOICES:
-            post_count = Post.objects.filter(category=category['code'])
-            comment_count = Comment.objects.filter(post__category=category['code'])
-            category['post_count'] = len(post_count)
-            category['comment_count'] = len(comment_count)
-
-        print(CATEGORY_CHOICES)
-
-        return render(request, 'network/categories.html', {
-            'categories': CATEGORY_CHOICES
-        })
+    return render(request, 'network/categories.html', {
+        'categories': CATEGORY_CHOICES,
+        'parents': parents
+    })
 
 def category(request, category):
         

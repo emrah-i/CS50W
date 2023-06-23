@@ -123,8 +123,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let sort_new = 'rel'
         const sort_change = document.querySelector('#search_sort')
 
-        search_form.addEventListener('click', () => {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                search()
+                }
+            })
 
+        search_form.addEventListener('click', () => {
+            search();
+        })
+    
+        function search() {
             query = document.querySelector('#search_query').value
 
             search_counter = 0;
@@ -142,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('You must enter a keyword');
                 return;
             }
-        })
+        }
 
         window.addEventListener('scroll', () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -667,7 +677,7 @@ async function load_posts(value, sort, button) {
                 method: 'GET',
                 });
             const data = await authResponse.json();
-            if (data === 'true') {
+            if (data === true) {
 
                 const likeButton = document.createElement('button');
                 likeButton.id = 'like_button';
@@ -862,7 +872,6 @@ async function load_category_posts(category, start, sort) {
         categoryPost.innerHTML = 
         `
         <div id="post_text_block">
-        <p id="post_category">${category}</p>
         <h5 id="post_title">${title}</h5>
         <p id="post_text">${text}</p>
         </div>
@@ -917,9 +926,14 @@ async function load_category_posts(category, start, sort) {
 };
 }
 
+limit = 0
+
 async function load_search_results(query, sort, start) {
 
     const main = document.querySelector('#search_posts');
+    const heading = document.querySelector('#search_posts_heading');
+
+    heading.innerHTML = `<h3>Search results for '${query}'<h3>`
 
     if (start === 0) {
         main.innerHTML = ''
@@ -930,9 +944,17 @@ async function load_search_results(query, sort, start) {
     })
     const data = await response.json()
 
-    if (data.length === 0) {
-        alert(`No posts found with "${query}"`);
+    if (data.length === 0 && start === 0) {
+        main.innerHTML = `No posts found with "${query}"`;
         return;
+    }
+
+    if (data.length === 0 && start !== 0) {
+        if (limit !== 1) {
+            main.innerHTML += `<p style="text-align:center; margin:20px 0 40px 0;">No more posts with "${query}"</p>`;
+            limit += 1
+            return;
+        }
     }
     
     for(i = 0; i < data.length; i++){

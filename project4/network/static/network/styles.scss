@@ -94,7 +94,7 @@ body {
 
 #new_post {
 
-    background-color: rgba(26, 82, 118, .75);
+    background-color: rgba(46, 134, 193, .75);
     border: 1px solid black;
     border-radius: 6px;
     padding: 15px;
@@ -125,7 +125,7 @@ body {
 
     .profile_post {
         width: 100%;
-        background-color: rgba(46, 134, 193, .75);;
+        background-color: rgba(46, 134, 193, .75);
         margin: 10px 0;
         padding: 10px;
         border: 1px solid black;
@@ -213,6 +213,10 @@ body {
         td, th {
             padding: 15px;
             border-bottom: 2px solid black;
+        }
+
+        th { 
+            background-color: rgba(26, 82, 118, .75);
         }
     
         #left-border {
@@ -345,7 +349,7 @@ body {
     border: 1px solid black;
     border-radius: 6px;
 
-    #row2 {
+    #row1 {
         text-align: right;
     }
 
@@ -355,6 +359,10 @@ body {
 
     td {
         width: 50%
+    }
+
+    h3 {
+        font-size: 1.5em;
     }
 
     select {
@@ -511,14 +519,53 @@ body {
     #categories_heading {
         height: 10vh;
         text-align: center;
-        background-color: rgba(46, 134, 193, .75);
-        width: 90vw;
-        margin: auto;
+        background-color: rgba(26, 82, 118, .75);
+        width: 60vw;
+        margin: 20px auto;
         border-radius: 5px;
+        border: 2px solid black;
 
         h3 {
             line-height: 10vh;
+            color: white;
         }
+    }
+
+    .categories_parent_headings {
+        height: 10vh;
+        text-align: center;
+        background-color: rgba(46, 134, 193, .75);
+        width: 50vw;
+        margin: 20px auto 0 auto;
+        border-radius: 5px 5px 0 0;
+        border-width: 2px 2px 0 2px;
+        border-style: solid;
+        border-color: black;
+
+        h3 {
+            line-height: 10vh;
+            color: white;
+        }
+    }
+
+    #categories_table_heading a {
+        color: black;
+    }
+}
+
+#search_bar {
+
+    text-align: center;
+    margin: 20px auto;
+    background-color: rgba(26, 82, 118, .75);
+    width: 30vw;
+    border-radius: 5px;
+    padding: 15px;
+
+    select, input {
+        height: 5vh;
+        border-radius: 5px;
+        padding: 5px;
     }
 }
 

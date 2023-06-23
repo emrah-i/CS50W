@@ -76,7 +76,7 @@ body #dropdown_button:focus {
 }
 
 #new_post {
-  background-color: rgba(26, 82, 118, 0.75);
+  background-color: rgba(46, 134, 193, 0.75);
   border: 1px solid black;
   border-radius: 6px;
   padding: 15px;
@@ -176,6 +176,9 @@ body #dropdown_button:focus {
 #following_posts #following_users td, #following_posts #following_users th {
   padding: 15px;
   border-bottom: 2px solid black;
+}
+#following_posts #following_users th {
+  background-color: rgba(26, 82, 118, 0.75);
 }
 #following_posts #following_users #left-border {
   border-left: 2px solid black;
@@ -290,7 +293,7 @@ body #dropdown_button:focus {
   border: 1px solid black;
   border-radius: 6px;
 }
-#filters #row2 {
+#filters #row1 {
   text-align: right;
 }
 #filters table {
@@ -298,6 +301,9 @@ body #dropdown_button:focus {
 }
 #filters td {
   width: 50%;
+}
+#filters h3 {
+  font-size: 1.5em;
 }
 #filters select {
   padding: 4px;
@@ -426,13 +432,47 @@ body #dropdown_button:focus {
 #category #categories_heading {
   height: 10vh;
   text-align: center;
-  background-color: rgba(46, 134, 193, 0.75);
-  width: 90vw;
-  margin: auto;
+  background-color: rgba(26, 82, 118, 0.75);
+  width: 60vw;
+  margin: 20px auto;
   border-radius: 5px;
+  border: 2px solid black;
 }
 #category #categories_heading h3 {
   line-height: 10vh;
+  color: white;
+}
+#category .categories_parent_headings {
+  height: 10vh;
+  text-align: center;
+  background-color: rgba(46, 134, 193, 0.75);
+  width: 50vw;
+  margin: 20px auto 0 auto;
+  border-radius: 5px 5px 0 0;
+  border-width: 2px 2px 0 2px;
+  border-style: solid;
+  border-color: black;
+}
+#category .categories_parent_headings h3 {
+  line-height: 10vh;
+  color: white;
+}
+#category #categories_table_heading a {
+  color: black;
+}
+
+#search_bar {
+  text-align: center;
+  margin: 20px auto;
+  background-color: rgba(26, 82, 118, 0.75);
+  width: 30vw;
+  border-radius: 5px;
+  padding: 15px;
+}
+#search_bar select, #search_bar input {
+  height: 5vh;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 #user_heading {

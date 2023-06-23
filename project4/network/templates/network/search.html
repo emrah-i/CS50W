@@ -1,29 +1,25 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <form id="search_form" class="form-inline my-2 my-lg-0">
-        <select id="search_sort">
-            <option selected value="rel">Relavance</option>
-            <option value="new_old">Newest to Oldest</option>
-            <option value="old_new">Oldest to Newest</option>
-            <option value="most_likes">Most Likes</option>
-            <option value="least_likes">Least Likes</option>
-            <option value="most_comments">Most Comments</option>
-            <option value="least_comments">Least Comments</option>
-        </select>
-        <input required class="form-control mr-sm-2" type="text" placeholder="Search" name="query" id="search_query">
-        <button type="button" id="search_form_submit">Search</button>
-    </form>
-    <div id="search_filters">
-        <table>
-            <tr>
-                <td id="row1">
-                    <p style="display:inline">Sort By:</p>
-            </tr>
-        </table>
+    <div id="search_bar">
+        <form id="search_form" class="form-inline my-2 my-lg-0">
+            <div id="sort_input">
+                <p style="display:inline">Sort By:</p>
+                <select id="search_sort">
+                    <option selected value="rel">Relavance</option>
+                    <option value="new_old">Newest to Oldest</option>
+                    <option value="old_new">Oldest to Newest</option>
+                    <option value="most_likes">Most Likes</option>
+                    <option value="least_likes">Least Likes</option>
+                    <option value="most_comments">Most Comments</option>
+                    <option value="least_comments">Least Comments</option>
+                </select>
+            </div><br>
+            <input required type="text" placeholder="Search" name="query" id="search_query">
+            <button type="button" id="search_form_submit">Search</button>
+        </form>
     </div>
-    <div id="posts_heading">
-        <h3></h3>
+    <div id="search_posts_heading">
     </div>
     <div id="search_posts">
     </div>

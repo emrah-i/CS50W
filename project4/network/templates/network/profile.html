@@ -5,7 +5,7 @@
 {% block body %}
 <div id="dialog_backdrop"></div>
     <div id="following_users_popup" style="display:none">
-    <dialog>  
+    <dialog open>  
         <button type="button" id="close_following">X</button>       
         <h2>Following</h2>                   
         <div id="following_content">
@@ -29,7 +29,7 @@
     </dialog>
     </div>
     <div id="followers_user_popup" style="display:none">
-        <dialog>  
+        <dialog open>  
             <button type="button" id="close_followers">X</button>  
             <h2>Followers</h2>            
             <div id="follower_content">
@@ -86,14 +86,16 @@
                 </tr>
             </table>
         </div>
-        {% if user.username == user_info.username %}
-        <h2>All My Posts</h2>
-        {% else %}
-        <h2>All {{ user_info.username }}'s Posts</h2>
-        {% endif %}
         <div id="filters">
             <table>
                 <tr>
+                    <td>
+                        {% if user.username == user_info.username %}
+                        <h3>All My Posts</h3>
+                        {% else %}
+                        <h3>All {{ user_info.username }}'s Posts</h3>
+                        {% endif %}
+                    </td>
                     <td id="row1">
                         <p style="display:inline">Sort By:</p>
                         <select id="sort">
