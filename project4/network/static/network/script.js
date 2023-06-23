@@ -30,38 +30,41 @@ CATEGORY_CHOICES = [
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const dropdowns = document.getElementById('menu_list');
+    const dropdowns = document.querySelector('#menu_list');
 
     dropdowns.addEventListener('click', (event) => {
         event.stopPropagation();
-        });
+    });
 
-    const dark_mode = document.querySelector('#dark_mode')
+    let dark_mode = document.querySelector('#dark_mode')
 
     if (localStorage.getItem('dark_mode') !== null) {
 
         const mode = localStorage.getItem('dark_mode')
-        dark_mode.value = mode
 
-        if (mode === 'on') {
+        if (mode === 'true') {
             document.querySelector('body').style.backgroundColor = 'black';
+            dark_mode.checked = true
         }
         else {
             document.querySelector('body').style.backgroundColor = 'white';
+            dark_mode.checked = false
         }
     }
 
     dark_mode.addEventListener('change', () => {
-        localStorage.setItem('dark_mode', dark_mode.value)
 
-        if (dark_mode.value === 'on') {
+        dark_mode = document.querySelector('#dark_mode')
+
+        localStorage.setItem('dark_mode', dark_mode.checked)
+
+        if (dark_mode.checked === true) {
             document.querySelector('body').style.backgroundColor = 'black';
         }
         else {
             document.querySelector('body').style.backgroundColor = 'white';
         }
     })
-
 
     const layout_user_tag = document.querySelector('#layout_user_tag')
 
@@ -91,7 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         if (localStorage.getItem('item_effects_choice') !== null) {
-            document.querySelector("#item_effects").innerHTML = localStorage.getItem('item_effects_choice')
+            if (localStorage.getItem('item_effects_choice') === 'true'){
+                console.log('hi')
+                document.querySelector("#item_effects").checked = true
+            }
+            else {
+                document.querySelector("#item_effects").checked = false
+            }
         }
     }
 
@@ -184,26 +193,24 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         try {
-            if (document.querySelector('#item_effects').value === 'on') {
+            if (document.querySelector('#item_effects').checked === true) {
                 document.querySelector('#new_post').dataset.effects = 'True'
                 document.querySelector('#filters').dataset.effects = 'True'
             }
-            else if (document.querySelector('#item_effects').value === 'off') {
+            else if (document.querySelector('#item_effects').checked === false) {
                 document.querySelector('#new_post').dataset.effects = 'False'
                 document.querySelector('#filters').dataset.effects = 'False'
             }
 
             document.querySelector('#item_effects').addEventListener('change', (event) => {
-                if (event.target.value === "on") {
+                if (event.target.checked === true) {
                     document.querySelector('#new_post').dataset.effects = 'True'
                     document.querySelector('#filters').dataset.effects = 'True'
                     document.querySelectorAll('.posts').forEach((element) => {
                         element.dataset.effects = 'True'
                     })
-                    const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
-                    event.target.innerHTML = effects_choice                 
 
-                    localStorage.setItem('item_effects_choice', effects_choice)
+                    localStorage.setItem('item_effects_choice', 'true')
                 }
                 else {
                     document.querySelector('#new_post').dataset.effects = 'False'
@@ -212,10 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         element.dataset.effects = 'False'
                     })
 
-                    const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
-                    event.target.innerHTML = effects_choice
-
-                    localStorage.setItem('item_effects_choice', effects_choice)
+                    localStorage.setItem('item_effects_choice', 'false')
                 }
         });
         }
@@ -231,13 +235,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 load_following_posts(following_counter, sort);
         }})
 
-        if (document.querySelector('#item_effects').value === 'on') {
+        if (document.querySelector('#item_effects').checked === true) {
             document.querySelector('#filters').dataset.effects = 'True';
             document.querySelectorAll('.following_posts').forEach((element) => {
                 element.dataset.effects = 'True';
             })
         }
-        else if (document.querySelector('#item_effects').value === 'off') {
+        else if (document.querySelector('#item_effects').checked === false) {
             document.querySelector('#filters').dataset.effects = 'False';
             document.querySelectorAll('.following_posts').forEach((element) => {
                 element.dataset.effects = 'False';
@@ -245,16 +249,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.value === "on") {
+            if (event.target.checked === true) {
                 document.querySelector('#filters').dataset.effects = 'True';
                 document.querySelectorAll('.following_posts').forEach((element) => {
                     element.dataset.effects = 'True';
                 })
                 
-                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
-                event.target.innerHTML = effects_choice                 
-
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'true')
             }
             else {
                 document.querySelector('#filters').dataset.effects = 'False';
@@ -262,10 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.dataset.effects = 'False';
                 })
 
-                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
-                event.target.innerHTML = effects_choice
-
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'false')
             }
         })
     }
@@ -292,14 +290,14 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         });
 
-        if (document.querySelector('#item_effects').value === 'on') {
+        if (document.querySelector('#item_effects').checked === true) {
             document.querySelector('#filters').dataset.effects = 'True';
             document.querySelector('#user_info').dataset.effects = 'True'
             document.querySelectorAll('.profile_post').forEach((element) => {
                 element.dataset.effects = 'True'
             })
         }
-        else if (document.querySelector('#item_effects').value === 'off') {
+        else if (document.querySelector('#item_effects').checked === false) {
             document.querySelector('#filters').dataset.effects = 'False';
             document.querySelector('#user_info').dataset.effects = 'False'
             document.querySelectorAll('.profile_post').forEach((element) => {
@@ -308,17 +306,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.value === "on") {
+            if (event.target.checked === true) {
                 document.querySelector('#filters').dataset.effects = 'True';
                 document.querySelector('#user_info').dataset.effects = 'True'
                 document.querySelectorAll('.profile_post').forEach((element) => {
                     element.dataset.effects = 'True'
                 })
-                
-                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
-                event.target.innerHTML = effects_choice                 
 
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'true')
             }
             else {
                 document.querySelector('#filters').dataset.effects = 'False';
@@ -327,10 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.dataset.effects = 'False'
                 })
 
-                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
-                event.target.innerHTML = effects_choice
-
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'false')
             }
         })
 
@@ -481,10 +473,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.dataset.effects = 'True';
                 })
                 
-                const effects_choice = '<option value="off">Off</option><option selected value="on">On</option>'
-                event.target.innerHTML = effects_choice                 
-
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'true')
             }
             else {
                 document.querySelector('#filters').dataset.effects = 'False';
@@ -492,10 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.dataset.effects = 'False';
                 })
 
-                const effects_choice = '<option selected value="off">Off</option><option value="on">On</option>'
-                event.target.innerHTML = effects_choice
-
-                localStorage.setItem('item_effects_choice', effects_choice)
+                localStorage.setItem('item_effects_choice', 'false')
             }
         })
     }
@@ -590,7 +576,7 @@ async function load_posts(value, sort, button) {
     catch {}
 
     const all_posts = document.querySelector('#all_posts');
-    const effects = document.querySelector('#item_effects').value
+    const effects = localStorage.getItem('item_effects_choice')
 
     all_posts.innerHTML = "";
 
@@ -620,7 +606,7 @@ async function load_posts(value, sort, button) {
         existingPost.id = 'post' + i;
         existingPost.className = 'posts';
 
-        if (effects === 'on') {
+        if (effects === 'true') {
             existingPost.dataset.effects = 'True';
         }
         else {
@@ -681,7 +667,7 @@ async function load_posts(value, sort, button) {
                 method: 'GET',
                 });
             const data = await authResponse.json();
-            if (data === true) {
+            if (data === 'true') {
 
                 const likeButton = document.createElement('button');
                 likeButton.id = 'like_button';
@@ -717,7 +703,7 @@ async function load_posts(value, sort, button) {
 async function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
-    const effects = document.querySelector('#item_effects').value;
+    const effects = localStorage.getItem('item_effects_choice');
 
     const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
@@ -730,7 +716,7 @@ async function load_following_posts(start, sort) {
             followingPost.id = 'following_post' + i;
             followingPost.className = 'following_posts';
 
-            if (effects === 'on') {
+            if (effects === 'true') {
                 followingPost.dataset.effects = 'True';
             }
             else {
@@ -826,7 +812,7 @@ async function load_following_posts(start, sort) {
 async function load_category_posts(category, start, sort) {
 
     const main_div = document.querySelector('#category_posts');
-    const effects = document.querySelector('#item_effects').value;
+    const effects = localStorage.getItem('item_effects_choice');
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
@@ -844,7 +830,7 @@ async function load_category_posts(category, start, sort) {
         categoryPost.id = 'category_post' + i;
         categoryPost.className = 'category_post';
 
-        if (effects === 'on') {
+        if (effects === 'true') {
             categoryPost.dataset.effects = 'True';
         }
         else {
