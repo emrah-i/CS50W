@@ -926,8 +926,6 @@ async function load_category_posts(category, start, sort) {
 };
 }
 
-limit = 0
-
 async function load_search_results(query, sort, start) {
 
     const main = document.querySelector('#search_posts');
@@ -947,14 +945,6 @@ async function load_search_results(query, sort, start) {
     if (data.length === 0 && start === 0) {
         main.innerHTML = `No posts found with "${query}"`;
         return;
-    }
-
-    if (data.length === 0 && start !== 0) {
-        if (limit !== 1) {
-            main.innerHTML += `<p style="text-align:center; margin:20px 0 40px 0;">No more posts with "${query}"</p>`;
-            limit += 1
-            return;
-        }
     }
     
     for(i = 0; i < data.length; i++){
