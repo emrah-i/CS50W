@@ -1,4 +1,3 @@
-
 let post_counter = 0
 let following_counter = 0
 let category_counter = 0
@@ -29,6 +28,11 @@ CATEGORY_CHOICES = [
 ]
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    post_counter = 0
+    following_counter = 0
+    category_counter = 0
+    search_counter = 0
 
     const dropdowns = document.querySelector('#menu_list');
 
@@ -154,10 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        let execution = 0
+
         window.addEventListener('scroll', () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                search_counter += 4;
+            if (execution === 0 && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                search_counter += 10;
+                execution += 1;
                 load_search_results(query, sort_new, search_counter);
+
+                execution = 0;
         }})
 
     }
@@ -236,13 +245,19 @@ document.addEventListener("DOMContentLoaded", () => {
         catch {}
         }
 
+    let execution = 0
+
     if (window.location.pathname === "/following") {
+
         load_following_posts(following_counter, sort);
 
         window.addEventListener('scroll', () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                following_counter += 4;
+            if (execution === 0 && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
+                following_counter += 10;
+                execution += 1;
                 load_following_posts(following_counter, sort);
+
+                execution = 0;
         }})
 
         if (document.querySelector('#item_effects').checked === true) {
@@ -717,6 +732,8 @@ async function load_following_posts(start, sort) {
     const main_div = document.querySelector('#following_posts');
     const effects = localStorage.getItem('item_effects_choice');
 
+    console.log('o')
+
     const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
     });
@@ -783,7 +800,8 @@ async function load_following_posts(start, sort) {
             `;
 
             buttonsBlock = document.createElement('div')
-            buttonsBlock.id = 'post_button_block'
+            buttonsBlock.id = `post_button_block`
+            buttonsBlock.dataset.id = id
             buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
             followingPost.appendChild(buttonsBlock);
 
@@ -799,10 +817,12 @@ async function load_following_posts(start, sort) {
 
                 if (like_count >= 1) {
                     likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
+                    console.log(buttonsBlock)
                     buttonsBlock.appendChild(likeButton);
                 }
                 else {
                     likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
+                    console.log(buttonsBlock)
                     buttonsBlock.appendChild(likeButton);
                 }
 
@@ -819,7 +839,7 @@ async function load_following_posts(start, sort) {
                 }
             }
 
-        main_div.append(followingPost);
+        main_div.appendChild(followingPost);
     };
 }
 
