@@ -1,3 +1,44 @@
+
+#register_page {
+    background-color: rgba(26, 82, 118, .75);
+    width: 50vw;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid black;
+    margin: 40px auto;
+    padding: 15px;
+
+    input {
+        margin: 10px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+}
+
+#login_page {
+    background-color: rgba(26, 82, 118, .75);
+    width: 50vw;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid black;
+    margin: 40px auto;
+    padding: 15px;
+
+    input {
+        margin: 10px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+}
+
 body {
     font-size: 1.15vw;
     background-color: white;
@@ -446,7 +487,7 @@ body {
 
 #user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
     margin: 10px 5%;
-    border-radius: 6px;
+    border-radius: 5px;
     padding: 5px;
 }
 

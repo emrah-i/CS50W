@@ -145,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
         }
-
-        document.querySelector('#load_more_button').addEventListener('click', (event) => {
+    
+        document.querySelector('#load_more_button').addEventListener('click', () => {
             search_counter += 10
 
             load_search_results(query, sort_new, search_counter);
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('scroll', () => {
             if (Date.now() >= execution  && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
                 following_counter += 10;
-                execution += 1000;
+                execution += 2500;
                 load_following_posts(following_counter, sort);
         }})
     }
@@ -805,7 +805,7 @@ async function load_search_results(query, sort, start) {
 
     if (start === 0) {
         main.innerHTML = ''
-        document.querySelector('#load_more').style.display = 'block';
+        document.querySelector('#load_more').style.display = 'block'
     }
 
     const response = await fetch(`/search/${query}?sort=${sort}&start=${start}`, {
@@ -817,11 +817,7 @@ async function load_search_results(query, sort, start) {
         main.innerHTML = `No posts found with "${query}"`;
         return;
     }
-    else if (data.length === 0 && start !== 0) {
-        alert(`No more posts found with "${query}"`);
-        return;
-    }
-    
+
     for(i = 0; i < data.length; i++){
 
         const searchResult = document.createElement('div');
