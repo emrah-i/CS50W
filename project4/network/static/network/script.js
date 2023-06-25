@@ -147,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 sort_new = sort_change.value
             }
 
-            console.log(query)
-
             if (query.trim().length !== 0) {
                 load_search_results(query, sort_new, search_counter)
             }
@@ -158,17 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        let execution = 0
+        document.querySelector('#load_more_button').addEventListener('click', (event) => {
+            search_counter += 10
 
-        window.addEventListener('scroll', () => {
-            if (execution === 0 && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                search_counter += 10;
-                execution += 1;
-                load_search_results(query, sort_new, search_counter);
-
-                execution = 0;
-        }})
-
+            load_search_results(query, sort_new, search_counter);
+        })
     }
 
     if (window.location.pathname === "/") {
@@ -245,19 +237,17 @@ document.addEventListener("DOMContentLoaded", () => {
         catch {}
         }
 
-    let execution = 0
+    let execution = Date.now();
 
     if (window.location.pathname === "/following") {
 
         load_following_posts(following_counter, sort);
 
         window.addEventListener('scroll', () => {
-            if (execution === 0 && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
+            if (Date.now() >= execution  && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
                 following_counter += 10;
-                execution += 1;
+                execution += 2000;
                 load_following_posts(following_counter, sort);
-
-                execution = 0;
         }})
 
         if (document.querySelector('#item_effects').checked === true) {
@@ -483,7 +473,7 @@ document.addEventListener("DOMContentLoaded", () => {
         start = category_counter
 
         document.querySelector('#load_more_button').addEventListener('click', (event) => {
-            category_counter += 5
+            category_counter += 10
             new_start = category_counter 
 
             load_category_posts(category, new_start, sort);
@@ -732,8 +722,6 @@ async function load_following_posts(start, sort) {
     const main_div = document.querySelector('#following_posts');
     const effects = localStorage.getItem('item_effects_choice');
 
-    console.log('o')
-
     const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
     });
@@ -959,6 +947,7 @@ async function load_search_results(query, sort, start) {
 
     if (start === 0) {
         main.innerHTML = ''
+        document.querySelector('#load_more').style.display = 'block';
     }
 
     const response = await fetch(`/search/${query}?sort=${sort}&start=${start}`, {
@@ -968,6 +957,10 @@ async function load_search_results(query, sort, start) {
 
     if (data.length === 0 && start === 0) {
         main.innerHTML = `No posts found with "${query}"`;
+        return;
+    }
+    else if (data.length === 0 && start !== 0) {
+        alert(`No more posts found with "${query}"`);
         return;
     }
     

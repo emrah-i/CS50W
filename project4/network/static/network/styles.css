@@ -464,7 +464,7 @@ body #dropdown_button:focus {
 
 #load_more {
   width: 10vw;
-  margin: 10px auto;
+  margin: 10px auto 50px;
 }
 #load_more #load_more_button {
   width: 70%;
@@ -587,7 +587,7 @@ body #dropdown_button:focus {
 
 #search_results {
   width: 90vw;
-  margin: 20px auto 40px;
+  margin: 20px auto 10px;
   border-radius: 5px;
   overflow: hidden;
 }

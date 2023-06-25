@@ -123,7 +123,7 @@ def search(request, query):
         return
 
     posts_list = Post.objects.filter(post__in=post_ids)
-    posts_full = posts_list.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category', 'comment_post__text')
+    posts_full = posts_list.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category')
 
     for post in posts_full:
         unique_users = []
@@ -156,7 +156,6 @@ def search(request, query):
         post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
         data.append(post)
 
-    # print(data)
     return JsonResponse(data, safe=False)
 
 def get_relavance_score(post, query):
@@ -165,8 +164,13 @@ def get_relavance_score(post, query):
     text_count = post['text'].lower().count(query.lower())
     username_count = post['user__username'].lower().count(query.lower())
     comment_count = 0
-    if post['comment_post__text'] is not None:
-        comment_count = post['comment_post__text'].lower().count(query.lower())
+    
+    comments = Comment.objects.filter(post=post['post'])
+
+    for comment in comments:
+        if comment.text is not None:
+            comment_count += comment.text.lower().count(query.lower())
+    
     return title_count + text_count + username_count + comment_count
 
 def posts(request):
