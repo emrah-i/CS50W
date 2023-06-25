@@ -117,7 +117,6 @@
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.text|limit }}</p>
                 <br>
-                <p>{{ post.comment_count }} comment(s) {{ post.unique_users }}</p>
                 {% if user.is_anonymous %}
                 <p>{{ post.like_count }} Likes</p>
                 {% endif %}
@@ -136,7 +135,10 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-                        <td id="profile_page_time"><p>Uploaded {{ post.upload_time }}</p></td>
+                        <td id="profile_page_time">
+                            <p>{{ post.comment_count }} comment(s) {{ post.unique_users }}</p>
+                            <p>Uploaded {{ post.upload_time }}</p>
+                        </td>
                     </tr> 
                 </table>
             </div>

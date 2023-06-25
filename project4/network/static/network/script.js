@@ -955,7 +955,7 @@ async function load_search_results(query, sort, start) {
 
         const searchResult = document.createElement('div');
         searchResult.id = 'search_post' + i;
-        searchResult.className = 'search_posts';
+        searchResult.className = 'posts';
 
         const id = data[i].post
         const title = data[i].title
@@ -986,13 +986,19 @@ async function load_search_results(query, sort, start) {
             }
         }
 
+        document.querySelector('#search_posts_heading').style.display = 'block';
+        document.querySelector('#search_results').style.border = '2px solid black'
+
+
         searchResult.innerHTML = 
         `
         <div id="post_text_block">
-        <p id="post_category">${category}</p>
-        <h5 id="post_title">${title}</h5>
-        <p id="post_text">${text}</p>
+            <h4 id="post_title">${title}</h4>
+            <p id="post_text">${text}</p>
         </div>
+        <div id="post_category_block">
+            <p id="post_category">${category}</p>
+        </div>  
         <div id="post_user_block">
             <p id="timestamp">Posted ${upload_time}</p>
             <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>

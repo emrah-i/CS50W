@@ -63,11 +63,6 @@ body {
     border-right: 2px solid black;
     border-left: 2px solid black;
     border-radius: 0 0 5px 5px ;
-
-    #timestamp {
-        margin: 0;
-        color: white;
-    }
 }
 
 #main_filters {
@@ -370,6 +365,56 @@ body {
     }
 }
 
+#category_posts_page {
+    width: 90vw;
+    margin: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid black;
+    margin-top: 10px;
+
+    #filters {
+        background-color: rgba(26, 82, 118, .75);
+        width: 100%;
+        margin: 0px auto;
+        padding: 10px;
+        border-bottom: 1px solid black;
+
+        table {
+            width: 100%;
+        }
+
+        #row1 {
+            text-align: right;
+        }
+
+        select {
+            padding: 4px;
+            border-radius: 6px;
+            background-color: aliceblue;
+            border: 1px solid black;
+        }
+    }
+
+    .category_post {
+        display: flex;
+        width: 100%;
+        border: 1px solid black;
+    }
+
+    #user_input {
+        margin: 10px 5%;
+    }
+
+    #user_info {
+        background-color: rgba(46, 134, 193, .75);
+
+        #open_following:hover, #open_followers:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
 #page_buttons {
     width: 15%;
     margin: 30px 42.5%;
@@ -514,33 +559,6 @@ body {
     }
 }
 
-#category_posts {
-
-    margin: 10px auto 10px auto;
-    width: 90vw;
-
-    .category_post {
-        display: flex;
-        width: 100%;
-        margin: 10px 0;
-        border: 1px solid black;
-        border-radius: 6px;
-    }
-
-    #user_input {
-        margin: 10px 5%;
-    }
-
-    #user_info {
-        background-color: rgba(46, 134, 193, .75);
-
-        #open_following:hover, #open_followers:hover {
-            text-decoration: underline;
-        }
-    }
-
-}
-
 #edit_profile {
 
     background-color: rgba(46, 134, 193, .75);
@@ -589,13 +607,12 @@ body {
 
     table {
         background-color: white;
-        width: 50vw;
-        margin: auto;
+        width: 100%;
     }
 
     tr {
         height: 10vh;
-        border: 2px solid black;
+        border-top: 2px solid black;
     }
 
     td {
@@ -635,11 +652,6 @@ body {
         text-align: center;
         background-color: rgba(46, 134, 193, .75);
         width: 50vw;
-        margin: 20px auto 0 auto;
-        border-radius: 5px 5px 0 0;
-        border-width: 2px 2px 0 2px;
-        border-style: solid;
-        border-color: black;
 
         h3 {
             line-height: 10vh;
@@ -650,6 +662,14 @@ body {
     #categories_table_heading a {
         color: black;
     }
+
+    #categories_table {
+        overflow: hidden;
+        border: 2px solid black;
+        width: 50vw;
+        margin: 20px auto 10px;
+        border-radius: 5px;
+    }
 }
 
 #search_bar {
@@ -658,7 +678,9 @@ body {
     margin: 20px auto;
     background-color: rgba(26, 82, 118, .75);
     width: 30vw;
+    height: 20vh;
     border-radius: 5px;
+    border: 2px solid black;
     padding: 15px;
 
     select, input {
@@ -666,15 +688,32 @@ body {
         border-radius: 5px;
         padding: 5px;
     }
+
+    select {
+        margin-top: 10px;
+    }
 }
 
+#search_results {
+    width: 90vw;
+    margin: 20px auto 40px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    #search_posts_heading {
+        display: none;
+        background-color: rgba(26, 82, 118, .75);
+        width: 100%;
+        margin: 0px auto;
+        padding: 10px;
+        border-bottom: 1px solid black;
+    }
+}
 
 #user_heading {
     font-weight: 600;
     color: white;
 }
-
-
 
 #post_button_block {
     margin-right: 0;
@@ -695,4 +734,9 @@ body {
 
 #search_form {
     justify-content: flex-end;
+}
+
+#timestamp {
+    margin: 0px;
+    color: white;
 }

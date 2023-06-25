@@ -53,10 +53,6 @@ body #dropdown_button:focus {
   border-left: 2px solid black;
   border-radius: 0 0 5px 5px;
 }
-#all_posts #timestamp {
-  margin: 0;
-  color: white;
-}
 
 #main_filters {
   background-color: rgba(26, 82, 118, 0.75);
@@ -309,6 +305,48 @@ body #dropdown_button:focus {
   margin-bottom: 20px;
 }
 
+#category_posts_page {
+  width: 90vw;
+  margin: auto;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 2px solid black;
+  margin-top: 10px;
+}
+#category_posts_page #filters {
+  background-color: rgba(26, 82, 118, 0.75);
+  width: 100%;
+  margin: 0px auto;
+  padding: 10px;
+  border-bottom: 1px solid black;
+}
+#category_posts_page #filters table {
+  width: 100%;
+}
+#category_posts_page #filters #row1 {
+  text-align: right;
+}
+#category_posts_page #filters select {
+  padding: 4px;
+  border-radius: 6px;
+  background-color: aliceblue;
+  border: 1px solid black;
+}
+#category_posts_page .category_post {
+  display: flex;
+  width: 100%;
+  border: 1px solid black;
+}
+#category_posts_page #user_input {
+  margin: 10px 5%;
+}
+#category_posts_page #user_info {
+  background-color: rgba(46, 134, 193, 0.75);
+}
+#category_posts_page #user_info #open_following:hover, #category_posts_page #user_info #open_followers:hover {
+  text-decoration: underline;
+}
+
 #page_buttons {
   width: 15%;
   margin: 30px 42.5%;
@@ -433,27 +471,6 @@ body #dropdown_button:focus {
   margin: 0 15%;
 }
 
-#category_posts {
-  margin: 10px auto 10px auto;
-  width: 90vw;
-}
-#category_posts .category_post {
-  display: flex;
-  width: 100%;
-  margin: 10px 0;
-  border: 1px solid black;
-  border-radius: 6px;
-}
-#category_posts #user_input {
-  margin: 10px 5%;
-}
-#category_posts #user_info {
-  background-color: rgba(46, 134, 193, 0.75);
-}
-#category_posts #user_info #open_following:hover, #category_posts #user_info #open_followers:hover {
-  text-decoration: underline;
-}
-
 #edit_profile {
   background-color: rgba(46, 134, 193, 0.75);
   width: 90%;
@@ -496,12 +513,11 @@ body #dropdown_button:focus {
 }
 #category table {
   background-color: white;
-  width: 50vw;
-  margin: auto;
+  width: 100%;
 }
 #category tr {
   height: 10vh;
-  border: 2px solid black;
+  border-top: 2px solid black;
 }
 #category td {
   padding: 10px;
@@ -534,11 +550,6 @@ body #dropdown_button:focus {
   text-align: center;
   background-color: rgba(46, 134, 193, 0.75);
   width: 50vw;
-  margin: 20px auto 0 auto;
-  border-radius: 5px 5px 0 0;
-  border-width: 2px 2px 0 2px;
-  border-style: solid;
-  border-color: black;
 }
 #category .categories_parent_headings h3 {
   line-height: 10vh;
@@ -547,19 +558,46 @@ body #dropdown_button:focus {
 #category #categories_table_heading a {
   color: black;
 }
+#category #categories_table {
+  overflow: hidden;
+  border: 2px solid black;
+  width: 50vw;
+  margin: 20px auto 10px;
+  border-radius: 5px;
+}
 
 #search_bar {
   text-align: center;
   margin: 20px auto;
   background-color: rgba(26, 82, 118, 0.75);
   width: 30vw;
+  height: 20vh;
   border-radius: 5px;
+  border: 2px solid black;
   padding: 15px;
 }
 #search_bar select, #search_bar input {
   height: 5vh;
   border-radius: 5px;
   padding: 5px;
+}
+#search_bar select {
+  margin-top: 10px;
+}
+
+#search_results {
+  width: 90vw;
+  margin: 20px auto 40px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+#search_results #search_posts_heading {
+  display: none;
+  background-color: rgba(26, 82, 118, 0.75);
+  width: 100%;
+  margin: 0px auto;
+  padding: 10px;
+  border-bottom: 1px solid black;
 }
 
 #user_heading {
@@ -585,4 +623,9 @@ body #dropdown_button:focus {
 
 #search_form {
   justify-content: flex-end;
+}
+
+#timestamp {
+  margin: 0px;
+  color: white;
 }/*# sourceMappingURL=styles.css.map */

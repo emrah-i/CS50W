@@ -9,22 +9,24 @@
         {% csrf_token %}
         <input hidden name="category">
         {% for parent in parents %}
-        <table id="{{ parent }}" class="parent_categories">
-            <div class="categories_parent_headings">
-                <h3>{{ parent }}</h3>
-            </div>
-            <div class="categories">
-                {% for category in categories %}
-                {% if category.parent == parent %}
-                <tr value="{{ category.code }}">
-                    <td id="categories_table_heading"><a href="{% url 'category' category.code %}">{{ category.display }}</a></td>
-                    <td id="post_count"><p>Posts:</p>{{ category.post_count }}</td>
-                    <td id="comment_count"><p>Total comments:</p>{{ category.comment_count }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </table>
+        <div id="categories_table">
+            <table id="{{ parent }}" class="parent_categories">
+                <div class="categories_parent_headings">
+                    <h3>{{ parent }}</h3>
+                </div>
+                <div class="categories">
+                    {% for category in categories %}
+                    {% if category.parent == parent %}
+                    <tr value="{{ category.code }}">
+                        <td id="categories_table_heading"><a href="{% url 'category' category.code %}">{{ category.display }}</a></td>
+                        <td id="post_count"><p>Posts:</p>{{ category.post_count }}</td>
+                        <td id="comment_count"><p>Total comments:</p>{{ category.comment_count }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </table>
+        </div>
         {% endfor %}
     </form>
 </div>
