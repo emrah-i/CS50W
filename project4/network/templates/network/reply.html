@@ -1,10 +1,10 @@
 
 {% for reply in replies %}
     <div id="comment{{ reply.comment }}" class="post_comments" style='margin-left: {{ level }}px;'>
-        <p id="user_page_route" data-username="{{ reply.user }}">{{ reply.user }}</p>
+        <h5 id="user_page_route" data-username="{{ reply.user }}">{{ reply.user }}</h5>
         <hr>
         <p>{{ reply.text }}</p>
-        <p>{{ reply.upload_time }}</p>
+        <p id="pp_ut">{{ reply.upload_time }}</p>
         {% if user.is_authenticated and reply.text != '[DELETED]' %}
             <button type="button" id="reply_button" data-commentid="{{ reply.comment }}">Reply</button>
         {% if user == reply.user and reply.text != '[DELETED]' %}

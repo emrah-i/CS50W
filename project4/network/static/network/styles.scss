@@ -536,8 +536,37 @@ body {
         margin: 10px 0;
     }
 
+    #pp_category {
+        margin-bottom: 10px;
+    }
+
+    #pp_ut {
+        margin: 2px;
+    }
+
+    #pp_text p {
+        margin-bottom: 25px;
+    }
+
+    #user_page_route {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    #user_page_route:hover {
+        text-decoration: underline;
+    }
+
     #user_input {
         margin: 10px 0;
+    }
+
+    #anon_ut {
+        margin-bottom: 0;
+    }
+
+    #anon_likes {
+        margin: 0;
     }
 
     .post_comments {

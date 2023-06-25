@@ -453,8 +453,30 @@ body #dropdown_button:focus {
   height: 30vh;
   margin: 10px 0;
 }
+.post_page #pp_category {
+  margin-bottom: 10px;
+}
+.post_page #pp_ut {
+  margin: 2px;
+}
+.post_page #pp_text p {
+  margin-bottom: 25px;
+}
+.post_page #user_page_route {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.post_page #user_page_route:hover {
+  text-decoration: underline;
+}
 .post_page #user_input {
   margin: 10px 0;
+}
+.post_page #anon_ut {
+  margin-bottom: 0;
+}
+.post_page #anon_likes {
+  margin: 0;
 }
 .post_page .post_comments {
   border: 2px solid black;

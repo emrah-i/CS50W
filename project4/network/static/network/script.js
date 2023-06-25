@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('scroll', () => {
             if (Date.now() >= execution  && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
                 following_counter += 10;
-                execution += 2000;
+                execution += 1000;
                 load_following_posts(following_counter, sort);
         }})
 
@@ -355,9 +355,12 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = url.href;
         })
 
-        document.querySelector('#edit_profile_button').addEventListener('click', (event) => {
+        try {
+            document.querySelector('#edit_profile_button').addEventListener('click', (event) => {
             window.location = "/edit_profile"
-        })
+            })
+        }
+        catch{}
     }
 
     if (window.location.pathname.startsWith("/post/")) {
@@ -391,6 +394,15 @@ document.addEventListener("DOMContentLoaded", () => {
             post_page_edit(postid);
         })
         }
+
+        let userButton = document.querySelector('#user_page_route');
+
+        userButton.addEventListener('click', (event) => {
+            username = event.target.dataset.username
+            sort = localStorage.getItem('sort')
+
+            window.location = '/profile/' + username + '?sort=' + sort
+            });
 
         document.querySelectorAll('.post_comments').forEach((element) => {
             const replyButton = element.querySelector('#reply_button');
@@ -683,8 +695,8 @@ async function load_posts(value, sort, button) {
             const authResponse = await fetch('/auth', {
                 method: 'GET',
                 });
-            const data = await authResponse.json();
-            if (data === true) {
+            const authData = await authResponse.json();
+            if (authData === true) {
 
                 const likeButton = document.createElement('button');
                 likeButton.id = 'like_button';
@@ -711,9 +723,9 @@ async function load_posts(value, sort, button) {
                         likeButton.dataset.clicked = 'false';
                     }
             }
-
-            all_posts.append(existingPost);
         };
+
+        all_posts.append(existingPost);
     }
 }   
 
@@ -895,7 +907,6 @@ async function load_category_posts(category, start, sort) {
             <p>${comments} comment(s) ${unique_users}</p>   
         </div>
         `;
-
 
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'

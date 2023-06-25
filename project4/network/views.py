@@ -268,7 +268,6 @@ def get_csrf_token(request):
     if request.user.is_authenticated:
         username = request.user.username
     
-    
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
 
 def profile(request, username):
@@ -641,15 +640,14 @@ def category_posts(request, category, start, sort):
 
     return JsonResponse(data, safe=False)
 
-@login_required
 def auth(request):
 
     if request.user.is_authenticated: 
         user = True
-        return JsonResponse(user, safe=False)
     else:
         user = False
-        return JsonResponse(user, safe=False)
+    
+    return JsonResponse(user, safe=False)
     
 @csrf_exempt
 @login_required 

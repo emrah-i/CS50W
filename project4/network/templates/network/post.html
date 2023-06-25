@@ -4,28 +4,25 @@
     <div id="post_page_{{ post.id }}" data-postid="{{ post.id }}" class="post_page">
         <table>
             <tr>
-                <td>
-                    <h3 id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</h3>
-                </td>
-            </tr>
-            <tr>
-                <td id="pp_category">
-                    {{ post.category }}
+                <td id="pp_category" style="color:lightgray">
+                    <p>Posted to {{ post.category }}</p>
                 </td>
             </tr>
             <tr>
                 <td id="pp_title">
-                    <h5>{{ post.title }}</h5>
+                    <h3>{{ post.title }}</h3>
                 </td>
             </tr>
             <tr>
                 <td id="pp_text">
-                    {{ post.text }}
+                    <p>{{ post.text }}</p>
                 </td>
             </tr>
             <tr>
-                <td id="pp_ut">
-                    {{ post.upload_time }}
+                <td>
+                    {% if user.is_authenticated %}
+                    <p id="pp_ut">Posted at {{ post.upload_time }} by <span id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</span></p>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -39,8 +36,6 @@
                         {% if user.id == post.user %}
                         <button id="pp_edit_button" data-id="{{ post.id }}">Edit</button>
                         {% endif %}
-                    {% else %}
-                        <p>{{ post.likes }} Likes</p>
                     {% endif %}
                 </td>
             </tr>
@@ -58,16 +53,22 @@
             </tr>
             <tr>
                 <td>
+                    {% if user.is_anonymous %}
+                    <p id="anon_ut">Posted at {{ post.upload_time }} by <span id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</span></p>
+                    {% endif %}
+                    {% if user.is_anonymous %}
+                    <p id="anon_likes">{{ post.likes }} Likes</p>
+                    {% endif %}
                     {% if post.comments == 0 %}
                     <p>No Comments</p>
                     {% else %}
                     <p>{{ post.comments }} Comments</p>
                     {% for comment in comments %}
                     <div id="comment{{ comment.comment }}" class="post_comments">
-                        <p id="user_page_route" data-username="{{ comment.user }}">{{ comment.user }}</p>
+                        <h5 id="user_page_route" data-username="{{ comment.user }}">{{ comment.user }}</h5>
                         <hr>
                         <p>{{ comment.text }}</p>
-                        <p>{{ comment.upload_time }}</p>
+                        <p id="pp_ut">{{ comment.upload_time }}</p>
                         {% if user.is_authenticated and comment.text != '[DELETED]' %}
                             <button type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
                         {% if user == comment.user and comment.text != '[DELETED]' %}
