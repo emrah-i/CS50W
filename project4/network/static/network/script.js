@@ -96,16 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem('sort', change_sort)
             location.reload()
         })
-
-        if (localStorage.getItem('item_effects_choice') !== null) {
-            if (localStorage.getItem('item_effects_choice') === 'true'){
-                console.log('hi')
-                document.querySelector("#item_effects").checked = true
-            }
-            else {
-                document.querySelector("#item_effects").checked = false
-            }
-        }
     }
 
     const new_post = document.querySelector('#new_post')
@@ -202,40 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
             post_counter += 20;
             load_posts(post_counter, sort, button);
         })
-
-        try {
-            if (document.querySelector('#item_effects').checked === true) {
-                document.querySelector('#new_post').dataset.effects = 'True'
-                document.querySelector('#filters').dataset.effects = 'True'
-            }
-            else if (document.querySelector('#item_effects').checked === false) {
-                document.querySelector('#new_post').dataset.effects = 'False'
-                document.querySelector('#filters').dataset.effects = 'False'
-            }
-
-            document.querySelector('#item_effects').addEventListener('change', (event) => {
-                if (event.target.checked === true) {
-                    document.querySelector('#new_post').dataset.effects = 'True'
-                    document.querySelector('#filters').dataset.effects = 'True'
-                    document.querySelectorAll('.posts').forEach((element) => {
-                        element.dataset.effects = 'True'
-                    })
-
-                    localStorage.setItem('item_effects_choice', 'true')
-                }
-                else {
-                    document.querySelector('#new_post').dataset.effects = 'False'
-                    document.querySelector('#filters').dataset.effects = 'False'
-                    document.querySelectorAll('.posts').forEach((element) => {
-                        element.dataset.effects = 'False'
-                    })
-
-                    localStorage.setItem('item_effects_choice', 'false')
-                }
-        });
-        }
-        catch {}
-        }
+    }
 
     let execution = Date.now();
 
@@ -249,38 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 execution += 1000;
                 load_following_posts(following_counter, sort);
         }})
-
-        if (document.querySelector('#item_effects').checked === true) {
-            document.querySelector('#filters').dataset.effects = 'True';
-            document.querySelectorAll('.following_posts').forEach((element) => {
-                element.dataset.effects = 'True';
-            })
-        }
-        else if (document.querySelector('#item_effects').checked === false) {
-            document.querySelector('#filters').dataset.effects = 'False';
-            document.querySelectorAll('.following_posts').forEach((element) => {
-                element.dataset.effects = 'False';
-            })
-        }
-
-        document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.checked === true) {
-                document.querySelector('#filters').dataset.effects = 'True';
-                document.querySelectorAll('.following_posts').forEach((element) => {
-                    element.dataset.effects = 'True';
-                })
-                
-                localStorage.setItem('item_effects_choice', 'true')
-            }
-            else {
-                document.querySelector('#filters').dataset.effects = 'False';
-                document.querySelectorAll('.following_posts').forEach((element) => {
-                    element.dataset.effects = 'False';
-                })
-
-                localStorage.setItem('item_effects_choice', 'false')
-            }
-        })
     }
 
     if (window.location.pathname.startsWith("/profile/")) {
@@ -304,42 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('#dialog_backdrop').style.display = 'none';
             })
         });
-
-        if (document.querySelector('#item_effects').checked === true) {
-            document.querySelector('#filters').dataset.effects = 'True';
-            document.querySelector('#user_info').dataset.effects = 'True'
-            document.querySelectorAll('.profile_post').forEach((element) => {
-                element.dataset.effects = 'True'
-            })
-        }
-        else if (document.querySelector('#item_effects').checked === false) {
-            document.querySelector('#filters').dataset.effects = 'False';
-            document.querySelector('#user_info').dataset.effects = 'False'
-            document.querySelectorAll('.profile_post').forEach((element) => {
-                element.dataset.effects = 'False'
-            })
-        }
-
-        document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.checked === true) {
-                document.querySelector('#filters').dataset.effects = 'True';
-                document.querySelector('#user_info').dataset.effects = 'True'
-                document.querySelectorAll('.profile_post').forEach((element) => {
-                    element.dataset.effects = 'True'
-                })
-
-                localStorage.setItem('item_effects_choice', 'true')
-            }
-            else {
-                document.querySelector('#filters').dataset.effects = 'False';
-                document.querySelector('#user_info').dataset.effects = 'False'
-                document.querySelectorAll('.profile_post').forEach((element) => {
-                    element.dataset.effects = 'False'
-                })
-
-                localStorage.setItem('item_effects_choice', 'false')
-            }
-        })
 
         const sort_select = document.querySelector('#sort')
 
@@ -493,24 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         load_category_posts(category, start, sort);
 
-        document.querySelector('#item_effects').addEventListener('change', (event) => {
-            if (event.target.value === "on") {
-                document.querySelector('#filters').dataset.effects = 'True';
-                document.querySelectorAll('.category_post').forEach((element) => {
-                    element.dataset.effects = 'True';
-                })
-                
-                localStorage.setItem('item_effects_choice', 'true')
-            }
-            else {
-                document.querySelector('#filters').dataset.effects = 'False';
-                document.querySelectorAll('.category_post').forEach((element) => {
-                    element.dataset.effects = 'False';
-                })
-
-                localStorage.setItem('item_effects_choice', 'false')
-            }
-        })
     }
 
     if (window.location.pathname === "/edit_profile") {
@@ -603,7 +474,6 @@ async function load_posts(value, sort, button) {
     catch {}
 
     const all_posts = document.querySelector('#all_posts');
-    const effects = localStorage.getItem('item_effects_choice')
 
     all_posts.innerHTML = "";
 
@@ -632,13 +502,6 @@ async function load_posts(value, sort, button) {
         const existingPost = document.createElement('div');
         existingPost.id = 'post' + i;
         existingPost.className = 'posts';
-
-        if (effects === 'true') {
-            existingPost.dataset.effects = 'True';
-        }
-        else {
-            existingPost.dataset.effects = 'False';
-        }
 
         const id = data[i].post
         const title = data[i].title
@@ -732,7 +595,6 @@ async function load_posts(value, sort, button) {
 async function load_following_posts(start, sort) {
     
     const main_div = document.querySelector('#following_posts');
-    const effects = localStorage.getItem('item_effects_choice');
 
     const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
@@ -744,13 +606,6 @@ async function load_following_posts(start, sort) {
             const followingPost = document.createElement('div');
             followingPost.id = 'following_post' + i;
             followingPost.className = 'following_posts';
-
-            if (effects === 'true') {
-                followingPost.dataset.effects = 'True';
-            }
-            else {
-                followingPost.dataset.effects = 'False';
-            }
 
             const id = data[i].post
             const title = data[i].title
@@ -846,7 +701,6 @@ async function load_following_posts(start, sort) {
 async function load_category_posts(category, start, sort) {
 
     const main_div = document.querySelector('#category_posts');
-    const effects = localStorage.getItem('item_effects_choice');
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
@@ -863,13 +717,6 @@ async function load_category_posts(category, start, sort) {
         const categoryPost = document.createElement('div');
         categoryPost.id = 'category_post' + i;
         categoryPost.className = 'category_post';
-
-        if (effects === 'true') {
-            categoryPost.dataset.effects = 'True';
-        }
-        else {
-            categoryPost.dataset.effects = 'False';
-        }
 
         const id = data[i].post
         const title = data[i].title

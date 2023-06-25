@@ -148,11 +148,6 @@ body #dropdown_button:focus {
   margin: 10px 5%;
 }
 
-#new_post[data-effects=True]:hover, .profile_post[data-effects=True]:hover, #user_info[data-effects=True]:hover, .posts[data-effects=True]:hover, .following_posts[data-effects=True]:hover, #filters[data-effects=True]:hover, #catergory_posts[data-effects=True]:hover {
-  transform: scale(1.007);
-  box-shadow: 0px 0px 12px rgb(255, 255, 255);
-}
-
 #following_posts {
   margin: 0 auto 40px auto;
   width: 90vw;
