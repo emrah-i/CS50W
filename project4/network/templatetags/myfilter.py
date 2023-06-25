@@ -21,7 +21,7 @@ def sort_posts(posts, sort):
 @register.filter
 def limit(text):
     if len(text) > 150:
-        truncated_text = text[:150]
+        truncated_text = text[:500]
         read_more = '...(read more)'
         styled_read_more = f'<span style="font-style: italic; color: lightGray;">{read_more}</span>'
         return mark_safe(truncated_text + styled_read_more)

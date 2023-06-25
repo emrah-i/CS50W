@@ -327,6 +327,8 @@ def profile(request, username):
 
         if count == 1:
             post["unique_users"] = "by 1 user"
+        elif count == 0:
+            post["unique_users"] = ""
         else:
             post["unique_users"] = f"by {count} users"
     

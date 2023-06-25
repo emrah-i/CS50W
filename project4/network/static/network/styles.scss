@@ -120,7 +120,7 @@ body {
 }
 
 #gtp_button {
-    margin: 5px;
+    margin: 5px 0;
 }
 
 #posts_categories {
@@ -289,10 +289,8 @@ body {
     .profile_post {
         width: 100%;
         background-color: rgba(46, 134, 193, .75);
-        margin: 10px 0;
         padding: 10px;
         border: 1px solid black;
-        border-radius: 6px;
     }
 
     #user_heading {
@@ -303,6 +301,13 @@ body {
 
     #user_input {
         margin: 10px 5%;
+    }
+
+    #main_profile_div {
+        width: 100%;
+        border: 2px solid black;
+        border-radius: 5px;
+        overflow: hidden;
     }
 
     #user_info {
@@ -324,17 +329,44 @@ body {
     }
 
     #filters {
-
         background-color: rgba(26, 82, 118, .75);
         width: 100%;
-        margin: 10px auto;
+        margin: 0px auto;
         padding: 10px;
-        border: 1px solid black;
-        border-radius: 6px;
+        border-bottom: 1px solid black;
+
+        table {
+            width: 100%;
+        }
+
+        #row1 {
+            text-align: right;
+        }
+
+        select {
+            padding: 4px;
+            border-radius: 6px;
+            background-color: aliceblue;
+            border: 1px solid black;
+        }
+    }
+
+    #post_info {
+
+        width: 100%;
+
+        #profile_page_time {
+            text-align: right;
+        }
     }
 
     p {
         margin: 0;
+    }
+
+    #profile_category_info {
+        color: lightgray;
+        margin-bottom: 20px;
     }
 }
 

@@ -102,7 +102,7 @@ body #dropdown_button:focus {
 }
 
 #gtp_button {
-  margin: 5px;
+  margin: 5px 0;
 }
 
 #posts_categories {
@@ -245,10 +245,8 @@ body #dropdown_button:focus {
 #profile_posts .profile_post {
   width: 100%;
   background-color: rgba(46, 134, 193, 0.75);
-  margin: 10px 0;
   padding: 10px;
   border: 1px solid black;
-  border-radius: 6px;
 }
 #profile_posts #user_heading {
   font-weight: 600;
@@ -257,6 +255,12 @@ body #dropdown_button:focus {
 }
 #profile_posts #user_input {
   margin: 10px 5%;
+}
+#profile_posts #main_profile_div {
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 5px;
+  overflow: hidden;
 }
 #profile_posts #user_info {
   background-color: rgba(46, 134, 193, 0.75);
@@ -275,13 +279,34 @@ body #dropdown_button:focus {
 #profile_posts #filters {
   background-color: rgba(26, 82, 118, 0.75);
   width: 100%;
-  margin: 10px auto;
+  margin: 0px auto;
   padding: 10px;
-  border: 1px solid black;
+  border-bottom: 1px solid black;
+}
+#profile_posts #filters table {
+  width: 100%;
+}
+#profile_posts #filters #row1 {
+  text-align: right;
+}
+#profile_posts #filters select {
+  padding: 4px;
   border-radius: 6px;
+  background-color: aliceblue;
+  border: 1px solid black;
+}
+#profile_posts #post_info {
+  width: 100%;
+}
+#profile_posts #post_info #profile_page_time {
+  text-align: right;
 }
 #profile_posts p {
   margin: 0;
+}
+#profile_posts #profile_category_info {
+  color: lightgray;
+  margin-bottom: 20px;
 }
 
 #page_buttons {

@@ -524,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             try {
             post = event.target.dataset.id;
-            div_id = event.target.parentElement.id;
+            div_id = event.target.dataset.post;
             }
             catch {}
 
