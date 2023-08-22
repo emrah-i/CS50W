@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const mode = localStorage.getItem('dark_mode')
 
         if (mode === 'true') {
-            document.querySelector('body').style.backgroundColor = 'black';
+            document.querySelector('body').style.backgroundColor = '#212F3D';
             dark_mode.checked = true
         }
         else {
-            document.querySelector('body').style.backgroundColor = 'white';
+            document.querySelector('body').style.backgroundColor = 'whitesmoke';
             dark_mode.checked = false
         }
     }
@@ -63,10 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('dark_mode', dark_mode.checked)
 
         if (dark_mode.checked === true) {
-            document.querySelector('body').style.backgroundColor = 'black';
+            document.querySelector('body').style.backgroundColor = '#212F3D';
         }
         else {
-            document.querySelector('body').style.backgroundColor = 'white';
+            document.querySelector('body').style.backgroundColor = 'whitesmoke';
         }
     })
 
@@ -672,30 +672,33 @@ async function load_following_posts(start, sort) {
             if (authData === true) {
         
                 const likeButton = document.createElement('button');
+                likeButton.className = 'btn';
                 likeButton.id = 'like_button';
                 likeButton.dataset.postid = id;
-
-                if (like_count >= 1) {
-                    likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
-                    console.log(buttonsBlock)
-                    buttonsBlock.appendChild(likeButton);
-                }
-                else {
-                    likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
-                    console.log(buttonsBlock)
-                    buttonsBlock.appendChild(likeButton);
-                }
 
                 const likeResponse = await fetch('/like/' + id, {
                     method: 'GET',
                     });
                 const likeData = await likeResponse.json();
 
-                if (likeData === true) {
-                    likeButton.dataset.clicked = 'true';
+                    if (likeData === true) {
+                        likeButton.dataset.clicked = 'true';
+                        likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
+                    }
+                    else if (likeData === false) {
+                        likeButton.dataset.clicked = 'false';
+                        likeButton.innerHTML = '<i class="fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
+                    }
+
+                const likeCount = likeButton.querySelector('#like_count')
+
+                if (like_count >= 1) {
+                    likeCount.innerText = `${like_count}`;
+                    buttonsBlock.appendChild(likeButton);
                 }
-                else if (likeData === false) {
-                    likeButton.dataset.clicked = 'false';
+                else {
+                    likeCount.innerText = '0';
+                    buttonsBlock.appendChild(likeButton);
                 }
             }
 
@@ -772,30 +775,35 @@ async function load_category_posts(category, start, sort) {
         if (authData === true) {
     
             const likeButton = document.createElement('button');
-            likeButton.id = 'like_button';
-            likeButton.dataset.postid = id;
+                likeButton.className = 'btn';
+                likeButton.id = 'like_button';
+                likeButton.dataset.postid = id;
 
-            if (like_count >= 1) {
-                likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
-                buttonsBlock.appendChild(likeButton);
-            }
-            else {
-                likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
-                buttonsBlock.appendChild(likeButton);
-            }
+                const likeResponse = await fetch('/like/' + id, {
+                    method: 'GET',
+                    });
+                const likeData = await likeResponse.json();
 
-            const likeResponse = await fetch('/like/' + id, {
-                method: 'GET',
-                });
-            const likeData = await likeResponse.json();
+                    if (likeData === true) {
+                        likeButton.dataset.clicked = 'true';
+                        likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
+                    }
+                    else if (likeData === false) {
+                        likeButton.dataset.clicked = 'false';
+                        likeButton.innerHTML = '<i class="fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
+                    }
 
-                if (likeData === true) {
-                    likeButton.dataset.clicked = 'true';
+                const likeCount = likeButton.querySelector('#like_count')
+
+                if (like_count >= 1) {
+                    likeCount.innerText = `${like_count}`;
+                    buttonsBlock.appendChild(likeButton);
                 }
-                else if (likeData === false) {
-                    likeButton.dataset.clicked = 'false';
+                else {
+                    likeCount.innerText = '0';
+                    buttonsBlock.appendChild(likeButton);
                 }
-        }
+            }
 
     main_div.append(categoryPost);
 };
@@ -1168,7 +1176,6 @@ function comment_reply(event) {
 function delete_comment(event) {
     
     const id = event.target.dataset.commentid;
-    console.log(id)
     
     fetch('/comment/' + id, {
         method: "PUT",
@@ -1219,8 +1226,6 @@ function edit_comment(comment_id) {
 }
 
 function submit_comment_edit(comment_id, new_text) {
-
-    console.log(new_text.value)
 
     fetch('/edit_comment/' + comment_id, {
         method: 'PUT',

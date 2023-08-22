@@ -6,7 +6,7 @@
 <div id="dialog_backdrop"></div>
     <div id="following_users_popup" style="display:none">
         <dialog open>  
-            <button class="btn" type="button" id="close_following">X</button>       
+            <button class="btn" type="button" id="close_following"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>       
             <h2>Following</h2>                   
             <div id="following_content">
                 <table>
@@ -30,7 +30,7 @@
     </div>
     <div id="followers_user_popup" style="display:none">
         <dialog open>  
-            <button class="btn" type="button" id="close_followers">X</button>  
+            <button class="btn" type="button" id="close_followers"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>  
             <h2>Followers</h2>            
             <div id="follower_content">
                 <table>
@@ -122,13 +122,13 @@
                 {% endif %}
                 <table id="post_info">
                     <tr>
-                        <td>
+                        <td id="profile-btns">
                             <button class="btn" type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
                             {% if user.is_authenticated %}
                                 {% if post.liked == True %}
                                 <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
                                 {% else %}
-                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
+                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
                                 {% endif %}
                                 {% if user.username == user_info.username %}
                                 <button class="btn" id="edit_button" data-id="{{ post.post }}" data-post="profile_post{{ forloop.counter }}">Edit</button>

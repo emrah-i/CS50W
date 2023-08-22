@@ -1,6 +1,8 @@
 :root {
   --main-color: #2E86C1;
   --sec-color: #579ECD;
+  --tert-color: #85C1E9;
+  --shadow: 0 0 .5rem .5rem #00000020;
 }
 
 .btn {
@@ -12,9 +14,18 @@
 }
 
 .btn:hover {
+  cursor: pointer;
   border-radius: 1.5rem;
   transform: scale(1.1);
   color: white;
+}
+
+nav {
+  position: fixed !important;
+  z-index: 999;
+  top: 0;
+  width: 100%;
+  box-shadow: var(--shadow);
 }
 
 body {
@@ -30,20 +41,13 @@ body textarea {
   margin: 10px 5%;
 }
 body input, body textarea, body select {
-  border: 0.2rem solid rgba(192, 192, 192, 0.5019607843);
-  margin: 10px;
-  border-radius: 5px;
+  border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
+  margin: 0.5rem auto;
+  border-radius: 0.5rem;
   padding: 1rem;
 }
 body select {
   padding: 0;
-}
-body button {
-  background-color: aliceblue;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: black;
-  height: 5vh;
 }
 body hr {
   background-color: black;
@@ -76,7 +80,7 @@ body #dropdown_button:focus {
 
 #register_page, #login_page {
   background-color: var(--main-color);
-  box-shadow: 0px 0px 0.2rem 0.2rem rgba(0, 0, 0, 0.1882352941);
+  box-shadow: var(--shadow);
   width: 50vw;
   text-align: center;
   border-radius: 5px;
@@ -84,7 +88,6 @@ body #dropdown_button:focus {
   padding: 15px;
 }
 #register_page input, #login_page input {
-  border: 0.2rem solid rgba(192, 192, 192, 0.5019607843);
   margin: 10px;
   border-radius: 5px;
   padding: 5px;
@@ -96,8 +99,18 @@ body #dropdown_button:focus {
   color: white;
 }
 
+#main-posts-div {
+  box-shadow: var(--shadow);
+  width: -moz-fit-content;
+  width: fit-content;
+  overflow: hidden;
+  border-radius: 1rem;
+  margin: 2rem auto 2rem;
+}
+
 #new_post {
   background-color: var(--main-color);
+  box-shadow: var(--shadow);
   border-radius: 0 0 5px 5px;
   padding: 15px;
   margin: 10px auto;
@@ -120,20 +133,14 @@ body #dropdown_button:focus {
   margin: auto;
   width: 90vw;
   border-bottom: 1px solid var(--sec-color);
-  border-right: 2px solid var(--sec-color);
-  border-left: 2px solid var(--sec-color);
   border-radius: 0 0 5px 5px;
 }
 
 #main_filters {
-  background-color: rgba(26, 82, 118, 0.75);
-  width: 90%;
-  margin: 10px 5% 0 5%;
+  background-color: var(--tert-color);
+  width: 100%;
   padding: 10px;
-  border-bottom: 2px solid var(--sec-color);
-  border-top: 2px solid var(--sec-color);
-  border-right: 2px solid var(--sec-color);
-  border-left: 2px solid var(--sec-color);
+  border-bottom: 1px solid var(--sec-color);
   border-radius: 5px 5px 0 0;
 }
 #main_filters #row1 {
@@ -147,6 +154,21 @@ body #dropdown_button:focus {
 }
 #main_filters h3 {
   font-size: 1.5em;
+}
+
+#posts_categories {
+  margin: 0 auto;
+  font-size: 1.1em;
+  height: 6vh;
+  border-top: 1px solid var(--sec-color);
+  border-bottom: 1px solid var(--sec-color);
+}
+#posts_categories div {
+  background-color: var(--tert-color);
+  padding: 0 10px;
+}
+#posts_categories p {
+  line-height: 6vh;
 }
 
 #post_user_block, #post_info_block, #post_button_block, #post_category_block {
@@ -166,28 +188,15 @@ body #dropdown_button:focus {
   margin: 5px 0;
 }
 
-#posts_categories {
-  margin: 0 auto;
-  width: 90vw;
-  font-size: 1.1em;
-  height: 6vh;
-  border-top: 1px solid rgba(26, 82, 118, 0.75);
-  border-right: 2px solid var(--sec-color);
-  border-left: 2px solid var(--sec-color);
-}
-#posts_categories div {
-  background-color: rgba(26, 82, 118, 0.75);
-  padding: 0 10px;
-}
-#posts_categories p {
-  line-height: 6vh;
+.posts:nth-child(1) {
+  border-top: 1px solid var(--sec-color);
 }
 
 .posts {
   display: flex;
   width: 100%;
-  border-top: 1px solid var(--sec-color);
-  border-bottom: 1px solid var(--sec-color);
+  border-top: 1px solid var(--tert-color);
+  border-bottom: 1px solid var(--tert-color);
   transition: transform 0.3s ease;
   height: 15vh;
 }
@@ -197,13 +206,14 @@ body #dropdown_button:focus {
 
 #following_posts {
   margin: 0 auto 40px auto;
+  box-shadow: var(--shadow);
   width: 90vw;
-  border-radius: 5px;
-  border: 2px solid black;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 #following_posts .following_posts {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid var(--sec-color);
+  border-bottom: 1px solid var(--sec-color);
   display: flex;
   width: 100%;
   margin: 0;
@@ -215,11 +225,11 @@ body #dropdown_button:focus {
   color: white;
 }
 #following_posts #filters {
-  background-color: rgba(26, 82, 118, 0.75);
+  background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
   padding: 10px;
-  border-bottom: 2px solid rgba(26, 82, 118, 0.75);
+  border-bottom: 2px solid var(--sec-color);
 }
 #following_posts #filters table {
   width: 100%;
@@ -227,16 +237,10 @@ body #dropdown_button:focus {
 #following_posts #filters #row1 {
   text-align: right;
 }
-#following_posts #filters select {
-  padding: 4px;
-  border-radius: 6px;
-  background-color: aliceblue;
-  border: 1px solid black;
-}
 #following_posts #posts_categories {
   width: 100%;
   border-bottom: 1px solid var(--sec-color);
-  border-top: 1px solid rgba(26, 82, 118, 0.75);
+  border-top: 1px solid var(--sec-color);
   border-right: none;
   border-left: none;
 }
@@ -244,11 +248,13 @@ body #dropdown_button:focus {
 #following_users {
   max-height: 400px;
   overflow-y: auto;
+  padding: 1rem;
   margin: 10px 0 30px 0;
 }
 #following_users #table {
-  border-radius: 5px;
-  border: 2px solid black;
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  overflow: hidden;
   width: 30%;
   margin: auto;
 }
@@ -262,18 +268,126 @@ body #dropdown_button:focus {
   padding: 15px;
 }
 #following_users td {
-  border-top: 2px solid black;
-  border-bottom: 0.5px solid black;
+  border-top: 2px solid var(--sec-color);
+  border-bottom: 0.5px solid var(--sec-color);
   background-color: var(--main-color);
 }
 #following_users th {
-  background-color: rgba(26, 82, 118, 0.75);
+  background-color: var(--tert-color);
 }
 #following_users #left-border {
-  border-left: 2px solid black;
+  border-left: 2px solid var(--sec-color);
 }
 #following_users #col {
   width: 50%;
+}
+
+#category {
+  width: 90vw;
+  margin: 20px auto;
+  color: black;
+}
+#category table {
+  background-color: white;
+  width: 100%;
+}
+#category tr {
+  height: 10vh;
+  border-top: 2px solid rgba(0, 0, 0, 0.1254901961);
+}
+#category td {
+  padding: 10px;
+}
+#category th {
+  text-align: center;
+}
+#category #post_count, #category #comment_count {
+  text-align: center;
+}
+#category #post_count p, #category #comment_count p {
+  color: gray;
+  margin-bottom: 2px;
+}
+#category #categories_heading {
+  height: 10vh;
+  text-align: center;
+  background-color: var(--tert-color);
+  box-shadow: var(--shadow);
+  width: 60vw;
+  margin: 20px auto;
+  border-radius: 5px;
+}
+#category #categories_heading h3 {
+  line-height: 10vh;
+  color: white;
+}
+#category .categories_parent_headings {
+  height: 10vh;
+  text-align: center;
+  background-color: var(--main-color);
+  width: 50vw;
+}
+#category .categories_parent_headings h3 {
+  line-height: 10vh;
+  color: white;
+}
+#category #categories_table_heading a {
+  color: black;
+}
+#category #categories_table {
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  width: 50vw;
+  margin: 20px auto 10px;
+  border-radius: 5px;
+}
+
+#category_posts_page {
+  width: 90vw;
+  margin: auto;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-top: 10px;
+}
+#category_posts_page #filters {
+  background-color: var(--tert-color);
+  width: 100%;
+  margin: 0px auto;
+  padding: 10px;
+  border-bottom: 1px solid var(--sec-color);
+}
+#category_posts_page #filters table {
+  width: 100%;
+}
+#category_posts_page #filters #row1 {
+  text-align: right;
+}
+#category_posts_page .category_post {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--sec-color);
+}
+#category_posts_page #user_input {
+  margin: 10px 5%;
+}
+#category_posts_page #user_info {
+  background-color: var(--main-color);
+}
+#category_posts_page #user_info #open_following:hover, #category_posts_page #user_info #open_followers:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#load_more {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 2rem auto 3rem;
+}
+#load_more #load_more_button {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 #profile_posts {
@@ -284,7 +398,17 @@ body #dropdown_button:focus {
   width: 100%;
   background-color: var(--main-color);
   padding: 10px;
-  border: 1px solid black;
+  border: 1px solid var(--sec-color);
+}
+#profile_posts #profile-btns {
+  height: 100% !important;
+  display: flex;
+  transform: translateY(40%);
+  gap: 0.5rem;
+}
+#profile_posts .btn {
+  margin: 0;
+  font-size: 1.25rem;
 }
 #profile_posts #user_heading {
   font-weight: 600;
@@ -296,11 +420,12 @@ body #dropdown_button:focus {
 }
 #profile_posts #main_profile_div {
   width: 100%;
-  border: 2px solid black;
+  box-shadow: var(--shadow);
   border-radius: 5px;
   overflow: hidden;
 }
 #profile_posts #user_info {
+  padding: 1rem;
   background-color: var(--main-color);
   height: 45vh;
 }
@@ -313,26 +438,20 @@ body #dropdown_button:focus {
   height: 100%;
 }
 #profile_posts #user_info button {
-  margin-top: 5px;
+  margin: 0.5rem 0;
 }
 #profile_posts #filters {
-  background-color: rgba(26, 82, 118, 0.75);
+  background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
   padding: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--sec-color);
 }
 #profile_posts #filters table {
   width: 100%;
 }
 #profile_posts #filters #row1 {
   text-align: right;
-}
-#profile_posts #filters select {
-  padding: 4px;
-  border-radius: 6px;
-  background-color: aliceblue;
-  border: 1px solid black;
 }
 #profile_posts #post_info {
   width: 100%;
@@ -348,49 +467,6 @@ body #dropdown_button:focus {
   margin-bottom: 20px;
 }
 
-#category_posts_page {
-  width: 90vw;
-  margin: auto;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 2px solid black;
-  margin-top: 10px;
-}
-#category_posts_page #filters {
-  background-color: rgba(26, 82, 118, 0.75);
-  width: 100%;
-  margin: 0px auto;
-  padding: 10px;
-  border-bottom: 1px solid black;
-}
-#category_posts_page #filters table {
-  width: 100%;
-}
-#category_posts_page #filters #row1 {
-  text-align: right;
-}
-#category_posts_page #filters select {
-  padding: 4px;
-  border-radius: 6px;
-  background-color: aliceblue;
-  border: 1px solid black;
-}
-#category_posts_page .category_post {
-  display: flex;
-  width: 100%;
-  border: 1px solid black;
-}
-#category_posts_page #user_input {
-  margin: 10px 5%;
-}
-#category_posts_page #user_info {
-  background-color: var(--main-color);
-}
-#category_posts_page #user_info #open_following:hover, #category_posts_page #user_info #open_followers:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 #page_buttons {
   width: 15%;
   margin: 30px 42.5%;
@@ -398,7 +474,7 @@ body #dropdown_button:focus {
 
 #user_info {
   padding: 10px;
-  border: 2px solid black;
+  box-shadow: var(--shadow);
   border-radius: 6px;
   margin-bottom: 50px;
 }
@@ -411,16 +487,8 @@ body #dropdown_button:focus {
   margin: auto;
 }
 
-nav {
-  position: fixed !important;
-  z-index: 999;
-  top: 0;
-  width: 100%;
-  box-shadow: 0px 0px 0.5rem 0.5rem rgba(0, 0, 0, 0.1882352941);
-}
-
 #nav_item {
-  background-color: rgb(46, 134, 193) !important;
+  background-color: var(--main-color) !important;
   padding: 10px;
 }
 #nav_item a {
@@ -440,6 +508,9 @@ nav {
   max-height: 400px;
   overflow-y: auto;
 }
+#following_users_popup h2, #followers_user_popup h2 {
+  color: white;
+}
 #following_users_popup dialog, #followers_user_popup dialog {
   z-index: 10000;
   width: 30%;
@@ -447,6 +518,8 @@ nav {
   position: fixed;
   border-radius: 6px;
   background-color: var(--main-color);
+  border: none;
+  box-shadow: var(--shadow);
 }
 #following_users_popup table, #followers_user_popup table {
   background-color: white;
@@ -456,19 +529,25 @@ nav {
 }
 #following_users_popup td, #following_users_popup th, #followers_user_popup td, #followers_user_popup th {
   padding: 15px;
-  border: 2px solid black;
+}
+#following_users_popup td, #followers_user_popup td {
+  border-top: 2px solid var(--sec-color);
+  border-bottom: 2px solid var(--sec-color);
 }
 #following_users_popup #left-border, #followers_user_popup #left-border {
-  border-left: 2px solid black;
+  border-left: 2px solid var(--sec-color);
 }
 #following_users_popup #col, #followers_user_popup #col {
   width: 50%;
 }
 #following_users_popup #close_following, #following_users_popup #close_followers, #followers_user_popup #close_following, #followers_user_popup #close_followers {
   float: right;
-  border-radius: 50%;
-  height: 2vw;
-  margin: 0 10px 10px 10px;
+  padding: 0.6rem;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 1rem 1rem;
 }
 
 #dialog_backdrop {
@@ -490,12 +569,16 @@ nav {
   background-color: var(--main-color);
   width: 90%;
   margin: 10px 5%;
-  padding: 10px;
-  border: 1px solid black;
+  padding: 1rem;
+  box-shadow: var(--shadow);
   border-radius: 6px;
 }
 .post_page table {
   width: 100%;
+}
+.post_page .btn {
+  margin: 0.2rem 0 !important;
+  font-size: 1.25rem !important;
 }
 .post_page textarea {
   width: 90%;
@@ -520,7 +603,7 @@ nav {
   text-decoration: underline;
 }
 .post_page #user_input {
-  margin: 10px 0;
+  margin: 0.6rem 0;
 }
 .post_page #anon_ut {
   margin-bottom: 0;
@@ -529,27 +612,19 @@ nav {
   margin: 0;
 }
 .post_page .post_comments {
-  border: 2px solid black;
-  padding: 10px;
+  border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
+  border-radius: 1rem;
+  padding: 1rem;
   margin: 5px 0 0 0;
-}
-
-#load_more {
-  width: 10vw;
-  margin: 10px auto 50px;
-}
-#load_more #load_more_button {
-  width: 70%;
-  margin: 0 15%;
 }
 
 #edit_profile {
   background-color: var(--main-color);
   width: 90%;
   margin: 10px 5%;
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  border-radius: 1rem;
 }
 #edit_profile #ep_info {
   width: 50%;
@@ -557,12 +632,15 @@ nav {
   text-align: left;
 }
 #edit_profile label {
-  margin-top: 30px;
+  margin-top: 0.5rem;
 }
 #edit_profile textarea {
   width: 90%;
-  padding: 5px;
-  margin: 0;
+  padding: 0.5rem;
+  margin: 0 auto 1rem !important;
+}
+#edit_profile .btn {
+  margin-bottom: 1rem;
 }
 #edit_profile #uploaded_image, #edit_profile #current_image {
   max-width: 100%;
@@ -576,66 +654,6 @@ nav {
   position: relative;
   overflow: hidden;
   background-color: white;
-}
-
-#category {
-  width: 90vw;
-  margin: 20px auto;
-  color: black;
-}
-#category table {
-  background-color: white;
-  width: 100%;
-}
-#category tr {
-  height: 10vh;
-  border-top: 2px solid black;
-}
-#category td {
-  padding: 10px;
-}
-#category th {
-  text-align: center;
-}
-#category #post_count, #category #comment_count {
-  text-align: center;
-}
-#category #post_count p, #category #comment_count p {
-  color: gray;
-  margin-bottom: 2px;
-}
-#category #categories_heading {
-  height: 10vh;
-  text-align: center;
-  background-color: rgba(26, 82, 118, 0.75);
-  width: 60vw;
-  margin: 20px auto;
-  border-radius: 5px;
-  border: 2px solid black;
-}
-#category #categories_heading h3 {
-  line-height: 10vh;
-  color: white;
-}
-#category .categories_parent_headings {
-  height: 10vh;
-  text-align: center;
-  background-color: var(--main-color);
-  width: 50vw;
-}
-#category .categories_parent_headings h3 {
-  line-height: 10vh;
-  color: white;
-}
-#category #categories_table_heading a {
-  color: black;
-}
-#category #categories_table {
-  overflow: hidden;
-  border: 2px solid black;
-  width: 50vw;
-  margin: 20px auto 10px;
-  border-radius: 5px;
 }
 
 #search_bar {
