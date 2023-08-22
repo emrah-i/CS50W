@@ -866,9 +866,8 @@ async function load_search_results(query, sort, start) {
             }
         }
 
+        document.querySelector('#search_results').style.display = 'block';
         document.querySelector('#search_posts_heading').style.display = 'block';
-        document.querySelector('#search_results').style.border = '2px solid black'
-
 
         searchResult.innerHTML = 
         `
@@ -900,17 +899,9 @@ async function load_search_results(query, sort, start) {
         if (authData === true) {
     
             const likeButton = document.createElement('button');
+            likeButton.className = 'btn';
             likeButton.id = 'like_button';
             likeButton.dataset.postid = id;
-
-            if (like_count >= 1) {
-                likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
-                buttonsBlock.appendChild(likeButton);
-            }
-            else {
-                likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
-                buttonsBlock.appendChild(likeButton);
-            }
 
             const likeResponse = await fetch('/like/' + id, {
                 method: 'GET',
@@ -919,10 +910,23 @@ async function load_search_results(query, sort, start) {
 
                 if (likeData === true) {
                     likeButton.dataset.clicked = 'true';
+                    likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
                 }
                 else if (likeData === false) {
                     likeButton.dataset.clicked = 'false';
+                    likeButton.innerHTML = '<i class="fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
                 }
+
+            const likeCount = likeButton.querySelector('#like_count')
+
+            if (like_count >= 1) {
+                likeCount.innerText = `${like_count}`;
+                buttonsBlock.appendChild(likeButton);
+            }
+            else {
+                likeCount.innerText = '0';
+                buttonsBlock.appendChild(likeButton);
+            }
         }
 
     main.appendChild(searchResult);

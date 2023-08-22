@@ -28,6 +28,44 @@ nav {
   box-shadow: var(--shadow);
 }
 
+#nav_item {
+  background-color: var(--main-color) !important;
+  padding: 10px;
+}
+#nav_item a {
+  color: white !important;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown .btn {
+  background-color: transparent !important;
+  padding: 0 auto !important;
+}
+
+.dropdown-menu {
+  border-radius: 1rem;
+}
+
+.form-check-label {
+  padding-top: 0.5rem;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem;
+}
+
+.navbar-brand:hover {
+  text-decoration: underline;
+  border-radius: 2rem;
+}
+
 body {
   margin-top: 7rem;
   font-family: "Bricolage Grotesque", sans-serif !important;
@@ -468,8 +506,27 @@ body #dropdown_button:focus {
 }
 
 #page_buttons {
-  width: 15%;
-  margin: 30px 42.5%;
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 1rem;
+  margin: 0 auto 2rem;
+  box-shadow: var(--shadow);
+}
+
+#page_buttons > * {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+}
+
+#page_count {
+  margin: 0.5rem 0;
 }
 
 #user_info {
@@ -485,14 +542,6 @@ body #dropdown_button:focus {
   justify-content: center;
   align-items: center;
   margin: auto;
-}
-
-#nav_item {
-  background-color: var(--main-color) !important;
-  padding: 10px;
-}
-#nav_item a {
-  color: white !important;
 }
 
 #user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
@@ -658,36 +707,44 @@ body #dropdown_button:focus {
 
 #search_bar {
   text-align: center;
-  margin: 20px auto;
-  background-color: rgba(26, 82, 118, 0.75);
+  margin: 1rem auto;
+  background-color: var(--main-color);
   width: 30vw;
-  height: 20vh;
+  height: -moz-fit-content;
+  height: fit-content;
   border-radius: 5px;
-  border: 2px solid black;
-  padding: 15px;
+  box-shadow: var(--shadow);
+  padding: 1rem !important;
 }
 #search_bar select, #search_bar input {
   height: 5vh;
-  border-radius: 5px;
-  padding: 5px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
-#search_bar select {
-  margin-top: 10px;
+#search_bar input {
+  margin: 0;
+}
+#search_bar .btn {
+  display: block;
+  margin: 0.5rem auto 0;
 }
 
 #search_results {
+  display: none;
   width: 90vw;
   margin: 20px auto 10px;
   border-radius: 5px;
   overflow: hidden;
+  border: none !important;
+  box-shadow: var(--shadow);
 }
 #search_results #search_posts_heading {
   display: none;
-  background-color: rgba(26, 82, 118, 0.75);
+  background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
-  padding: 10px;
-  border-bottom: 1px solid black;
+  padding: 1rem;
+  border-bottom: 1px solid var(--sec-color);
 }
 
 #user_heading {
@@ -697,18 +754,6 @@ body #dropdown_button:focus {
 
 #post_button_block {
   margin-right: 0;
-}
-
-#posts_heading {
-  width: 90%;
-  background-color: rgba(26, 82, 118, 0.75);
-  border-radius: 5px;
-  height: 7vh;
-  margin: auto;
-}
-#posts_heading h3 {
-  line-height: 7vh;
-  padding-left: 10px;
 }
 
 #search_form {
