@@ -1114,6 +1114,7 @@ function like_post(post) {
 
     const like_count = document.querySelector('#like_button[data-postid="' + post + '"] span');
     const like_button = document.querySelector('#like_button[data-postid="' + post + '"]');
+    const like_icon = document.querySelector('#like_button[data-postid="' + post + '"] i');
     const likes = parseInt(like_count.innerHTML)
     
     if (like_button.dataset.clicked == 'false') {
@@ -1123,6 +1124,7 @@ function like_post(post) {
         .then(response => {
             like_count.innerHTML = likes + 1;
             like_button.dataset.clicked = 'true';
+            like_icon.className = 'fa-solid fa-heart'
         })
         .catch(error => {
             console.error('Error:', error);
@@ -1135,6 +1137,7 @@ function like_post(post) {
         .then(response => {
             like_count.innerHTML = likes - 1;
             like_button.dataset.clicked = 'false';
+            like_icon.className = 'fa-regular fa-heart'
         })
         .catch(error => {
             console.error('Error:', error);

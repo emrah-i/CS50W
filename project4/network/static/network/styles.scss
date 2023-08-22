@@ -153,8 +153,8 @@ body {
     padding: 10px;
     border-bottom: 2px solid var(--sec-color);
     border-top: 2px solid var(--sec-color);
-    border-right: 2px solid black;
-    border-left: 2px solid black;
+    border-right: 2px solid var(--sec-color);
+    border-left: 2px solid var(--sec-color);
     border-radius: 5px 5px 0 0;
 
     #row1 {
@@ -173,12 +173,6 @@ body {
         font-size: 1.5em;
     }
 
-    select {
-        padding: 4px;
-        border-radius: 6px;
-        background-color: aliceblue;
-        border: 1px solid black;
-    }
 }
 
 #post_user_block, #post_info_block, #post_button_block, #post_category_block {
@@ -204,8 +198,8 @@ body {
     font-size: 1.1em;
     height: 6vh;
     border-top: 1px solid rgba(26, 82, 118, .75);
-    border-right: 2px solid black;
-    border-left: 2px solid black;
+    border-right: 2px solid var(--sec-color);
+    border-left: 2px solid var(--sec-color);
 
     div {
         background-color: rgba(26, 82, 118, .75);
@@ -279,7 +273,7 @@ body {
 
     #posts_categories {
         width: 100%;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--sec-color);
         border-top: 1px solid rgba(26, 82, 118, .75);
         border-right: none;
         border-left: none;
@@ -482,16 +476,17 @@ body {
 
 }
 
-#like_button[data-clicked="true"] {
-    
-}
-
-#like_button[data-clicked="true"]:hover {
-    
+#like_button {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 nav {
     position: fixed !important;
+    z-index: 999;
     top: 0;
     width: 100%;
     box-shadow: 0px 0px .5rem .5rem #00000030;
