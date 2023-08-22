@@ -6,7 +6,7 @@
 <div id="dialog_backdrop"></div>
     <div id="following_users_popup" style="display:none">
         <dialog open>  
-            <button type="button" id="close_following">X</button>       
+            <button class="btn" type="button" id="close_following">X</button>       
             <h2>Following</h2>                   
             <div id="following_content">
                 <table>
@@ -20,7 +20,7 @@
                     <tr>
                         <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
                         {% if user.username == user_info.username %}
-                        <td id="col"><button id="remove_follower_button" data-userid="{{ dif_user.id }}">Unfollow</button></td>
+                        <td id="col"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Unfollow</button></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
@@ -30,7 +30,7 @@
     </div>
     <div id="followers_user_popup" style="display:none">
         <dialog open>  
-            <button type="button" id="close_followers">X</button>  
+            <button class="btn" type="button" id="close_followers">X</button>  
             <h2>Followers</h2>            
             <div id="follower_content">
                 <table>
@@ -44,7 +44,7 @@
                     <tr>
                         <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
                         {% if user.username == user_info.username %}
-                        <td id="col"><button id="unfollow_button" data-userid="{{ dif_user.id }}">Remove</button></td>
+                        <td id="col"><button class="btn" id="unfollow_button" data-userid="{{ dif_user.id }}">Remove</button></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
@@ -73,14 +73,14 @@
                         {% if user.is_authenticated and user.username != user_info.username %}
                         {% for follower in follower_users %}
                             {% if user.username == follower.username %}
-                            <button id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+                            <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
                             {% endif %}
                         {% empty %}
-                            <button id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+                            <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
                         {% endfor %}
                         {% endif %}
                         {% if user.is_authenticated and user.username == user_info.username %}
-                            <button type="button" id="edit_profile_button">Edit Profile</button>
+                            <button class="btn" type="button" id="edit_profile_button">Edit Profile</button>
                         {% endif %}
                     </td>
                 </tr>
@@ -123,15 +123,15 @@
                 <table id="post_info">
                     <tr>
                         <td>
-                            <button type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
+                            <button class="btn" type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
                             {% if user.is_authenticated %}
                                 {% if post.liked == True %}
-                                <button id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
+                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
                                 {% else %}
-                                <button id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
+                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
                                 {% endif %}
                                 {% if user.username == user_info.username %}
-                                <button id="edit_button" data-id="{{ post.post }}" data-post="profile_post{{ forloop.counter }}">Edit</button>
+                                <button class="btn" id="edit_button" data-id="{{ post.post }}" data-post="profile_post{{ forloop.counter }}">Edit</button>
                                 {% endif %}
                             {% endif %}
                         </td>

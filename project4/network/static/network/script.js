@@ -551,7 +551,7 @@ async function load_posts(value, sort, button) {
 
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'
-        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
+        buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
         existingPost.appendChild(buttonsBlock);
 
         if (user !== '') {
@@ -562,17 +562,9 @@ async function load_posts(value, sort, button) {
             if (authData === true) {
 
                 const likeButton = document.createElement('button');
+                likeButton.className = 'btn';
                 likeButton.id = 'like_button';
                 likeButton.dataset.postid = id;
-
-                if (like_count >= 1) {
-                    likeButton.innerHTML = `<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">${like_count}</span>`;
-                    buttonsBlock.appendChild(likeButton);
-                }
-                else {
-                    likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">0</span>';
-                    buttonsBlock.appendChild(likeButton);
-                }
 
                 const likeResponse = await fetch('/like/' + id, {
                     method: 'GET',
@@ -581,10 +573,23 @@ async function load_posts(value, sort, button) {
 
                     if (likeData === true) {
                         likeButton.dataset.clicked = 'true';
+                        likeButton.innerHTML = '<i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
                     }
                     else if (likeData === false) {
                         likeButton.dataset.clicked = 'false';
+                        likeButton.innerHTML = '<i class="fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp<span id="like_count"></span>';
                     }
+
+                const likeCount = likeButton.querySelector('#like_count')
+
+                if (like_count >= 1) {
+                    likeCount.innerText = `${like_count}`;
+                    buttonsBlock.appendChild(likeButton);
+                }
+                else {
+                    likeCount.innerText = '0';
+                    buttonsBlock.appendChild(likeButton);
+                }
             }
         };
 
@@ -657,7 +662,7 @@ async function load_following_posts(start, sort) {
             buttonsBlock = document.createElement('div')
             buttonsBlock.id = `post_button_block`
             buttonsBlock.dataset.id = id
-            buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
+            buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
             followingPost.appendChild(buttonsBlock);
 
             const authResponse = await fetch('/auth',{
@@ -757,7 +762,7 @@ async function load_category_posts(category, start, sort) {
 
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'
-        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
+        buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
         categoryPost.appendChild(buttonsBlock);
 
         const authResponse = await fetch('/auth',{
@@ -877,7 +882,7 @@ async function load_search_results(query, sort, start) {
 
         buttonsBlock = document.createElement('div')
         buttonsBlock.id = 'post_button_block'
-        buttonsBlock.innerHTML = `<button type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
+        buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
         searchResult.appendChild(buttonsBlock);
 
         const authResponse = await fetch('/auth',{
@@ -945,8 +950,8 @@ function load_new_post(event) {
             </select>
             <br>
             <div id="new_post_buttons">
-                <button type="submit">Submit</button>
-                <button type="button" id="cancel">Cancel</button>
+                <button class="btn" type="submit">Submit</button>
+                <button class="btn" type="button" id="cancel">Cancel</button>
             </div>
         </form>`;
 
@@ -985,9 +990,9 @@ function edit_post(id, div_id) {
                 ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
             </select>
             <br><br>
-            <button type="button" id="save_edit" data-id="${id}">Save</button>
-            <button type="button" id="cancel_edit">Cancel</button>
-            <button type="button" id="delete_edit" data-id="${id}">Delete</button>
+            <button class="btn" type="button" id="save_edit" data-id="${id}">Save</button>
+            <button class="btn" type="button" id="cancel_edit">Cancel</button>
+            <button class="btn" type="button" id="delete_edit" data-id="${id}">Delete</button>
         </form>`
     )
 }
@@ -1018,9 +1023,9 @@ function post_page_edit(postid) {
             </select><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
-            <button type="button" id="save_edit" data-id="${postid}">Save</button>
-            <button type="button" id="cancel_edit">Cancel</button>
-            <button type="button" id="delete_edit" data-id="${postid}">Delete</button>
+            <button class="btn" type="button" id="save_edit" data-id="${postid}">Save</button>
+            <button class="btn" type="button" id="cancel_edit">Cancel</button>
+            <button class="btn" type="button" id="delete_edit" data-id="${postid}">Delete</button>
             <hr>
         </form>`
     )
@@ -1151,8 +1156,8 @@ function comment_reply(event) {
         <input hidden value=${post} name="postid">
         <input disabled value="${user}" id="user_input">
         <textarea id="comment_text" name="reply_text" placeholder="Enter Comment" required maxlength="250"></textarea><br>
-        <button type="submit">Reply</button>
-        <button type="button" id="cancel_reply">Cancel</button>
+        <button class="btn" type="submit">Reply</button>
+        <button class="btn" type="button" id="cancel_reply">Cancel</button>
     </form>
     `
 }
@@ -1198,8 +1203,8 @@ function edit_comment(comment_id) {
             <form id="comment_edit_form">
                 <input disabled value="${user}" id="user_input">
                 <textarea id="comment_text" name="edited_comment_text" placeholder="Enter Comment" required maxlength="250">${text}</textarea><br>
-                <button type="button" id="submit_comment_edit">Post</button>
-                <button type="button" id="cancel_reply">Cancel</button>
+                <button class="btn" type="button" id="submit_comment_edit">Post</button>
+                <button class="btn" type="button" id="cancel_reply">Cancel</button>
             </form>
             `
         }

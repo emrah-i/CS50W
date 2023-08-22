@@ -6,12 +6,12 @@
         <p>{{ reply.text }}</p>
         <p id="pp_ut">{{ reply.upload_time }}</p>
         {% if user.is_authenticated and reply.text != '[DELETED]' %}
-            <button type="button" id="reply_button" data-commentid="{{ reply.comment }}">Reply</button>
+            <button class="btn" type="button" id="reply_button" data-commentid="{{ reply.comment }}">Reply</button>
         {% if user == reply.user and reply.text != '[DELETED]' %}
-            <button id="edit_comment" data-commentid="{{ reply.comment }}">Edit</button>
+            <button class="btn" id="edit_comment" data-commentid="{{ reply.comment }}">Edit</button>
         {% endif %}
         {% if user == reply.user and reply.text != '[DELETED]' %}
-            <button id="delete_comment" data-commentid="{{ reply.comment }}">Delete</button>
+            <button class="btn" id="delete_comment" data-commentid="{{ reply.comment }}">Delete</button>
         {% endif %}
         {% endif %}
     </div>

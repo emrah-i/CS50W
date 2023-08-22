@@ -1,41 +1,26 @@
-#register_page {
-  background-color: rgba(26, 82, 118, 0.75);
-  width: 50vw;
-  text-align: center;
-  border-radius: 5px;
-  border: 2px solid black;
-  margin: 40px auto;
-  padding: 15px;
-}
-#register_page input {
-  margin: 10px;
-  border-radius: 5px;
-  padding: 5px;
-}
-#register_page h2 {
-  margin-bottom: 20px;
+:root {
+  --main-color: #2E86C1;
+  --sec-color: #579ECD;
 }
 
-#login_page {
-  background-color: rgba(26, 82, 118, 0.75);
-  width: 50vw;
-  text-align: center;
-  border-radius: 5px;
-  border: 2px solid black;
-  margin: 40px auto;
-  padding: 15px;
+.btn {
+  background-color: rgba(32, 96, 138, 0.6274509804) !important;
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.4s ease-in-out;
+  border-radius: 1rem;
 }
-#login_page input {
-  margin: 10px;
-  border-radius: 5px;
-  padding: 5px;
-}
-#login_page h2 {
-  margin-bottom: 20px;
+
+.btn:hover {
+  border-radius: 1.5rem;
+  transform: scale(1.1);
+  color: white;
 }
 
 body {
-  font-size: 1.15vw;
+  margin-top: 7rem;
+  font-family: "Bricolage Grotesque", sans-serif !important;
+  font-size: 1.25vw;
   background-color: white;
   color: white;
 }
@@ -44,15 +29,21 @@ body textarea {
   height: 30vh;
   margin: 10px 5%;
 }
+body input, body textarea, body select {
+  border: 0.2rem solid rgba(192, 192, 192, 0.5019607843);
+  margin: 10px;
+  border-radius: 5px;
+  padding: 1rem;
+}
+body select {
+  padding: 0;
+}
 body button {
   background-color: aliceblue;
   border-radius: 8px;
   border-style: solid;
   border-color: black;
   height: 5vh;
-}
-body button:hover {
-  background-color: LightSteelBlue;
 }
 body hr {
   background-color: black;
@@ -62,6 +53,7 @@ body a {
   text-decoration: none;
 }
 body a:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 body #menu_list {
@@ -75,18 +67,61 @@ body #dropdown_button {
   font-size: 1.15vw;
 }
 body #dropdown_button:hover {
+  cursor: pointer;
   background-color: none;
 }
 body #dropdown_button:focus {
   box-shadow: none;
 }
 
+#register_page, #login_page {
+  background-color: var(--main-color);
+  box-shadow: 0px 0px 0.2rem 0.2rem rgba(0, 0, 0, 0.1882352941);
+  width: 50vw;
+  text-align: center;
+  border-radius: 5px;
+  margin: 40px auto;
+  padding: 15px;
+}
+#register_page input, #login_page input {
+  border: 0.2rem solid rgba(192, 192, 192, 0.5019607843);
+  margin: 10px;
+  border-radius: 5px;
+  padding: 5px;
+}
+#register_page h2, #login_page h2 {
+  margin-bottom: 20px;
+}
+#register_page a:hover, #login_page a:hover {
+  color: white;
+}
+
+#new_post {
+  background-color: var(--main-color);
+  border-radius: 0 0 5px 5px;
+  padding: 15px;
+  margin: 10px auto;
+  border-radius: 0.5rem;
+  width: 90vw;
+}
+#new_post #category_input {
+  margin: 10px 5%;
+  border-radius: 6px;
+  height: 4vh;
+}
+#new_post #new_post_buttons {
+  margin: 1rem 5%;
+}
+#new_post .btn:nth-child(2) {
+  margin-left: 0.5rem;
+}
+
 #all_posts {
   margin: auto;
   width: 90vw;
-  border-bottom: 1px solid black;
-  border-right: 2px solid black;
-  border-left: 2px solid black;
+  border-bottom: 1px solid var(--sec-color);
+  border-right: 2px solid var(--sec-color);
+  border-left: 2px solid var(--sec-color);
   border-radius: 0 0 5px 5px;
 }
 
@@ -95,8 +130,8 @@ body #dropdown_button:focus {
   width: 90%;
   margin: 10px 5% 0 5%;
   padding: 10px;
-  border-bottom: 2px solid rgba(26, 82, 118, 0.75);
-  border-top: 2px solid black;
+  border-bottom: 2px solid var(--sec-color);
+  border-top: 2px solid var(--sec-color);
   border-right: 2px solid black;
   border-left: 2px solid black;
   border-radius: 5px 5px 0 0;
@@ -123,13 +158,13 @@ body #dropdown_button:focus {
 #post_user_block, #post_info_block, #post_button_block, #post_category_block {
   flex: 1;
   text-align: center;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   padding: 20px 10px;
 }
 
 #post_text_block {
   flex: 5;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   padding: 20px 10px;
 }
 
@@ -157,30 +192,12 @@ body #dropdown_button:focus {
 .posts {
   display: flex;
   width: 100%;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid var(--sec-color);
+  border-bottom: 1px solid var(--sec-color);
   transition: transform 0.3s ease;
   height: 15vh;
 }
 .posts #user_input {
-  margin: 10px 5%;
-}
-
-#new_post {
-  background-color: rgba(46, 134, 193, 0.75);
-  border-radius: 0 0 5px 5px;
-  padding: 15px;
-  margin: 10px auto;
-  border-radius: 5px;
-  border: 2px solid black;
-  width: 90vw;
-}
-#new_post #category_input {
-  margin: 10px 5%;
-  border-radius: 6px;
-  height: 4vh;
-}
-#new_post #new_post_buttons {
   margin: 10px 5%;
 }
 
@@ -253,7 +270,7 @@ body #dropdown_button:focus {
 #following_users td {
   border-top: 2px solid black;
   border-bottom: 0.5px solid black;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
 }
 #following_users th {
   background-color: rgba(26, 82, 118, 0.75);
@@ -271,7 +288,7 @@ body #dropdown_button:focus {
 }
 #profile_posts .profile_post {
   width: 100%;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   padding: 10px;
   border: 1px solid black;
 }
@@ -290,10 +307,11 @@ body #dropdown_button:focus {
   overflow: hidden;
 }
 #profile_posts #user_info {
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   height: 45vh;
 }
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 #profile_posts #user_info table {
@@ -372,9 +390,10 @@ body #dropdown_button:focus {
   margin: 10px 5%;
 }
 #category_posts_page #user_info {
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
 }
 #category_posts_page #user_info #open_following:hover, #category_posts_page #user_info #open_followers:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -390,19 +409,15 @@ body #dropdown_button:focus {
   margin-bottom: 50px;
 }
 
-#like_button[data-clicked=true] {
-  background-color: LightSteelBlue;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: black;
-}
-
-#like_button[data-clicked=true]:hover {
-  background-color: aliceblue;
+nav {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 0px 0.5rem 0.5rem rgba(0, 0, 0, 0.1882352941);
 }
 
 #nav_item {
-  background-color: rgba(46, 134, 193, 0.75) !important;
+  background-color: rgb(46, 134, 193) !important;
   padding: 10px;
 }
 #nav_item a {
@@ -428,7 +443,7 @@ body #dropdown_button:focus {
   top: 25%;
   position: fixed;
   border-radius: 6px;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
 }
 #following_users_popup table, #followers_user_popup table {
   background-color: white;
@@ -469,7 +484,7 @@ body #dropdown_button:focus {
 }
 
 .post_page {
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   width: 90%;
   margin: 10px 5%;
   padding: 10px;
@@ -498,6 +513,7 @@ body #dropdown_button:focus {
   font-size: 1.1em;
 }
 .post_page #user_page_route:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 .post_page #user_input {
@@ -525,7 +541,7 @@ body #dropdown_button:focus {
 }
 
 #edit_profile {
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   width: 90%;
   margin: 10px 5%;
   padding: 10px;
@@ -601,7 +617,7 @@ body #dropdown_button:focus {
 #category .categories_parent_headings {
   height: 10vh;
   text-align: center;
-  background-color: rgba(46, 134, 193, 0.75);
+  background-color: var(--main-color);
   width: 50vw;
 }
 #category .categories_parent_headings h3 {

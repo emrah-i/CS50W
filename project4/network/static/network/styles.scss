@@ -1,46 +1,26 @@
-
-#register_page {
-    background-color: rgba(26, 82, 118, .75);
-    width: 50vw;
-    text-align: center;
-    border-radius: 5px;
-    border: 2px solid black;
-    margin: 40px auto;
-    padding: 15px;
-
-    input {
-        margin: 10px;
-        border-radius: 5px;
-        padding: 5px;
-    }
-
-    h2 {
-        margin-bottom: 20px;
-    }
+:root {
+    --main-color: #2E86C1;
+    --sec-color: #579ECD;
 }
 
-#login_page {
-    background-color: rgba(26, 82, 118, .75);
-    width: 50vw;
-    text-align: center;
-    border-radius: 5px;
-    border: 2px solid black;
-    margin: 40px auto;
-    padding: 15px;
+.btn {
+    background-color: #20608AA0 !important;
+    color: white;
+    font-size: 1.2rem;
+    transition: all .4s ease-in-out;
+    border-radius: 1rem;
+}
 
-    input {
-        margin: 10px;
-        border-radius: 5px;
-        padding: 5px;
-    }
-
-    h2 {
-        margin-bottom: 20px;
-    }
+.btn:hover {
+    border-radius: 1.5rem;
+    transform: scale(1.1);
+    color: white;
 }
 
 body {
-    font-size: 1.15vw;
+    margin-top: 7rem;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
+    font-size: 1.25vw;
     background-color: white;
     color: white;
 
@@ -50,16 +30,23 @@ body {
         margin: 10px 5%;
     }
 
+    input, textarea, select {
+        border: .2rem solid #C0C0C080;
+        margin: 10px;
+        border-radius: 5px;
+        padding: 1rem;
+    }
+
+    select {
+        padding: 0;
+    }
+
     button {
         background-color: aliceblue;
         border-radius: 8px;
         border-style: solid;
         border-color: black;
         height: 5vh;
-    }
-
-    button:hover {
-        background-color: LightSteelBlue;
     }
 
     hr {
@@ -72,6 +59,7 @@ body {
     }
 
     a:hover {
+        cursor: pointer;
         text-decoration: underline;
     }
 
@@ -88,6 +76,7 @@ body {
     }
 
     #dropdown_button:hover {
+        cursor: pointer;
         background-color: none;
     }
 
@@ -96,13 +85,63 @@ body {
     }
 }
 
+#register_page, #login_page {
+    background-color: var(--main-color);
+    box-shadow: 0px 0px .2rem .2rem #00000030;
+    width: 50vw;
+    text-align: center;
+    border-radius: 5px;
+    margin: 40px auto;
+    padding: 15px;
+
+    input {
+        border: .2rem solid #C0C0C080;
+        margin: 10px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    a:hover {
+        color: white;
+    }
+}
+
+#new_post {
+
+    background-color: var(--main-color);
+    border-radius: 0 0 5px 5px;
+    padding: 15px;
+    margin: 10px auto;
+    border-radius: .5rem;
+    width: 90vw;
+
+    #category_input {
+        margin: 10px 5%;
+        border-radius: 6px;
+        height: 4vh;
+    }
+
+    #new_post_buttons {
+        margin: 1rem 5%;
+    }
+
+    .btn:nth-child(2) {
+        margin-left: .5rem;
+    }
+}
+
+
 #all_posts {
 
     margin: auto;
     width: 90vw;
-    border-bottom: 1px solid black;
-    border-right: 2px solid black;
-    border-left: 2px solid black;
+    border-bottom: 1px solid var(--sec-color);
+    border-right: 2px solid var(--sec-color);
+    border-left: 2px solid var(--sec-color);
     border-radius: 0 0 5px 5px ;
 }
 
@@ -112,8 +151,8 @@ body {
     width: 90%;
     margin: 10px 5% 0 5%;
     padding: 10px;
-    border-bottom: 2px solid rgba(26, 82, 118, .75);
-    border-top: 2px solid black;
+    border-bottom: 2px solid var(--sec-color);
+    border-top: 2px solid var(--sec-color);
     border-right: 2px solid black;
     border-left: 2px solid black;
     border-radius: 5px 5px 0 0;
@@ -145,13 +184,13 @@ body {
 #post_user_block, #post_info_block, #post_button_block, #post_category_block {
     flex: 1;
     text-align: center;
-    background-color: rgba(46, 134, 193, .75);
+    background-color: var(--main-color);
     padding: 20px 10px;
 }
 
 #post_text_block {
     flex: 5;
-    background-color: rgba(46, 134, 193, .75);
+    background-color: var(--main-color);
     padding: 20px 10px;
 }
 
@@ -181,8 +220,8 @@ body {
 .posts {
     display: flex;
     width: 100%;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid var(--sec-color);
+    border-bottom: 1px solid var(--sec-color);
     transition: transform 0.3s ease;
 
     height: 15vh;
@@ -190,29 +229,6 @@ body {
     #user_input {
         margin: 10px 5%;
     }
-}
-
-#new_post {
-
-    background-color: rgba(46, 134, 193, .75);
-    border-radius: 0 0 5px 5px;
-    padding: 15px;
-    margin: 10px auto;
-    border-radius: 5px;
-    border: 2px solid black;
-    ;
-    width: 90vw;
-
-    #category_input {
-        margin: 10px 5%;
-        border-radius: 6px;
-        height: 4vh;
-    }
-
-    #new_post_buttons {
-        margin: 10px 5%;
-    }
-
 }
 
 #following_posts {
@@ -296,7 +312,7 @@ body {
     td {
         border-top: 2px solid black;
         border-bottom: .5px solid black;
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
     }
 
     th { 
@@ -319,7 +335,7 @@ body {
 
     .profile_post {
         width: 100%;
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
         padding: 10px;
         border: 1px solid black;
     }
@@ -342,10 +358,11 @@ body {
     }
 
     #user_info {
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
         height: 45vh;
 
         #open_following:hover, #open_followers:hover {
+            cursor: pointer;
             text-decoration: underline;
         }
 
@@ -443,9 +460,10 @@ body {
     }
 
     #user_info {
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
 
         #open_following:hover, #open_followers:hover {
+            cursor: pointer;
             text-decoration: underline;
         }
     }
@@ -465,19 +483,23 @@ body {
 }
 
 #like_button[data-clicked="true"] {
-    background-color: LightSteelBlue;
-    border-radius: 8px;
-    border-style: solid;
-    border-color: black;
+    
 }
 
 #like_button[data-clicked="true"]:hover {
-    background-color: aliceblue;
+    
+}
+
+nav {
+    position: fixed !important;
+    top: 0;
+    width: 100%;
+    box-shadow: 0px 0px .5rem .5rem #00000030;
 }
 
 #nav_item {
     
-    background-color: rgba(46, 134, 193, .75) !important;
+    background-color: rgba(46, 134, 193) !important;
     padding: 10px;
     
     a {
@@ -506,7 +528,7 @@ body {
         top: 25%;
         position: fixed;
         border-radius: 6px;
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
 
     }
     table {
@@ -555,7 +577,7 @@ body {
 
 .post_page {
 
-    background-color: rgba(46, 134, 193, .75);
+    background-color: var(--main-color);
     width: 90%;
     margin: 10px 5%;
     padding: 10px;
@@ -590,6 +612,7 @@ body {
     }
 
     #user_page_route:hover {
+        cursor: pointer;
         text-decoration: underline;
     }
 
@@ -626,7 +649,7 @@ body {
 
 #edit_profile {
 
-    background-color: rgba(46, 134, 193, .75);
+    background-color: var(--main-color);
     width: 90%;
     margin: 10px 5%;
     padding: 10px;
@@ -715,7 +738,7 @@ body {
     .categories_parent_headings {
         height: 10vh;
         text-align: center;
-        background-color: rgba(46, 134, 193, .75);
+        background-color: var(--main-color);
         width: 50vw;
 
         h3 {
