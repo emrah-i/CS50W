@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-        document.querySelector('.all_posts, .post_page, #profile_posts, #following_users_popup, #followers_user_popup, #following_users').addEventListener('click', (event) => {
+        document.querySelector('body').addEventListener('click', (event) => {
             let post = ''
             let div_id = ''
             
