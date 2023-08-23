@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-        document.querySelector('#all_posts, #profile_posts, #following_posts, .post_page, #category_posts, #search_posts').addEventListener('click', (event) => {
+        document.querySelector('.all_posts, #profile_posts, .post_page').addEventListener('click', (event) => {
             let post = ''
             let div_id = ''
             
@@ -473,7 +473,7 @@ async function load_posts(value, sort, button) {
     }
     catch {}
 
-    const all_posts = document.querySelector('#all_posts');
+    const all_posts = document.querySelector('.all_posts');
 
     all_posts.innerHTML = "";
 
@@ -501,7 +501,7 @@ async function load_posts(value, sort, button) {
 };
 
 async function load_following_posts(start, sort) {
-    const main_div = document.querySelector('#following_posts');
+    const main_div = document.querySelector('.following_posts');
 
     const response = await fetch(`/following_posts/${start}/${sort}`, {
         method: "GET"
@@ -513,7 +513,7 @@ async function load_following_posts(start, sort) {
 
 async function load_category_posts(category, start, sort) {
 
-    const main_div = document.querySelector('#category_posts');
+    const main_div = document.querySelector('.category_posts');
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
@@ -530,14 +530,16 @@ async function load_category_posts(category, start, sort) {
 
 async function load_search_results(query, sort, start) {
 
-    const main = document.querySelector('#search_posts');
+    const main = document.querySelector('.search_posts');
     const heading = document.querySelector('#search_posts_heading');
+    const parent = document.querySelector('#search_results');
+    const load = document.querySelector('#load_more');
+    const heads = document.querySelector('#posts_categories')
 
     heading.innerHTML = `<h3>Search results for '${query}'<h3>`
 
     if (start === 0) {
         main.innerHTML = ''
-        document.querySelector('#load_more').style.display = 'block'
     }
 
     const response = await fetch(`/search/${query}?sort=${sort}&start=${start}`, {
@@ -545,13 +547,25 @@ async function load_search_results(query, sort, start) {
     })
     const data = await response.json()
 
+    console.log(data.length)
+
     if (data.length === 0 && start === 0) {
-        main.innerHTML = `No posts found with "${query}"`;
-        return;
+        load.style.display = 'none';
+        heads.style.display = 'none';
+        parent.style.display = 'block';
+        heading.style.display = 'block';
+        heading.innerHTML = `No posts found with "${query}"`;
+        return
     }
 
-    document.querySelector('#search_results').style.display = 'block';
-    document.querySelector('#search_posts_heading').style.display = 'block';
+    heads.style.display = 'flex';
+    load.style.display = 'block';
+    parent.style.display = 'block';
+    heading.style.display = 'block';
+
+    if (data.length > 0) {
+        document.querySelector('#search_posts_heading').innerHTML = `Search results for "${query}"`;
+    }
 
     load_items(main, data)
 };  
@@ -561,8 +575,8 @@ async function load_items(mainDiv, data) {
     for(i = 0; i < data.length; i++){
 
         const postDiv = document.createElement('div');
-        postDiv.id = 'following_post' + i;
-        postDiv.className = 'following_posts';
+        postDiv.id = 'post' + i;
+        postDiv.className = 'row posts';
 
         const id = data[i].post
         const title = data[i].title
@@ -594,21 +608,19 @@ async function load_items(mainDiv, data) {
         }
 
         postDiv.innerHTML = 
-        `<div class="row">
-            <div class='col-6' id="post_text_block">
-                <h4 id="post_title">${title}</h4>
-                <p id="post_text">${text}</p>
-            </div>
-            <div class='col' id="post_category_block">
-                <p id="post_category">${category}</p>
-            </div>  
-            <div class='col' id="post_user_block">
-                <p id="timestamp">Posted ${upload_time}</p>
-                <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
-            </div>
-            <div class='col' id="post_info_block">
-                <p>${comments} comment(s) ${unique_users}</p>   
-            </div>
+        `<div class='col-6' id="post_text_block">
+            <h4 id="post_title">${title}</h4>
+            <p id="post_text">${text}</p>
+        </div>
+        <div class='col' id="post_category_block">
+            <p id="post_category">${category}</p>
+        </div>  
+        <div class='col' id="post_user_block">
+            <p id="timestamp">Posted ${upload_time}</p>
+            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
+        </div>
+        <div class='col' id="post_info_block">
+            <p>${comments} comment(s) ${unique_users}</p>   
         </div>`;
 
         buttonsBlock = document.createElement('div')
@@ -616,7 +628,7 @@ async function load_items(mainDiv, data) {
         buttonsBlock.id = `post_button_block`
         buttonsBlock.dataset.id = id
         buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
-        postDiv.querySelector('.row').appendChild(buttonsBlock);
+        postDiv.appendChild(buttonsBlock);
 
         const authResponse = await fetch('/auth',{
             method: 'GET'

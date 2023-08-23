@@ -1,28 +1,24 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
-<div id="category_posts_page">
-    <div id="filters">
-        <table>
-            <tr>
-                <td>
-                    <h3 id="category_header" data-category="{{ category.code }}">Posts in the "{{ category.display }}" category</h3>
-                </td>
-                <td id="row1">
-                    <p style="display:inline">Sort By:</p>
-                    <select id="sort">
-                        <option selected value="new_old">Newest to Oldest</option>
-                        <option value="old_new">Oldest to Newest</option>
-                        <option value="most_likes">Most Likes</option>
-                        <option value="least_likes">Least Likes</option>
-                        <option value="most_comments">Most Comments</option>
-                        <option value="least_comments">Least Comments</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+<div class="container" id="category_posts_page">
+    <div class="row" id="main_filters">
+        <div class="col">
+            <h3 id="category_header" data-category="{{ category.code }}">Posts in the "{{ category.display }}" category</h3>
+        </div>
+        <div class="col" id="row1">
+            <label style="display:inline">Sort By:</label>
+            <select id="sort">
+                <option selected value="new_old">Newest to Oldest</option>
+                <option value="old_new">Oldest to Newest</option>
+                <option value="most_likes">Most Likes</option>
+                <option value="least_likes">Least Likes</option>
+                <option value="most_comments">Most Comments</option>
+                <option value="least_comments">Least Comments</option>
+            </select>
+        </div>
     </div>
-    <div id="category_posts">
+    <div class="container all_posts category_posts">
     </div>
 </div>
 <div id="load_more">

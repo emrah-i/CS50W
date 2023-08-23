@@ -26,50 +26,57 @@ nav {
   top: 0;
   width: 100%;
   box-shadow: var(--shadow);
-}
-
-#nav_item {
   background-color: var(--main-color) !important;
-  padding: 1rem;
+  margin: 0;
 }
-#nav_item a {
-  color: white !important;
+nav .container-fluid {
+  background-color: var(--main-color) !important;
 }
-
-.dropdown {
+nav .dropdown {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.dropdown .btn {
+nav .dropdown .btn {
   background-color: transparent !important;
   padding: 0 auto !important;
-  font-size: 1.25rem !important;
+  font-size: 1em !important;
 }
-
-.dropdown .btn:hover {
+nav .nav-item {
+  color: white !important;
+}
+nav .nav-item a {
+  color: white !important;
+}
+nav .dropdown .btn:hover {
   transform: scale(1);
   text-decoration: underline;
 }
-
-.dropdown-menu {
+nav .dropdown-menu {
   border-radius: 1rem;
 }
-
-.form-check-label {
+nav .form-check-label {
   padding-top: 0.5rem;
 }
-
-.navbar-brand {
+nav .navbar-brand {
   font-size: 1.5rem;
   font-weight: 600;
+  color: white;
   padding: 0.5rem;
 }
-
-.navbar-brand:hover {
+nav .navbar-brand:hover {
+  cursor: pointer;
   text-decoration: underline;
-  border-radius: 2rem;
+  color: white !important;
+}
+nav .navbar-toggler {
+  border: 2px solid white;
+}
+nav .navbar-toggler span {
+  color: white !important;
+}
+nav .navbar-toggler:focus {
+  box-shadow: var(--shadow);
 }
 
 body {
@@ -143,54 +150,54 @@ body #dropdown_button:focus {
   color: white;
 }
 
-#main-posts-div {
+#main-posts-div, #following-main-div, #category_posts_page, #search_results {
   box-shadow: var(--shadow);
   width: 100%;
   padding: 0;
   overflow: hidden;
   border-radius: 1rem;
   margin: 2rem auto;
-  border-radius: 1rem;
-  overflow: hidden;
 }
 
-#new_post {
-  background-color: var(--main-color);
-  box-shadow: var(--shadow);
-  border-radius: 0 0 5px 5px;
-  padding: 15px;
-  margin: 1rem auto;
-  border-radius: 0.5rem;
-  width: 90vw;
+#search_results {
+  display: none;
 }
-#new_post #category_input {
-  margin: 1rem 5%;
-  border-radius: 6px;
-  height: 4vh;
+#search_results .search_posts {
+  border: none !important;
 }
-#new_post #new_post_buttons {
-  margin: 1rem 5%;
-}
-#new_post .btn:nth-child(2) {
-  margin-left: 0.5rem;
+#search_results #posts_categories {
+  border-top: 2px solid var(--sec-color);
 }
 
-#all_posts {
+#search_posts_heading {
+  display: none;
+  background-color: var(--tert-color);
+  font-size: 1.6rem !important;
+  width: 100%;
+  margin: 0px auto;
+  padding: 1rem;
+}
+
+.all_posts {
   width: 100% !important;
   border-bottom: 1px solid var(--sec-color);
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0;
 }
-#all_posts .row > * {
+.all_posts .row {
+  justify-content: center;
+}
+.all_posts .row > * {
   padding: 1rem !important;
   display: flex;
   flex-direction: column;
   text-align: center;
   background-color: var(--main-color);
 }
-#all_posts #post_text_block {
+.all_posts #post_text_block {
   text-align: left !important;
 }
-#all_posts #post_buttons_block {
+.all_posts #post_buttons_block {
   gap: 0;
 }
 
@@ -240,6 +247,7 @@ body #dropdown_button:focus {
 }
 
 .posts {
+  margin: 0 !important;
   width: 100%;
   border-top: 1px solid var(--tert-color);
   border-bottom: 1px solid var(--tert-color);
@@ -248,45 +256,25 @@ body #dropdown_button:focus {
   margin: 1rem 5%;
 }
 
-#following_posts {
-  margin: 0 auto 40px auto;
+#new_post {
+  background-color: var(--main-color);
   box-shadow: var(--shadow);
+  border-radius: 0 0 5px 5px;
+  padding: 15px;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
   width: 90vw;
-  border-radius: 1rem;
-  overflow: hidden;
 }
-#following_posts .following_posts {
-  border-top: 1px solid var(--sec-color);
-  border-bottom: 1px solid var(--sec-color);
-  display: flex;
-  width: 100%;
-  margin: 0;
+#new_post #category_input {
+  margin: 1rem 5%;
+  border-radius: 6px;
+  height: 4vh;
 }
-#following_posts #user_input {
+#new_post #new_post_buttons {
   margin: 1rem 5%;
 }
-#following_posts #following_user_link {
-  color: white;
-}
-#following_posts #filters {
-  background-color: var(--tert-color);
-  width: 100%;
-  margin: 0px auto;
-  padding: 1rem;
-  border-bottom: 2px solid var(--sec-color);
-}
-#following_posts #filters table {
-  width: 100%;
-}
-#following_posts #filters #row1 {
-  text-align: right;
-}
-#following_posts #posts_categories {
-  width: 100%;
-  border-bottom: 1px solid var(--sec-color);
-  border-top: 1px solid var(--sec-color);
-  border-right: none;
-  border-left: none;
+#new_post .btn:nth-child(2) {
+  margin-left: 0.5rem;
 }
 
 #following_users {
@@ -386,43 +374,6 @@ body #dropdown_button:focus {
   border-radius: 5px;
 }
 
-#category_posts_page {
-  width: 90vw;
-  margin: auto;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  margin-top: 1rem;
-}
-#category_posts_page #filters {
-  background-color: var(--tert-color);
-  width: 100%;
-  margin: 0px auto;
-  padding: 1rem;
-  border-bottom: 1px solid var(--sec-color);
-}
-#category_posts_page #filters table {
-  width: 100%;
-}
-#category_posts_page #filters #row1 {
-  text-align: right;
-}
-#category_posts_page .category_post {
-  display: flex;
-  width: 100%;
-  border: 1px solid var(--sec-color);
-}
-#category_posts_page #user_input {
-  margin: 10px 5%;
-}
-#category_posts_page #user_info {
-  background-color: var(--main-color);
-}
-#category_posts_page #user_info #open_following:hover, #category_posts_page #user_info #open_followers:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 #load_more {
   width: -moz-fit-content;
   width: fit-content;
@@ -465,7 +416,7 @@ body #dropdown_button:focus {
 #profile_posts #main_profile_div {
   width: 100%;
   box-shadow: var(--shadow);
-  border-radius: 5px;
+  border-radius: 1rem;
   overflow: hidden;
 }
 #profile_posts #user_info {
@@ -538,7 +489,7 @@ body #dropdown_button:focus {
 #user_info {
   padding: 1rem;
   box-shadow: var(--shadow);
-  border-radius: 6px;
+  border-radius: 1rem;
   margin-bottom: 50px;
 }
 
@@ -562,6 +513,12 @@ body #dropdown_button:focus {
 #following_users_popup #following-content, #followers_user_popup #following-content {
   max-height: 400px;
   overflow-y: auto;
+}
+#following_users_popup table, #followers_user_popup table {
+  border-collapse: collapse;
+  border-radius: 1rem;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: var(--shadow); /* this draws the table border  */
 }
 #following_users_popup h2, #followers_user_popup h2 {
   color: white;
@@ -718,9 +675,9 @@ body #dropdown_button:focus {
   width: 30vw;
   height: -moz-fit-content;
   height: fit-content;
-  border-radius: 5px;
+  border-radius: 1rem;
   box-shadow: var(--shadow);
-  padding: 1rem !important;
+  padding: 2rem !important;
 }
 #search_bar select, #search_bar input {
   height: 5vh;
@@ -728,38 +685,15 @@ body #dropdown_button:focus {
   padding: 0.5rem;
 }
 #search_bar input {
-  margin: 0;
+  margin: 0 0 1rem;
 }
 #search_bar .btn {
-  display: block;
-  margin: 0.5rem auto 0;
-}
-
-#search_results {
-  display: none;
-  width: 90vw;
-  margin: 1.5rem auto 1rem;
-  border-radius: 5px;
-  overflow: hidden;
-  border: none !important;
-  box-shadow: var(--shadow);
-}
-#search_results #search_posts_heading {
-  display: none;
-  background-color: var(--tert-color);
-  width: 100%;
-  margin: 0px auto;
-  padding: 1rem;
-  border-bottom: 1px solid var(--sec-color);
+  margin: 0 0 0.25rem 1rem;
 }
 
 #user_heading {
   font-weight: 600;
   color: white;
-}
-
-#search_form {
-  justify-content: flex-end;
 }
 
 #timestamp {

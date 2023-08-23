@@ -17,43 +17,29 @@
             </table>
         </div>
     </div>
-    <div id="following_posts">
-        <div id="filters">
-            <table>
-                <tr>
-                    <td>
-                        <h3>All Following Posts</h3>
-                    </td>
-                    <td id="row1">
-                        <p style="display:inline">Sort By:</p>
-                        <select id="sort">
-                            <option selected value="new_old">Newest to Oldest</option>
-                            <option value="old_new">Oldest to Newest</option>
-                            <option value="most_likes">Most Likes</option>
-                            <option value="least_likes">Least Likes</option>
-                            <option value="most_comments">Most Comments</option>
-                            <option value="least_comments">Least Comments</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+    <div class="container" id="following-main-div">
+        <div class="row" id="main_filters">
+            <div class="col"><h3>Following Posts</h3></div>
+            <div class="col" id="row1">
+                <label style="display:inline">Sort By:</label>
+                <select id="sort">
+                    <option selected value="new_old">Newest to Oldest</option>
+                    <option value="old_new">Oldest to Newest</option>
+                    <option value="most_likes">Most Likes</option>
+                    <option value="least_likes">Least Likes</option>
+                    <option value="most_comments">Most Comments</option>
+                    <option value="least_comments">Least Comments</option>
+                </select>
+            </div>
         </div>
-        <div id="posts_categories" class="posts">
-            <div id="post_text_block">
-                <p id="post_title">Topics</p>
-            </div>
-            <div id="post_category_block">
-                <p id="post_category">Category</p>
-            </div>  
-            <div id="post_user_block">
-                <p>Info</p>
-            </div>
-            <div id="post_info_block">
-                <p>Comments</p>   
-            </div>
-            <div id="post_button_block">
-                <p>Options</p>   
-            </div>
+        <div id="posts_categories" class="posts row justify-content-center">
+            <p class="col-6">Topic</p>
+            <p class="col">Category</p>
+            <p class="col">Info</p>
+            <p class="col">Comments</p>   
+            <p class="col">Options</p>
+        </div>
+        <div class="container all_posts following_posts">
         </div>
     </div>
 {% endblock %}

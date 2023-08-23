@@ -2,8 +2,12 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-    <div id="new_post">
-        <button class="btn" class="btn" id="new_post_button" data-user="{{ user.username }}">New Post</button>
+    <div class="container">
+        <div class="row">
+            <div id="new_post">
+                <button class="btn" class="btn" id="new_post_button" data-user="{{ user.username }}">New Post</button>
+            </div>
+        </div>
     </div>
     {% endif %}
     <div class="container" id="main-posts-div">
@@ -28,7 +32,7 @@
             <p class="col">Comments</p>   
             <p class="col">Options</p>
         </div>
-        <div class="container" id="all_posts">
+        <div class="container all_posts justify-content-center">
         </div>
     </div>
         <div id="page_buttons">
