@@ -30,7 +30,7 @@ nav {
 
 #nav_item {
   background-color: var(--main-color) !important;
-  padding: 10px;
+  padding: 1rem;
 }
 #nav_item a {
   color: white !important;
@@ -45,6 +45,12 @@ nav {
 .dropdown .btn {
   background-color: transparent !important;
   padding: 0 auto !important;
+  font-size: 1.25rem !important;
+}
+
+.dropdown .btn:hover {
+  transform: scale(1);
+  text-decoration: underline;
 }
 
 .dropdown-menu {
@@ -76,7 +82,7 @@ body {
 body textarea {
   width: 90%;
   height: 30vh;
-  margin: 10px 5%;
+  margin: 1rem 5%;
 }
 body input, body textarea, body select {
   border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
@@ -126,7 +132,7 @@ body #dropdown_button:focus {
   padding: 15px;
 }
 #register_page input, #login_page input {
-  margin: 10px;
+  margin: 1rem;
   border-radius: 5px;
   padding: 5px;
 }
@@ -139,11 +145,13 @@ body #dropdown_button:focus {
 
 #main-posts-div {
   box-shadow: var(--shadow);
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
+  padding: 0;
   overflow: hidden;
   border-radius: 1rem;
-  margin: 2rem auto 2rem;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 #new_post {
@@ -151,12 +159,12 @@ body #dropdown_button:focus {
   box-shadow: var(--shadow);
   border-radius: 0 0 5px 5px;
   padding: 15px;
-  margin: 10px auto;
+  margin: 1rem auto;
   border-radius: 0.5rem;
   width: 90vw;
 }
 #new_post #category_input {
-  margin: 10px 5%;
+  margin: 1rem 5%;
   border-radius: 6px;
   height: 4vh;
 }
@@ -168,58 +176,59 @@ body #dropdown_button:focus {
 }
 
 #all_posts {
-  margin: auto;
-  width: 90vw;
+  width: 100% !important;
   border-bottom: 1px solid var(--sec-color);
   border-radius: 0 0 5px 5px;
 }
+#all_posts .row > * {
+  padding: 1rem !important;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: var(--main-color);
+}
+#all_posts #post_text_block {
+  text-align: left !important;
+}
+#all_posts #post_buttons_block {
+  gap: 0;
+}
 
 #main_filters {
+  align-items: center;
   background-color: var(--tert-color);
   width: 100%;
-  padding: 10px;
+  margin: 0;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--sec-color);
-  border-radius: 5px 5px 0 0;
 }
 #main_filters #row1 {
   text-align: right;
-}
-#main_filters table {
-  width: 100%;
-}
-#main_filters td {
-  width: 50%;
+  padding: 0;
 }
 #main_filters h3 {
   font-size: 1.5em;
+  display: inline;
 }
 
 #posts_categories {
-  margin: 0 auto;
   font-size: 1.1em;
-  height: 6vh;
+  min-height: 1rem;
+  padding: 0.5rem 0;
+  margin-left: 0 !important;
+  width: 100% !important;
   border-top: 1px solid var(--sec-color);
   border-bottom: 1px solid var(--sec-color);
-}
-#posts_categories div {
   background-color: var(--tert-color);
-  padding: 0 10px;
-}
-#posts_categories p {
-  line-height: 6vh;
-}
-
-#post_user_block, #post_info_block, #post_button_block, #post_category_block {
-  flex: 1;
   text-align: center;
-  background-color: var(--main-color);
-  padding: 20px 10px;
 }
 
-#post_text_block {
-  flex: 5;
-  background-color: var(--main-color);
-  padding: 20px 10px;
+#posts_categories > * {
+  padding: auto 16px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
 }
 
 #gtp_button {
@@ -231,15 +240,12 @@ body #dropdown_button:focus {
 }
 
 .posts {
-  display: flex;
   width: 100%;
   border-top: 1px solid var(--tert-color);
   border-bottom: 1px solid var(--tert-color);
-  transition: transform 0.3s ease;
-  height: 15vh;
 }
 .posts #user_input {
-  margin: 10px 5%;
+  margin: 1rem 5%;
 }
 
 #following_posts {
@@ -257,7 +263,7 @@ body #dropdown_button:focus {
   margin: 0;
 }
 #following_posts #user_input {
-  margin: 10px 5%;
+  margin: 1rem 5%;
 }
 #following_posts #following_user_link {
   color: white;
@@ -266,7 +272,7 @@ body #dropdown_button:focus {
   background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
-  padding: 10px;
+  padding: 1rem;
   border-bottom: 2px solid var(--sec-color);
 }
 #following_posts #filters table {
@@ -287,7 +293,7 @@ body #dropdown_button:focus {
   max-height: 400px;
   overflow-y: auto;
   padding: 1rem;
-  margin: 10px 0 30px 0;
+  margin: 1rem 0 30px 0;
 }
 #following_users #table {
   border-radius: 1rem;
@@ -334,7 +340,7 @@ body #dropdown_button:focus {
   border-top: 2px solid rgba(0, 0, 0, 0.1254901961);
 }
 #category td {
-  padding: 10px;
+  padding: 1rem;
 }
 #category th {
   text-align: center;
@@ -376,7 +382,7 @@ body #dropdown_button:focus {
   overflow: hidden;
   box-shadow: var(--shadow);
   width: 50vw;
-  margin: 20px auto 10px;
+  margin: 20px auto 1rem;
   border-radius: 5px;
 }
 
@@ -386,13 +392,13 @@ body #dropdown_button:focus {
   border-radius: 5px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 #category_posts_page #filters {
   background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
-  padding: 10px;
+  padding: 1rem;
   border-bottom: 1px solid var(--sec-color);
 }
 #category_posts_page #filters table {
@@ -429,13 +435,13 @@ body #dropdown_button:focus {
 }
 
 #profile_posts {
-  margin: 10px auto 10px auto;
+  margin: 1rem auto;
   width: 90vw;
 }
 #profile_posts .profile_post {
   width: 100%;
   background-color: var(--main-color);
-  padding: 10px;
+  padding: 1rem;
   border: 1px solid var(--sec-color);
 }
 #profile_posts #profile-btns {
@@ -454,7 +460,7 @@ body #dropdown_button:focus {
   font-size: 1em;
 }
 #profile_posts #user_input {
-  margin: 10px 5%;
+  margin: 1rem 5%;
 }
 #profile_posts #main_profile_div {
   width: 100%;
@@ -482,7 +488,7 @@ body #dropdown_button:focus {
   background-color: var(--tert-color);
   width: 100%;
   margin: 0px auto;
-  padding: 10px;
+  padding: 1rem;
   border-bottom: 1px solid var(--sec-color);
 }
 #profile_posts #filters table {
@@ -530,7 +536,7 @@ body #dropdown_button:focus {
 }
 
 #user_info {
-  padding: 10px;
+  padding: 1rem;
   box-shadow: var(--shadow);
   border-radius: 6px;
   margin-bottom: 50px;
@@ -545,7 +551,7 @@ body #dropdown_button:focus {
 }
 
 #user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
-  margin: 10px 5%;
+  margin: 1rem 5%;
   border-radius: 5px;
   padding: 5px;
 }
@@ -617,7 +623,7 @@ body #dropdown_button:focus {
 .post_page {
   background-color: var(--main-color);
   width: 90%;
-  margin: 10px 5%;
+  margin: 1rem 5%;
   padding: 1rem;
   box-shadow: var(--shadow);
   border-radius: 6px;
@@ -632,10 +638,10 @@ body #dropdown_button:focus {
 .post_page textarea {
   width: 90%;
   height: 30vh;
-  margin: 10px 0;
+  margin: 1rem 0;
 }
 .post_page #pp_category {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 .post_page #pp_ut {
   margin: 2px;
@@ -670,7 +676,7 @@ body #dropdown_button:focus {
 #edit_profile {
   background-color: var(--main-color);
   width: 90%;
-  margin: 10px 5%;
+  margin: 1rem 5%;
   padding: 1rem;
   box-shadow: var(--shadow);
   border-radius: 1rem;
@@ -732,7 +738,7 @@ body #dropdown_button:focus {
 #search_results {
   display: none;
   width: 90vw;
-  margin: 20px auto 10px;
+  margin: 1.5rem auto 1rem;
   border-radius: 5px;
   overflow: hidden;
   border: none !important;
@@ -750,10 +756,6 @@ body #dropdown_button:focus {
 #user_heading {
   font-weight: 600;
   color: white;
-}
-
-#post_button_block {
-  margin-right: 0;
 }
 
 #search_form {

@@ -6,45 +6,29 @@
         <button class="btn" class="btn" id="new_post_button" data-user="{{ user.username }}">New Post</button>
     </div>
     {% endif %}
-    <div id="main-posts-div">
-        <div id="main_filters">
-            <table>
-                <tr>
-                    <td>
-                        <h3>All Posts</h3>
-                    </td>
-                    <td id="row1">
-                        <p style="display:inline">Sort By:</p>
-                        <select id="sort">
-                            <option selected value="new_old">Newest to Oldest</option>
-                            <option value="old_new">Oldest to Newest</option>
-                            <option value="most_likes">Most Likes</option>
-                            <option value="least_likes">Least Likes</option>
-                            <option value="most_comments">Most Comments</option>
-                            <option value="least_comments">Least Comments</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div id="posts_categories" class="posts">
-            <div id="post_text_block">
-                <p id="post_title">Topics</p>
-            </div>
-            <div id="post_category_block">
-                <p id="post_category">Category</p>
-            </div>  
-            <div id="post_user_block">
-                <p>Info</p>
-            </div>
-            <div id="post_info_block">
-                <p>Comments</p>   
-            </div>
-            <div id="post_button_block">
-                <p>Options</p>   
+    <div class="container" id="main-posts-div">
+        <div class="row" id="main_filters">
+            <div class="col"><h3>All Posts</h3></div>
+            <div class="col" id="row1">
+                <label style="display:inline">Sort By:</label>
+                <select id="sort">
+                    <option selected value="new_old">Newest to Oldest</option>
+                    <option value="old_new">Oldest to Newest</option>
+                    <option value="most_likes">Most Likes</option>
+                    <option value="least_likes">Least Likes</option>
+                    <option value="most_comments">Most Comments</option>
+                    <option value="least_comments">Least Comments</option>
+                </select>
             </div>
         </div>
-        <div id="all_posts">
+        <div id="posts_categories" class="posts row justify-content-center">
+            <p class="col-6">Topic</p>
+            <p class="col">Category</p>
+            <p class="col">Info</p>
+            <p class="col">Comments</p>   
+            <p class="col">Options</p>
+        </div>
+        <div class="container" id="all_posts">
         </div>
     </div>
         <div id="page_buttons">

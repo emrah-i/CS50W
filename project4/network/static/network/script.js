@@ -594,28 +594,29 @@ async function load_items(mainDiv, data) {
         }
 
         postDiv.innerHTML = 
-        `
-        <div id="post_text_block">
-            <h4 id="post_title">${title}</h4>
-            <p id="post_text">${text}</p>
-        </div>
-        <div id="post_category_block">
-            <p id="post_category">${category}</p>
-        </div>  
-        <div id="post_user_block">
-            <p id="timestamp">Posted ${upload_time}</p>
-            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
-        </div>
-        <div id="post_info_block">
-            <p>${comments} comment(s) ${unique_users}</p>   
-        </div>
-        `;
+        `<div class="row">
+            <div class='col-6' id="post_text_block">
+                <h4 id="post_title">${title}</h4>
+                <p id="post_text">${text}</p>
+            </div>
+            <div class='col' id="post_category_block">
+                <p id="post_category">${category}</p>
+            </div>  
+            <div class='col' id="post_user_block">
+                <p id="timestamp">Posted ${upload_time}</p>
+                <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
+            </div>
+            <div class='col' id="post_info_block">
+                <p>${comments} comment(s) ${unique_users}</p>   
+            </div>
+        </div>`;
 
         buttonsBlock = document.createElement('div')
+        buttonsBlock.className = 'col'
         buttonsBlock.id = `post_button_block`
         buttonsBlock.dataset.id = id
-        buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button><br>`
-        postDiv.appendChild(buttonsBlock);
+        buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
+        postDiv.querySelector('.row').appendChild(buttonsBlock);
 
         const authResponse = await fetch('/auth',{
             method: 'GET'

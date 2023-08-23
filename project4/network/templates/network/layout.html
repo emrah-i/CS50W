@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-username="{{ user.username }}" id="layout_user_tag">{{ user.username }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'following' %}">Following</a>
+                </li>
                 {% endif %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'index' %}">All Posts</a>
@@ -34,11 +37,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'search_page' %}">Search</a>
                 </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'following' %}">Following</a>
-                </li>
-                {% endif %}
                 <li class="nav-item dropdown">
                     <button class="btn" id="dropdown_button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Settings
