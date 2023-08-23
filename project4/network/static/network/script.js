@@ -437,6 +437,10 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (event.target.matches('#delete_edit')) {
                 delete_post(post);
             }
+            else if (event.target.matches('#remove_follower_button')) {
+                const user_uf = event.target.dataset.userid;
+                remove(user_uf);
+            }
             else if (event.target.matches('#unfollow_button')) {
                 const user_uf = event.target.dataset.userid;
                 unfollow(user_uf);
@@ -608,23 +612,23 @@ async function load_items(mainDiv, data) {
         }
 
         postDiv.innerHTML = 
-        `<div class='col-6' id="post_text_block">
+        `<div class='col-12' id="post_text_block">
             <h4 id="post_title">${title}</h4>
             <p id="post_text">${text}</p>
         </div>
-        <div class='col' id="post_category_block">
+        <div class='col-12-xl' id="post_category_block">
             <p id="post_category">${category}</p>
         </div>  
-        <div class='col' id="post_user_block">
+        <div class='col-12-xl' id="post_user_block">
             <p id="timestamp">Posted ${upload_time}</p>
             <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
         </div>
-        <div class='col' id="post_info_block">
+        <div class='col-12-xl' id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   
         </div>`;
 
         buttonsBlock = document.createElement('div')
-        buttonsBlock.className = 'col'
+        buttonsBlock.className = 'col-12-xl'
         buttonsBlock.id = `post_button_block`
         buttonsBlock.dataset.id = id
         buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
@@ -827,6 +831,24 @@ function unfollow(user_uf) {
 
     if (confirm("Are you sure you want to unfollow this user?")){
         fetch('/unfollow/' + user_uf, {
+            method: "DELETE"
+        })
+        .then(response => {
+            location.reload()
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    else {
+        location.reload()
+    }
+}
+
+function remove(user_uf) {
+
+    if (confirm("Are you sure you want to remove this user?")){
+        fetch('/remove/' + user_uf, {
             method: "DELETE"
         })
         .then(response => {

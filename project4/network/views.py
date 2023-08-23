@@ -524,6 +524,18 @@ def unfollow(request, user_uf):
 
 @csrf_exempt
 @login_required
+def remove(request, user_uf): 
+
+    try:
+        user = request.user.id
+        following = UserFollow.objects.get(user=user_uf, is_now_following=user)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Entry not found."}, status=404)
+
+    following.delete()
+
+@csrf_exempt
+@login_required
 def follow(request, user_f): 
 
     try:
