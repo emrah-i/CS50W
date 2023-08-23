@@ -20,7 +20,7 @@
                     <tr>
                         <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
                         {% if user.username == user_info.username %}
-                        <td id="col"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Unfollow</button></td>
+                        <td id="col"><button class="btn" id="unfollow_button" data-userid="{{ dif_user.id }}">Unfollow</button></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
@@ -44,7 +44,7 @@
                     <tr>
                         <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
                         {% if user.username == user_info.username %}
-                        <td id="col"><button class="btn" id="unfollow_button" data-userid="{{ dif_user.id }}">Remove</button></td>
+                        <td id="col"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Remove</button></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
