@@ -734,7 +734,7 @@ function edit_post(id, div_id) {
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
-            <select>
+            <select id="edit_category_input">
                 <option value="${data.category}" selected>${data.category_display}</option>
                 ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
             </select>
