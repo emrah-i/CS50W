@@ -609,7 +609,7 @@ body #dropdown_button:focus {
   margin: 1rem 5%;
   padding: 1rem;
   box-shadow: var(--shadow);
-  border-radius: 6px;
+  border-radius: 1rem;
 }
 .post_page table {
   width: 100%;

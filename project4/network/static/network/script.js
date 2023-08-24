@@ -1,6 +1,7 @@
 let post_counter = 0
 let following_counter = 0
 let category_counter = 0
+let profile_counter = 0
 let search_counter = 0
 let sort = ''
 
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     following_counter = 0
     category_counter = 0
     search_counter = 0
+    profile_counter = 0
 
     const dropdowns = document.querySelector('#menu_list');
 
@@ -203,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('scroll', () => {
             if (Date.now() >= execution  && window.innerHeight + window.scrollY >= document.body.offsetHeight) {                
                 following_counter += 10;
-                execution += 2500;
+                execution += 3500;
                 load_following_posts(following_counter, sort);
         }})
     }
@@ -230,18 +232,25 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         });
 
+        const url = window.location.pathname;
+        const urlParts = url.split('/')
+        const username = urlParts[urlParts.length - 1];
+
+        profile_counter = 0
         const sort_select = document.querySelector('#sort')
 
         if (localStorage.getItem('sort') !== null) {
             sort_select.value = localStorage.getItem('sort')
         }
 
+        console.log(username)
+        
+        load_profile_posts(profile_counter, username, sort_select);
+
         document.querySelector('#sort').addEventListener('change', (element) => {
             const change_sort = element.target.value
             localStorage.setItem('sort', change_sort)
-            var url = new URL(window.location.href);
-            url.searchParams.set('sort', change_sort);
-            window.location.href = url.href;
+            load_profile_posts(profile_counter, change_sort);
         })
 
         try {
@@ -531,6 +540,23 @@ async function load_category_posts(category, start, sort) {
 
     load_items(main_div, data);
 };
+
+async function load_profile_posts(start, username, sort) {
+
+    const main_div = document.querySelector('.profile_posts');
+
+    const response = await fetch(`/profile/${username}?${sort}`, {
+        method: "GET"
+    })
+    const data = await response.json()
+
+    if (data.length === 0) {
+        alert("No more posts");
+        return;
+    }
+
+    load_items(main_div, data['posts']);
+}
 
 async function load_search_results(query, sort, start) {
 

@@ -97,62 +97,22 @@
             </table>
         </div>
         <div id="main_profile_div">
-            <div id="filters">
-                <table>
-                    <tr>
-                        <td>
-                            {% if user.username == user_info.username %}
-                            <h3>All My Posts</h3>
-                            {% else %}
-                            <h3>All {{ user_info.username }}'s Posts</h3>
-                            {% endif %}
-                        </td>
-                        <td id="row1">
-                            <p style="display:inline">Sort By:</p>
-                            <select id="sort">
-                                <option selected value="new_old">Newest to Oldest</option>
-                                <option value="old_new">Oldest to Newest</option>
-                                <option value="most_likes">Most Likes</option>
-                                <option value="least_likes">Least Likes</option>
-                                <option value="most_comments">Most Comments</option>
-                                <option value="least_comments">Least Comments</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
+            <div class="row" id="main_filters">
+                <div class="col"><h3>All Posts</h3></div>
+                <div class="col" id="row1">
+                    <label style="display:inline">Sort By:</label>
+                    <select id="sort">
+                        <option selected value="new_old">Newest to Oldest</option>
+                        <option value="old_new">Oldest to Newest</option>
+                        <option value="most_likes">Most Likes</option>
+                        <option value="least_likes">Least Likes</option>
+                        <option value="most_comments">Most Comments</option>
+                        <option value="least_comments">Least Comments</option>
+                    </select>
+                </div>
             </div>
-            {% for post in posts|sort_posts:sort %}
-            <div class="profile_post" id='profile_post{{ forloop.counter }}'>
-                <p id="profile_category_info">Posted in {{ post.category }}</p>
-                <h4>{{ post.title }}</h4>
-                <p>{{ post.text|limit }}</p>
-                <br>
-                {% if user.is_anonymous %}
-                <p>{{ post.like_count }} Likes</p>
-                {% endif %}
-                <table id="post_info">
-                    <tr>
-                        <td id="profile-btns">
-                            <button class="btn" type="button" id="gtp_button" data-postid="{{ post.post }}">Go To Post</button>
-                            {% if user.is_authenticated %}
-                                {% if post.liked == True %}
-                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="true"><i class="fa fa-solid fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
-                                {% else %}
-                                <button class="btn" id="like_button" data-postid="{{ post.post }}" data-clicked="false"><i class="fa fa-regular fa-heart" style="color: #ff0000;"></i>&nbsp <span id="like_count">{{ post.like_count }}</span></button>
-                                {% endif %}
-                                {% if user.username == user_info.username %}
-                                <button class="btn" id="edit_button" data-id="{{ post.post }}" data-post="profile_post{{ forloop.counter }}">Edit</button>
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                        <td id="profile_page_time">
-                            <p>{{ post.comment_count }} comment(s) {{ post.unique_users }}</p>
-                            <p>Uploaded {{ post.upload_time }}</p>
-                        </td>
-                    </tr> 
-                </table>
+            <div class="container-fluid all_posts justify-content-center">
             </div>
-            {% endfor %}
         </div>
     </div>
 {% endblock %}

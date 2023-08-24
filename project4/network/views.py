@@ -271,6 +271,9 @@ def get_csrf_token(request):
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
 
 def profile(request, username):
+
+    # when get requests come into this page, it should load the userpage
+    # another route must be the get route when you can get the data
     
     user = User.objects.get(username=username)
     user_following = UserFollow.objects.filter(user = user)
@@ -311,7 +314,19 @@ def profile(request, username):
             }
         )
 
-    posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('like_count', 'post', 'comment_count', 'category', 'upload_time', 'title', 'text', 'user', 'category')
+    if sort == "new_old":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-upload_time')
+    elif sort == "old_new":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('upload_time')
+    elif sort == "most_likes":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-like_count')
+    elif sort == "least_likes":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('like_count')
+    elif sort == "most_comments":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-comment_count')
+    elif sort == "least_comments":
+        posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('comment_count')
+
     likers = Post.objects.filter(user = user).values_list('likes__username', flat=True)
 
     for post in posts:            
@@ -349,14 +364,16 @@ def profile(request, username):
             current_user_following = True
             break
 
-    return render(request, "network/profile.html", {
+    data = {
         'posts': posts,
         'user_info': user_info, 
         'following_users': following_users,
         'follower_users': follower_users,
         'sort': sort,
         "current_user_following": current_user_following
-    })
+    }
+
+    return JsonResponse(list(data), safe=False)
 
 @login_required
 def edit_profile(request):
@@ -413,7 +430,6 @@ def following_posts(request, start, sort):
     end = start_post + 9
 
     following = UserFollow.objects.filter(user = user).values('is_now_following')
-
 
     following_users = []
     for follow in following:
