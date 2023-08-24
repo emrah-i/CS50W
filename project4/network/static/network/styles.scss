@@ -315,7 +315,6 @@ body {
 }
 
 #new_post {
-
     background-color: var(--main-color);
     box-shadow: var(--shadow);
     border-radius: 0 0 5px 5px;
@@ -515,6 +514,19 @@ body {
         border-radius: 0 0 1rem 1rem;
         border-bottom: none;
     }
+
+    .profile_post_edit {
+        padding: 0;
+
+        > * {
+            padding: .5rem;
+            margin: 0 2rem;
+        }
+    }
+
+    .post_edit_btns {
+        margin-top: 1rem;
+    }
 }
 
 #page_buttons {
@@ -545,14 +557,7 @@ body {
     font-size: 1.35rem;
 }
 
-#user_input, #text_input, #edit_text_input, #title_input, #edit_title_input {
-    margin: 1rem 5%;
-    border-radius: 5px;
-    padding: 5px;
-}
-
 #following_users_popup, #followers_user_popup {
-
     width: 100%;
 
     #following-content {
@@ -745,18 +750,16 @@ body {
 }
 
 #search_bar {
-
     text-align: center;
     margin: 1rem auto;
     background-color: var(--main-color);
-    width: 30vw;
+    width: fit-content;
     height: fit-content;
     border-radius: 1rem;
     box-shadow: var(--shadow);
     padding: 2rem !important;
 
     select, input {
-        height: 5vh;
         border-radius: .5rem;
         padding: .5rem;
     }

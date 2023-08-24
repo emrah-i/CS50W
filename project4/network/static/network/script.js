@@ -762,8 +762,8 @@ function edit_post(id, div_id) {
     .then(data => 
 
         post_div.innerHTML =
-        `<h2>Edit</h2>
-        <form>
+        `<h2>Edit:</h2>
+        <form class="profile_post_edit">
             <input type="text" disabled value="${user}" name="user" id="user_input"><br>
             <input required type="text" name="title" id="edit_title_input" placeholder="Enter Title" value="${data.title}"><br>
             <textarea required placeholder="Text" name="text" id="edit_text_input">${data.text}</textarea><br>
@@ -771,10 +771,11 @@ function edit_post(id, div_id) {
                 <option value="${data.category}" selected>${data.category_display}</option>
                 ${CATEGORY_CHOICES.map(choice => `<option value=${choice.code}>${choice.display}</option>`).join('')}
             </select>
-            <br><br>
-            <button class="btn" type="button" id="save_edit" data-id="${id}">Save</button>
-            <button class="btn" type="button" id="cancel_edit">Cancel</button>
-            <button class="btn" type="button" id="delete_edit" data-id="${id}">Delete</button>
+            <div class="post_edit_btns">
+                <button class="btn" type="button" id="save_edit" data-id="${id}">Save</button>
+                <button class="btn" type="button" id="cancel_edit">Cancel</button>
+                <button class="btn" type="button" id="delete_edit" data-id="${id}">Delete</button>
+            </div>
         </form>`
     )
 }
