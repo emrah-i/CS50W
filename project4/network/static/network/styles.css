@@ -158,7 +158,7 @@ body #dropdown_button:focus {
   color: white;
 }
 
-#main-posts-div, #following-main-div, #category_posts_page, #search_results {
+#main-posts-div, #following-main-div, #category_posts_page, #search_results, #profile_posts {
   box-shadow: var(--shadow);
   width: 100%;
   padding: 0;
@@ -259,6 +259,10 @@ body #dropdown_button:focus {
 
 .posts:nth-child(1) {
   border-top: 1px solid var(--sec-color);
+}
+
+.posts:last-child {
+  border-bottom: none;
 }
 
 .posts {
@@ -410,84 +414,38 @@ body #dropdown_button:focus {
 }
 
 #profile_posts {
-  margin: 1rem auto;
-  width: 90vw;
-}
-#profile_posts .profile_post {
-  width: 100%;
-  background-color: var(--main-color);
-  padding: 1rem;
-  border: 1px solid var(--sec-color);
-}
-#profile_posts #profile-btns {
-  height: 100% !important;
-  display: flex;
-  transform: translateY(40%);
-  gap: 0.5rem;
-}
-#profile_posts .btn {
-  margin: 0;
-  font-size: 1.25rem;
+  box-shadow: none;
+  overflow: visible;
 }
 #profile_posts img {
-  width: 20%;
-}
-#profile_posts #user_heading {
-  display: inline;
-  font-weight: 600;
-  color: white;
-  font-size: 1em;
-}
-#profile_posts #user_input {
-  margin: 1rem 5%;
-}
-#profile_posts #main_profile_div {
-  width: 100%;
+  border-radius: 5rem;
+  padding: 1rem;
   box-shadow: var(--shadow);
-  border-radius: 1rem;
-  overflow: hidden;
+  height: 8rem;
+  width: auto;
 }
 #profile_posts #user_info {
-  padding: 3rem;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border-radius: 1rem !important;
+  overflow: hidden;
   background-color: var(--main-color);
-  height: 45vh;
+  width: 100%;
+  margin: 2rem auto;
 }
 #profile_posts #user_info #open_following:hover, #profile_posts #user_info #open_followers:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-#profile_posts #user_info table {
-  width: 45%;
-  height: 100%;
+#profile_posts #user_info > * {
+  margin-bottom: 1rem;
 }
-#profile_posts #user_info button {
-  margin: 0.5rem 0;
+#profile_posts #main_filters {
+  border-radius: 1rem 1rem 0 0;
 }
-#profile_posts #filters {
-  background-color: var(--tert-color);
-  width: 100%;
-  margin: 0px auto;
-  padding: 1rem;
-  border-bottom: 1px solid var(--sec-color);
-}
-#profile_posts #filters table {
-  width: 100%;
-}
-#profile_posts #filters #row1 {
-  text-align: right;
-}
-#profile_posts #post_info {
-  width: 100%;
-}
-#profile_posts #post_info #profile_page_time {
-  text-align: right;
-}
-#profile_posts p {
-  margin: 0;
-}
-#profile_posts #profile_category_info {
-  color: lightgray;
-  margin-bottom: 20px;
+#profile_posts .posts:last-child {
+  border-radius: 0 0 1rem 1rem;
+  border-bottom: none;
 }
 
 #page_buttons {
@@ -512,13 +470,6 @@ body #dropdown_button:focus {
 
 #page_count {
   margin: 0.5rem 0;
-}
-
-#user_info {
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  border-radius: 1rem;
-  margin-bottom: 50px;
 }
 
 #like_button {
@@ -804,6 +755,11 @@ body #dropdown_button:focus {
   }
 }
 @media (max-width: 576px) {
+  #user_info div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
   #following_users #table {
     width: 75%;
   }

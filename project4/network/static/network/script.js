@@ -504,8 +504,6 @@ async function load_posts(value, sort, button) {
         return;
     }
 
-    console.log(button)
-
     page_count = value / 10 + 1
 
     document.querySelector('#page_count').innerHTML= `Page: ${page_count}`
@@ -545,8 +543,6 @@ async function load_profile_posts(start, username, sort) {
 
     const main_div = document.querySelector('.profile_posts');
 
-    console.log(sort)
-
     const response = await fetch(`/profile/${username}?sort=${sort}&start=${start}`, {
         method: "GET"
     })
@@ -577,8 +573,6 @@ async function load_search_results(query, sort, start) {
         method: "GET"
     })
     const data = await response.json()
-
-    console.log(data.length)
 
     if (data.length === 0 && start === 0) {
         load.style.display = 'none';

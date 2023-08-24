@@ -185,7 +185,7 @@ body {
     }
 }
 
-#main-posts-div, #following-main-div, #category_posts_page, #search_results {
+#main-posts-div, #following-main-div, #category_posts_page, #search_results, #profile_posts {
     box-shadow: var(--shadow);
     width: 100%;
     padding: 0;
@@ -297,6 +297,10 @@ body {
 
 .posts:nth-child(1) {
     border-top: 1px solid var(--sec-color);
+}
+
+.posts:last-child {
+    border-bottom: none;
 }
 
 .posts {
@@ -473,36 +477,43 @@ body {
 }
 
 #profile_posts {
+    box-shadow: none;
+    overflow: visible;
 
     img {
-        width: 20%;
-    }
-
-    #main_profile_div {
-        width: 100%;
+        border-radius: 5rem;
+        padding: 1rem;
         box-shadow: var(--shadow);
-        border-radius: 1rem;
-        overflow: hidden;
+        height: 8rem;
+        width: auto;
     }
 
     #user_info {
-        padding: 3rem;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        border-radius: 1rem !important;
+        overflow: hidden;
         background-color: var(--main-color);
-        height: 45vh;
+        width: 100%;
+        margin: 2rem auto;
 
         #open_following:hover, #open_followers:hover {
             cursor: pointer;
             text-decoration: underline;
-        }
+        } 
 
-        table {
-            width: 45%;
-            height: 100%;
+        > * {
+            margin-bottom: 1rem;
         }
+    }
 
-        button {
-            margin: .5rem 0;
-        }
+    #main_filters {
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    .posts:last-child {
+        border-radius: 0 0 1rem 1rem;
+        border-bottom: none;
     }
 }
 
@@ -527,13 +538,6 @@ body {
 
 #page_count {
     margin: .5rem 0;
-}
-
-#user_info {
-    padding: 1rem;
-    box-shadow: var(--shadow);
-    border-radius: 1rem;
-    margin-bottom: 50px;
 }
 
 #like_button {
@@ -870,6 +874,11 @@ body {
 }
 
 @media (max-width: 576px) { 
+    #user_info div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
     #following_users #table {
         width: 75%;
     }

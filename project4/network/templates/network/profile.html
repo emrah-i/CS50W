@@ -18,7 +18,7 @@
                     {% if following_users|length > 0 %}
                         {% for dif_user in following_users %}
                         <tr>
-                            <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
+                            <td id="col"><a href="{% url 'account' dif_user.username %}" id="profile_user_link">{{ dif_user.username }}</a></td>
                             {% if user.username == user_info.username %}
                             <td id="col"><button class="btn" id="unfollow_button" data-userid="{{ dif_user.id }}">Unfollow</button></td>
                             {% endif %}
@@ -48,7 +48,7 @@
                     {% if follower_users|length > 0 %}
                         {% for dif_user in follower_users %}
                         <tr>
-                            <td id="col"><a href="{% url 'profile' dif_user.username %}?sort={{ sort }}" id="profile_user_link">{{ dif_user.username }}</a></td>
+                            <td id="col"><a href="{% url 'account' dif_user.username %}" id="profile_user_link">{{ dif_user.username }}</a></td>
                             {% if user.username == user_info.username %}
                             <td id="col"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Remove</button></td>
                             {% endif %}
@@ -65,21 +65,22 @@
     </div>
     <div class="container-fluid" id="profile_posts">
         <div class="row" id="user_info">
-            <div>
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-6">
                 <img src="{% static user_info.avatar %}" alt="My Image"></img>
             </div>
-            <div>
-                <div  width="30%">
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-6">
+                <div>
                     <h3>{{ user_info.username }}</h3>
                     <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
                     <p><span id="open_following">Following: {{ user_info.following }}</span></p>
                 </div>
             </div>
-            <div>
+            <div class="col-lg-6 col-12">
                 <h3>Bio:</h3>
-                <p>{{ user_info.bio }}</p>
+                {{ user_info.bio }}
             </div>
-                <div>
+            <div class="col-12">
+                <div class="profile_buttons">
                     {% if user.is_authenticated and user.username != user_info.username %}
                         {% if current_user_following == True %}
                             <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
@@ -91,6 +92,7 @@
                             <button class="btn" type="button" id="edit_profile_button">Edit Profile</button>
                     {% endif %}
                 </div>
+            </div>
         </div>
         <div class="row" id="main_filters">
             <div class="col"><h3>All Posts</h3></div>
