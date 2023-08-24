@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div id="new_post">
                 <button class="btn" class="btn" id="new_post_button" data-user="{{ user.username }}">New Post</button>
@@ -10,7 +10,7 @@
         </div>
     </div>
     {% endif %}
-    <div class="container" id="main-posts-div">
+    <div class="container-fluid" id="main-posts-div">
         <div class="row" id="main_filters">
             <div class="col"><h3>All Posts</h3></div>
             <div class="col" id="row1">
@@ -25,14 +25,7 @@
                 </select>
             </div>
         </div>
-        <div id="posts_categories" class="posts row justify-content-center">
-            <p class="col-6">Topic</p>
-            <p class="col">Category</p>
-            <p class="col">Info</p>
-            <p class="col">Comments</p>   
-            <p class="col">Options</p>
-        </div>
-        <div class="container all_posts justify-content-center">
+        <div class="container-fluid all_posts justify-content-center">
         </div>
     </div>
         <div id="page_buttons">

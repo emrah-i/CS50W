@@ -538,7 +538,6 @@ async function load_search_results(query, sort, start) {
     const heading = document.querySelector('#search_posts_heading');
     const parent = document.querySelector('#search_results');
     const load = document.querySelector('#load_more');
-    const heads = document.querySelector('#posts_categories')
 
     heading.innerHTML = `<h3>Search results for '${query}'<h3>`
 
@@ -555,14 +554,12 @@ async function load_search_results(query, sort, start) {
 
     if (data.length === 0 && start === 0) {
         load.style.display = 'none';
-        heads.style.display = 'none';
         parent.style.display = 'block';
         heading.style.display = 'block';
         heading.innerHTML = `No posts found with "${query}"`;
         return
     }
 
-    heads.style.display = 'flex';
     load.style.display = 'block';
     parent.style.display = 'block';
     heading.style.display = 'block';
@@ -585,8 +582,8 @@ async function load_items(mainDiv, data) {
         const id = data[i].post
         const title = data[i].title
         let text = data[i].text
-        if (text.length > 150) {
-            text = text.slice(0, 150) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
+        if (text.length > 350) {
+            text = text.slice(0, 350) + '<span style="font-style: italic; color: lightGray;">...(read more)</span>'
         }
         const username = data[i].user__username
         const like_count = data[i].like_count
@@ -612,23 +609,22 @@ async function load_items(mainDiv, data) {
         }
 
         postDiv.innerHTML = 
-        `<div class='col-12' id="post_text_block">
+        `<div class='col-12' id="post_category_block">
+            <p class="text-muted" id="post_category">${category}</p>
+        </div>  
+        <div class='col-12' id="post_text_block">
             <h4 id="post_title">${title}</h4>
             <p id="post_text">${text}</p>
         </div>
-        <div class='col-12-xl' id="post_category_block">
-            <p id="post_category">${category}</p>
-        </div>  
-        <div class='col-12-xl' id="post_user_block">
-            <p id="timestamp">Posted ${upload_time}</p>
-            <p>by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></p>
+        <div class='col-lg-5 col-md-8' id="post_user_block">
+            <p id="timestamp">Posted ${upload_time} <span> by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></span></p>
         </div>
-        <div class='col-12-xl' id="post_info_block">
+        <div class='col-lg-4 col-md-4' id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   
         </div>`;
 
         buttonsBlock = document.createElement('div')
-        buttonsBlock.className = 'col-12-xl'
+        buttonsBlock.className = 'col-lg-3 col-md-12'
         buttonsBlock.id = `post_button_block`
         buttonsBlock.dataset.id = id
         buttonsBlock.innerHTML = `<button class="btn" type="button" id="gtp_button" data-postid=${id}>Go To Post</button>`
@@ -670,7 +666,8 @@ async function load_items(mainDiv, data) {
                 buttonsBlock.appendChild(likeButton);
             }
         }
-    mainDiv.appendChild(postDiv)
+
+        mainDiv.appendChild(postDiv)
     }
 }
 
