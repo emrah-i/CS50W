@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('#sort').addEventListener('change', (element) => {
             const change_sort = element.target.value
             localStorage.setItem('sort', change_sort)
-            load_profile_posts(post_counter, change_sort);
+            load_profile_posts(post_counter, username, change_sort);
         })
 
         document.querySelector('#load_more_button').addEventListener('click', () => {
@@ -645,7 +645,7 @@ async function load_items(mainDiv, data) {
             <p id="post_text">${text}</p>
         </div>
         <div class='col-lg-5 col-md-8' id="post_user_block">
-            <p id="timestamp">Posted ${upload_time} <span> by <a id="user_heading" href="/profile/${username}?sort=${sort}">${username}</a></span></p>
+            <p id="timestamp">Posted ${upload_time} <span> by <a id="user_heading" href="/acc/${username}">${username}</a></span></p>
         </div>
         <div class='col-lg-4 col-md-4' id="post_info_block">
             <p>${comments} comment(s) ${unique_users}</p>   
@@ -692,6 +692,16 @@ async function load_items(mainDiv, data) {
             else {
                 likeCount.innerText = '0';
                 buttonsBlock.appendChild(likeButton);
+            }
+
+            if (window.location.pathname.startsWith('/acc/') && username === document.querySelector('#layout_user_tag').dataset.username) {
+                const editButton = document.createElement('button');
+                editButton.className = 'btn';
+                editButton.id = 'edit_button';
+                editButton.dataset.id = id;
+                editButton.dataset.post = 'post' + i;
+                editButton.innerText = "Edit"
+                buttonsBlock.appendChild(editButton);
             }
         }
 

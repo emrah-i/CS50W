@@ -333,7 +333,8 @@ def profile(request, username):
     
     user = User.objects.get(username=username)
     sort = request.GET.get('sort')
-    start = 0 or int(request.GET.get('start'))
+    print(request.GET.get('start'))
+    start =int(0 or request.GET.get('start'))
     end = start + 9
 
     if sort == "new_old":

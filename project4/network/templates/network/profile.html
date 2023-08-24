@@ -63,55 +63,50 @@
             </div>
         </dialog>
     </div>
-    <div id="profile_posts">
-        <div id="user_info">
-            <table>
-                <tr>
-                    <td>
-                        <img src="{% static user_info.avatar %}" alt="My Image"></img>
-                    </td>
-                    <td  width="30%">
-                        <h3>{{ user_info.username }}</h3>
-                        <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
-                        <p><span id="open_following">Following: {{ user_info.following }}</span></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ user_info.bio }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        {% if user.is_authenticated and user.username != user_info.username %}
-                            {% if current_user_following == True %}
-                                <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
-                            {% elif current_user_following == False %}
-                                <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
-                            {% endif %}
-                        {% endif %}
-                        {% if user.is_authenticated and user.username == user_info.username %}
-                                <button class="btn" type="button" id="edit_profile_button">Edit Profile</button>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div id="main_profile_div">
-            <div class="row" id="main_filters">
-                <div class="col"><h3>All Posts</h3></div>
-                <div class="col" id="row1">
-                    <label style="display:inline">Sort By:</label>
-                    <select id="sort">
-                        <option selected value="new_old">Newest to Oldest</option>
-                        <option value="old_new">Oldest to Newest</option>
-                        <option value="most_likes">Most Likes</option>
-                        <option value="least_likes">Least Likes</option>
-                        <option value="most_comments">Most Comments</option>
-                        <option value="least_comments">Least Comments</option>
-                    </select>
+    <div class="container-fluid" id="profile_posts">
+        <div class="row" id="user_info">
+            <div>
+                <img src="{% static user_info.avatar %}" alt="My Image"></img>
+            </div>
+            <div>
+                <div  width="30%">
+                    <h3>{{ user_info.username }}</h3>
+                    <p><span id="open_followers">Followers: {{ user_info.followers }}</span></p>
+                    <p><span id="open_following">Following: {{ user_info.following }}</span></p>
                 </div>
             </div>
-            <div class="container-fluid all_posts profile_posts justify-content-center">
+            <div>
+                <h3>Bio:</h3>
+                <p>{{ user_info.bio }}</p>
             </div>
+                <div>
+                    {% if user.is_authenticated and user.username != user_info.username %}
+                        {% if current_user_following == True %}
+                            <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+                        {% elif current_user_following == False %}
+                            <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+                        {% endif %}
+                    {% endif %}
+                    {% if user.is_authenticated and user.username == user_info.username %}
+                            <button class="btn" type="button" id="edit_profile_button">Edit Profile</button>
+                    {% endif %}
+                </div>
+        </div>
+        <div class="row" id="main_filters">
+            <div class="col"><h3>All Posts</h3></div>
+            <div class="col" id="row1">
+                <label style="display:inline">Sort By:</label>
+                <select id="sort">
+                    <option selected value="new_old">Newest to Oldest</option>
+                    <option value="old_new">Oldest to Newest</option>
+                    <option value="most_likes">Most Likes</option>
+                    <option value="least_likes">Least Likes</option>
+                    <option value="most_comments">Most Comments</option>
+                    <option value="least_comments">Least Comments</option>
+                </select>
+            </div>
+        </div>
+        <div class="container-fluid all_posts profile_posts justify-content-center">
         </div>
         <div id="load_more">
             <button class="btn" id="load_more_button">Load More</button>
