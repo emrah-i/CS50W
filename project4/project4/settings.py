@@ -1,3 +1,4 @@
+import jinja2
 """
 Django settings for project4 project.
 
@@ -53,6 +54,14 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'project4.urls'
 
 TEMPLATES = [
+    {
+		"BACKEND": "django.template.backends.jinja2.Jinja2",
+		"DIRS": [],
+		"APP_DIRS": True,
+		"OPTIONS": {
+			"environment": "project4.jinja2.environment"
+		}
+	},
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],

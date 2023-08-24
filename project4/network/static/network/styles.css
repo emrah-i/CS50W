@@ -34,8 +34,9 @@ nav {
   background-color: var(--main-color) !important;
   margin: 0;
 }
-nav .container-fluid-fluid {
+nav .container-fluid {
   background-color: var(--main-color) !important;
+  padding: 0;
 }
 nav .dropdown {
   display: flex;
@@ -67,7 +68,7 @@ nav .navbar-brand {
   font-size: 1.5rem;
   font-weight: 600;
   color: white;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
 }
 nav .navbar-brand:hover {
   cursor: pointer;
@@ -104,7 +105,7 @@ body input, body textarea, body select {
 }
 body select {
   -webkit-appearance: menulist-button !important;
-  height: 2.5rem !important;
+  min-height: 2.5rem !important;
   padding: 0;
 }
 body hr {
@@ -328,19 +329,28 @@ body #dropdown_button:focus {
 }
 
 #category {
-  width: 90vw;
+  justify-content: center;
   margin: 20px auto;
   color: black;
+}
+#category form {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 }
 #category table {
   background-color: white;
   width: 100%;
 }
 #category tr {
-  height: 10vh;
+  height: 10%;
   border-top: 2px solid rgba(0, 0, 0, 0.1254901961);
 }
 #category td {
+  width: 33%;
   padding: 1rem;
 }
 #category th {
@@ -354,26 +364,28 @@ body #dropdown_button:focus {
   margin-bottom: 2px;
 }
 #category #categories_heading {
-  height: 10vh;
-  text-align: center;
+  min-height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--tert-color);
   box-shadow: var(--shadow);
-  width: 60vw;
-  margin: 20px auto;
-  border-radius: 5px;
+  width: 50%;
+  margin: 1rem auto;
+  border-radius: 1rem;
 }
 #category #categories_heading h3 {
   line-height: 10vh;
   color: white;
 }
 #category .categories_parent_headings {
-  height: 10vh;
+  height: 5rem;
   text-align: center;
   background-color: var(--main-color);
-  width: 50vw;
+  width: 100%;
 }
 #category .categories_parent_headings h3 {
-  line-height: 10vh;
+  line-height: 5rem;
   color: white;
 }
 #category #categories_table_heading a {
@@ -382,9 +394,8 @@ body #dropdown_button:focus {
 #category #categories_table {
   overflow: hidden;
   box-shadow: var(--shadow);
-  width: 50vw;
-  margin: 20px auto 1rem;
-  border-radius: 5px;
+  width: 50%;
+  border-radius: 1rem;
 }
 
 #load_more {
@@ -732,6 +743,11 @@ body #dropdown_button:focus {
   color: rgba(255, 255, 255, 0.6862745098) !important;
 }
 
+@media (max-width: 1200px) {
+  #category #categories_heading, #category #categories_table {
+    width: 60%;
+  }
+}
 @media (max-width: 992px) {
   .dropdown {
     justify-content: start !important;
@@ -744,6 +760,9 @@ body #dropdown_button:focus {
   }
   #following_users #table {
     width: 45%;
+  }
+  #category #categories_heading, #category #categories_table {
+    width: 80%;
   }
   .all_posts #post_user_block, .all_posts #post_info_block, .all_posts #post_button_block {
     justify-content: center;
@@ -763,6 +782,12 @@ body #dropdown_button:focus {
 @media (max-width: 768px) {
   html {
     font-size: 16px;
+  }
+  #category {
+    font-size: 1.1rem;
+  }
+  #category #categories_heading, #category #categories_table {
+    width: 100%;
   }
   #following_users #table {
     width: 60%;

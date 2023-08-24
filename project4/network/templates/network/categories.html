@@ -1,9 +1,9 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
-<div id="category">
+<div class="container-fluid" id="category">
     <div id="categories_heading">
-        <h3>All Our Categories</h3>
+        <h3>All Categories</h3>
     </div>
     <form action="/categories" method="POST">
         {% csrf_token %}
