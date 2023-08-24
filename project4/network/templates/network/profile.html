@@ -83,19 +83,14 @@
                 <tr>
                     <td>
                         {% if user.is_authenticated and user.username != user_info.username %}
-                            {% for follower in follower_users %}
-                                {% if user.username == follower.username %}
-                                    <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
-                                    {% break %}
-                                {% else user.username != follower.username and forloop.counter == follower_users|length %}
-                                    <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
-                                {% endif %}
-                            <!-- {% empty %}
-                                <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button> -->
-                            {% endfor %}
+                            {% if current_user_following == True %}
+                                <button class="btn" id="unfollow_button" data-userid="{{ user_info.id }}">Unfollow</button>
+                            {% elif current_user_following == False %}
+                                <button class="btn" id="follow_button" data-userid="{{ user_info.id }}">Follow</button>
+                            {% endif %}
+                        {% endif %}
                         {% if user.is_authenticated and user.username == user_info.username %}
                                 <button class="btn" type="button" id="edit_profile_button">Edit Profile</button>
-                        {% endif %}
                         {% endif %}
                     </td>
                 </tr>

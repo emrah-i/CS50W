@@ -340,13 +340,22 @@ def profile(request, username):
             post["unique_users"] = ""
         else:
             post["unique_users"] = f"by {count} users"
+
     
+    current_user_following = False
+    
+    for usf in follower_users:
+        if request.user.username == usf['username']:
+            current_user_following = True
+            break
+
     return render(request, "network/profile.html", {
         'posts': posts,
         'user_info': user_info, 
         'following_users': following_users,
         'follower_users': follower_users,
-        'sort': sort
+        'sort': sort,
+        "current_user_following": current_user_following
     })
 
 @login_required
