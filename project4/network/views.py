@@ -270,24 +270,21 @@ def get_csrf_token(request):
     
     return JsonResponse({'csrf_token': csrf_token, 'username': username})
 
-def profile(request, username):
+def account(request, username):
 
-    # when get requests come into this page, it should load the userpage
-    # another route must be the get route when you can get the data
-    
     user = User.objects.get(username=username)
+
     user_following = UserFollow.objects.filter(user = user)
     user_followers = UserFollow.objects.filter(is_now_following = user)
-    sort = request.GET.get('sort')
 
     user_info  = {
-        'id': user.id,
-        'username': user.username,
-        'following': len(user_following),
-        'followers': len(user_followers),
-        'avatar': user.avatar,
-        'bio': user.bio,
-    }
+            'id': user.id,
+            'username': user.username,
+            'following': len(user_following),
+            'followers': len(user_followers),
+            'avatar': user.avatar,
+            'bio': user.bio,
+        }
 
     following = UserFollow.objects.filter(user = user).values('is_now_following')
     followers = UserFollow.objects.filter(is_now_following = user).values('user')
@@ -314,6 +311,31 @@ def profile(request, username):
             }
         )
 
+
+    current_user_following = False
+    
+    for usf in follower_users:
+        if request.user.username == usf['username']:
+            current_user_following = True
+            break
+
+    return render(request, "network/profile.html", {
+        'user_info': user_info, 
+        'following_users': following_users,
+        'follower_users': follower_users,
+        "current_user_following": current_user_following
+    })
+
+def profile(request, username):
+
+    # when get requests come into this page, it should load the userpage
+    # another route must be the get route when you can get the data
+    
+    user = User.objects.get(username=username)
+    sort = request.GET.get('sort')
+    start = 0 or int(request.GET.get('start'))
+    end = start + 9
+
     if sort == "new_old":
         posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('-upload_time')
     elif sort == "old_new":
@@ -327,51 +349,19 @@ def profile(request, username):
     elif sort == "least_comments":
         posts = Post.objects.filter(user = user).annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count', 'upload_time', 'category').order_by('comment_count')
 
-    likers = Post.objects.filter(user = user).values_list('likes__username', flat=True)
-
-    for post in posts:            
-        for choice in CATEGORY_CHOICES:
-            if choice['code'] == post['category']:
-                    post['category'] = choice['display']
-
-        post['liked'] = False
-
-        if post.get('like_count') != 0:
-            if request.user.username in likers:
-                post['liked'] = True
-        
+    data = []
+         
+    for post in posts[start:end + 1]:
+        post["upload_time"] = post["upload_time"].strftime("%B %d %Y, %I:%M %p")
         unique_users = []
         comments = Comment.objects.filter(post=post['post'])
 
         for comment in comments:
             if comment.user not in unique_users:
                 unique_users.append(comment.user)
-
-        count = len(unique_users)
-
-        if count == 1:
-            post["unique_users"] = "by 1 user"
-        elif count == 0:
-            post["unique_users"] = ""
-        else:
-            post["unique_users"] = f"by {count} users"
-
-    
-    current_user_following = False
-    
-    for usf in follower_users:
-        if request.user.username == usf['username']:
-            current_user_following = True
-            break
-
-    data = {
-        'posts': posts,
-        'user_info': user_info, 
-        'following_users': following_users,
-        'follower_users': follower_users,
-        'sort': sort,
-        "current_user_following": current_user_following
-    }
+                
+        post["unique_users"] = len(unique_users)
+        data.append(post)
 
     return JsonResponse(list(data), safe=False)
 
