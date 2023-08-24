@@ -21,7 +21,7 @@
             <tr>
                 <td>
                     {% if user.is_authenticated %}
-                    <p id="pp_ut">Posted at {{ post.upload_time }} by <span id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</span></p>
+                    <p id="pp_ut">Posted at {{ post.upload_time }} by <a href="{% url 'account' post.username %}" id="user_page_route">{{ post.username }}</a></p>
                     {% endif %}
                 </td>
             </tr>
@@ -65,7 +65,7 @@
                     <p>{{ post.comments }} Comments</p>
                     {% for comment in comments %}
                     <div id="comment{{ comment.comment }}" class="post_comments">
-                        <h5 id="user_page_route" data-username="{{ comment.user }}">{{ comment.user }}</h5>
+                        <h5><a href="{% url 'account' post.username %}" id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</a></h5>
                         <hr>
                         <p>{{ comment.text }}</p>
                         <p id="pp_ut">{{ comment.upload_time }}</p>

@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 load_search_results(query, sort_new, post_counter)
             }
             else {
-                alert('You must enter a keyword');
+                show_popup('You must enter a keyword');
                 return;
             }
         }
@@ -291,21 +291,10 @@ document.addEventListener("DOMContentLoaded", () => {
             post_page_edit(postid);
         })
         }
-
-        let userButton = document.querySelector('#user_page_route');
-
-        userButton.addEventListener('click', (event) => {
-            username = event.target.dataset.username
-            sort = localStorage.getItem('sort')
-
-            window.location = '/profile/' + username + '?sort=' + sort
-            });
-
         document.querySelectorAll('.post_comments').forEach((element) => {
             const replyButton = element.querySelector('#reply_button');
             const deleteButton = element.querySelector('#delete_comment');
             const editButton = element.querySelector('#edit_comment');
-            let userButton = element.querySelector('#user_page_route');
 
             if (replyButton) {
                 replyButton.addEventListener('click', (event) => {
@@ -318,16 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         location.reload();
                     }
                     });
-
-                let userButton = element.querySelector('#user_page_route');
-
-                userButton.addEventListener('click', (event) => {
-                    username = event.target.dataset.username
-                    sort = localStorage.getItem('sort')
-        
-                    window.location = '/profile/' + username + '?sort=' + sort
-                    });
-            });
+                });
             }
 
             if (userButton) {
@@ -428,11 +408,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else if (event.target.matches('#save_edit')) {
                 if (document.querySelector('#edit_text_input').value === '') {
-                    alert('Must enter text')
+                    show_popup('Must enter body text!')
                     return
                 }
                 else if (document.querySelector('#edit_title_input').value === '') {
-                    alert('Must enter title')
+                    show_popup('Must enter a title!')
                     return
                 }
                 
@@ -494,13 +474,13 @@ async function load_posts(value, sort, button) {
     if (data.length === 0 && button === 'next') {
         post_counter = value - 10
         load_posts(post_counter, sort);
-        alert("No more posts");
+        show_popup("No more posts");
         return;
     }
     else if (data.length === 0 && button === 'next_2') {
         post_counter = value - 20
         load_posts(post_counter, sort);
-        alert("No more posts");
+        show_popup("No more posts");
         return;
     }
 
@@ -532,7 +512,7 @@ async function load_category_posts(category, start, sort) {
     const data = await response.json()
 
     if (data.length === 0) {
-        alert("No more posts");
+        show_popup("No more posts");
         return;
     }
 
@@ -549,7 +529,7 @@ async function load_profile_posts(start, username, sort) {
     const data = await response.json()
 
     if (data.length === 0) {
-        alert("No more posts");
+        show_popup("No more posts");
         return;
     }
 
@@ -1012,7 +992,7 @@ function edit_comment(comment_id) {
             `
         }
         else {
-            alert('You cannot edit a deleted comment!')
+            show_popup('You cannot edit a deleted comment!')
             location.reload()
         }
     })
@@ -1032,4 +1012,16 @@ function submit_comment_edit(comment_id, new_text) {
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function show_popup(phrase){
+    const popup = document.querySelector('.popup')
+    const text = popup.querySelector('#popup_text')
+
+    text.innerText = phrase
+    popup.style.opacity = '1'
+
+    setTimeout(()=>{
+        popup.style.opacity = '0'
+    }, 2500)
 }

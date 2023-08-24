@@ -10,7 +10,7 @@
                 </thead>
                 {% for user in following_users %}
                 <tr>
-                    <td id="col"><a href="{% url 'profile' user.username %}" id="following_user_link">{{ user.username }}</a></td>
+                    <td id="col"><a href="{% url 'account' user.username %}" id="following_user_link">{{ user.username }}</a></td>
                     <td id="col"><button class="btn" id="unfollow_button" data-userid="{{ user.id }}">Unfollow</button></td>
                 </tr>
                 {% endfor %}

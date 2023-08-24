@@ -101,7 +101,7 @@ body input, body textarea, body select {
   border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
   margin: 0.5rem auto;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 body select {
   -webkit-appearance: menulist-button !important;
@@ -278,19 +278,13 @@ body #dropdown_button:focus {
 #new_post {
   background-color: var(--main-color);
   box-shadow: var(--shadow);
-  border-radius: 0 0 5px 5px;
-  padding: 15px;
+  padding: 2rem;
   margin: 1rem auto;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   width: 100%;
 }
-#new_post #category_input {
-  margin: 1rem 5%;
-  border-radius: 6px;
-  height: 4vh;
-}
 #new_post #new_post_buttons {
-  margin: 1rem 5%;
+  margin-top: 0.5rem;
 }
 #new_post .btn:nth-child(2) {
   margin-left: 0.5rem;
@@ -689,16 +683,18 @@ body #dropdown_button:focus {
 
 .popup {
   position: fixed;
-  display: none;
+  opacity: 0;
   z-index: 1000;
-  background-color: rgba(128, 0, 128, 0.5019607843);
+  background-color: #20608A;
   box-shadow: var(--shadow);
   width: -moz-fit-content;
   width: fit-content;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 1rem;
+  font-size: 2rem;
   bottom: 50%;
   left: 50%;
+  transition: opacity 0.3s ease-in-out;
   transform: translateX(-50%);
 }
 
