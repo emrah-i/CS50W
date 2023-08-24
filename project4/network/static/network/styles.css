@@ -419,8 +419,7 @@ body #dropdown_button:focus {
 }
 #profile_posts img {
   border-radius: 5rem;
-  padding: 1rem;
-  box-shadow: var(--shadow);
+  border: 0.25rem solid rgba(0, 0, 0, 0.1254901961);
   height: 8rem;
   width: auto;
 }
@@ -503,13 +502,14 @@ body #dropdown_button:focus {
 }
 #following_users_popup h2, #followers_user_popup h2 {
   color: white;
+  margin: 0;
 }
 #following_users_popup dialog, #followers_user_popup dialog {
   z-index: 10000;
   width: 30%;
   top: 25%;
   position: fixed;
-  border-radius: 6px;
+  border-radius: 1rem;
   background-color: var(--main-color);
   border: none;
   box-shadow: var(--shadow);
@@ -530,17 +530,22 @@ body #dropdown_button:focus {
 #following_users_popup #left-border, #followers_user_popup #left-border {
   border-left: 2px solid var(--sec-color);
 }
-#following_users_popup #col, #followers_user_popup #col {
+#following_users_popup .column, #followers_user_popup .column {
   width: 50%;
 }
+#following_users_popup .popup_heading, #followers_user_popup .popup_heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
 #following_users_popup #close_following, #following_users_popup #close_followers, #followers_user_popup #close_following, #followers_user_popup #close_followers {
-  float: right;
-  padding: 0.6rem;
+  padding: 0.5rem;
   border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 1rem 1rem;
+  margin-left: auto;
 }
 
 #dialog_backdrop {
@@ -705,6 +710,9 @@ body #dropdown_button:focus {
   #category #categories_heading, #category #categories_table {
     width: 60%;
   }
+  #following_users_popup dialog, #followers_user_popup dialog {
+    width: 50%;
+  }
 }
 @media (max-width: 992px) {
   .dropdown {
@@ -736,6 +744,9 @@ body #dropdown_button:focus {
   .all_posts p, .all_posts h3 {
     margin: 0;
   }
+  #following_users_popup dialog, #followers_user_popup dialog {
+    width: 60%;
+  }
 }
 @media (max-width: 768px) {
   html {
@@ -756,6 +767,9 @@ body #dropdown_button:focus {
   #post_info_block {
     align-items: start !important;
     margin: 0.5rem;
+  }
+  #following_users_popup dialog, #followers_user_popup dialog {
+    width: 80%;
   }
 }
 @media (max-width: 576px) {

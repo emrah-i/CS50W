@@ -481,8 +481,7 @@ body {
 
     img {
         border-radius: 5rem;
-        padding: 1rem;
-        box-shadow: var(--shadow);
+        border: .25rem solid #00000020;
         height: 8rem;
         width: auto;
     }
@@ -574,6 +573,7 @@ body {
 
     h2 {
         color: white;
+        margin: 0;
     }
     
     dialog {
@@ -581,12 +581,12 @@ body {
         width: 30%;
         top: 25%;
         position: fixed;
-        border-radius: 6px;
+        border-radius: 1rem;
         background-color: var(--main-color);
         border: none;
         box-shadow: var(--shadow);
-
     }
+
     table {
         background-color: white;
         width: 100%;
@@ -607,18 +607,24 @@ body {
         border-left: 2px solid var(--sec-color);
     }
 
-    #col {
+    .column {
         width: 50%;
     }
 
+    .popup_heading {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
     #close_following, #close_followers {
-        float: right;
-        padding: .6rem;
+        padding: .5rem;
         border-radius: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 0 1rem 1rem;
+        margin-left: auto;
     }
     
 }
@@ -810,6 +816,11 @@ body {
         width: 60%;
         }
     }
+    #following_users_popup, #followers_user_popup {
+        dialog {
+            width: 50%;
+        }
+    }
 }
 
 @media (max-width: 992px) { 
@@ -851,6 +862,11 @@ body {
             margin: 0;
         }
     }
+    #following_users_popup, #followers_user_popup {
+        dialog {
+            width: 60%;
+        }
+    }
  }
 
 @media (max-width: 768px) { 
@@ -873,6 +889,11 @@ body {
     #post_info_block {
         align-items: start !important;
         margin: .5rem;
+    }
+    #following_users_popup, #followers_user_popup {
+        dialog {
+            width: 80%;
+        }
     }
 }
 

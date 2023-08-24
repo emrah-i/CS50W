@@ -4,9 +4,11 @@
 {% block body %}
     <div id="dialog_backdrop"></div>
     <div id="following_users_popup" style="display:none">
-        <dialog open>  
-            <button class="btn" type="button" id="close_following"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>       
-            <h2>Following</h2>                   
+        <dialog open> 
+            <div class="popup_heading">
+                <h2>Following:</h2> 
+                <button class="btn" type="button" id="close_following"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>  
+            </div>                            
             <div id="following_content">
                 <table>
                     <thead>
@@ -35,8 +37,10 @@
     </div>
     <div id="followers_user_popup" style="display:none">
         <dialog open>  
-            <button class="btn" type="button" id="close_followers"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>  
-            <h2>Followers</h2>            
+            <div class="popup_heading">
+                <h2>Followers:</h2> 
+                <button class="btn" type="button" id="close_followers"><i class="fa-solid fa-x" style="color: #ffffff;"></i></button>  
+            </div>           
             <div id="follower_content">
                 <table>
                     <thead>
@@ -48,9 +52,9 @@
                     {% if follower_users|length > 0 %}
                         {% for dif_user in follower_users %}
                         <tr>
-                            <td id="col"><a href="{% url 'account' dif_user.username %}" id="profile_user_link">{{ dif_user.username }}</a></td>
+                            <td class="column"><a href="{% url 'account' dif_user.username %}" id="profile_user_link">{{ dif_user.username }}</a></td>
                             {% if user.username == user_info.username %}
-                            <td id="col"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Remove</button></td>
+                            <td class="column"><button class="btn" id="remove_follower_button" data-userid="{{ dif_user.id }}">Remove</button></td>
                             {% endif %}
                         </tr>
                         {% endfor %}
