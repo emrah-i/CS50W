@@ -140,19 +140,19 @@ body #dropdown_button:focus {
 #register_page, #login_page {
   background-color: var(--main-color);
   box-shadow: var(--shadow);
-  width: 50vw;
+  width: 40%;
   text-align: center;
-  border-radius: 5px;
-  margin: 40px auto;
-  padding: 15px;
+  border-radius: 1rem;
+  margin: 3rem auto;
+  padding: 2rem;
 }
 #register_page input, #login_page input {
-  margin: 1rem;
-  border-radius: 5px;
-  padding: 5px;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 #register_page h2, #login_page h2 {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 #register_page a:hover, #login_page a:hover {
   color: white;
@@ -715,14 +715,17 @@ body #dropdown_button:focus {
   }
 }
 @media (max-width: 992px) {
+  html {
+    font-size: 17px;
+  }
   .dropdown {
     justify-content: start !important;
   }
   .dropdown .btn {
     padding-left: 0;
   }
-  html {
-    font-size: 17px;
+  #register_page, #login_page {
+    width: 70%;
   }
   #following_users #table {
     width: 45%;
@@ -752,6 +755,9 @@ body #dropdown_button:focus {
   html {
     font-size: 16px;
   }
+  #register_page, #login_page {
+    width: 80%;
+  }
   #category {
     font-size: 1.1rem;
   }
@@ -777,6 +783,9 @@ body #dropdown_button:focus {
     display: flex;
     flex-direction: column;
     align-items: end;
+  }
+  #register_page, #login_page {
+    width: 90%;
   }
   #following_users #table {
     width: 75%;

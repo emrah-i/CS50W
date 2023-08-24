@@ -164,20 +164,20 @@ body {
 #register_page, #login_page {
     background-color: var(--main-color);
     box-shadow: var(--shadow);
-    width: 50vw;
+    width: 40%;
     text-align: center;
-    border-radius: 5px;
-    margin: 40px auto;
-    padding: 15px;
+    border-radius: 1rem;
+    margin: 3rem auto;
+    padding: 2rem;
 
     input {
-        margin: 1rem;
-        border-radius: 5px;
-        padding: 5px;
+        margin: 1rem auto;
+        border-radius: .5rem;
+        padding: .5rem;
     }
 
     h2 {
-        margin-bottom: 20px;
+        margin-bottom: 1.5rem;
     }
 
     a:hover {
@@ -807,9 +807,6 @@ body {
     color: #FFFFFFAF !important;
 }
 
-// // X-Large devices (large desktops, less than 1400px)
-// @media (max-width: 1399.98px) { ... }
-
 @media (max-width: 1200px) {
     #category {
         #categories_heading, #categories_table {
@@ -824,6 +821,9 @@ body {
 }
 
 @media (max-width: 992px) { 
+    html {
+        font-size: 17px;
+    }
     .dropdown {
         justify-content: start !important;
         
@@ -831,8 +831,8 @@ body {
             padding-left: 0;
         }
     }
-    html {
-        font-size: 17px;
+    #register_page, #login_page {
+        width: 70%;
     }
     #following_users #table {
         width: 45%;
@@ -873,6 +873,9 @@ body {
     html {
         font-size: 16px;
     }
+    #register_page, #login_page {
+        width: 80%;
+    }
     #category {
         font-size: 1.1rem;
 
@@ -902,6 +905,9 @@ body {
         display: flex;
         flex-direction: column;
         align-items: end;
+    }
+    #register_page, #login_page {
+        width: 90%;
     }
     #following_users #table {
         width: 75%;
