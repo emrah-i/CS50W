@@ -429,6 +429,9 @@ body #dropdown_button:focus {
   margin: 0;
   font-size: 1.25rem;
 }
+#profile_posts img {
+  width: 20%;
+}
 #profile_posts #user_heading {
   display: inline;
   font-weight: 600;
@@ -445,7 +448,7 @@ body #dropdown_button:focus {
   overflow: hidden;
 }
 #profile_posts #user_info {
-  padding: 1rem;
+  padding: 3rem;
   background-color: var(--main-color);
   height: 45vh;
 }

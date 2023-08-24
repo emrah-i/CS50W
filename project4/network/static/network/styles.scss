@@ -496,6 +496,10 @@ body {
         font-size: 1.25rem;
     }
 
+    img {
+        width: 20%;
+    }
+
     #user_heading {
         display: inline;
         font-weight: 600;
@@ -515,7 +519,7 @@ body {
     }
 
     #user_info {
-        padding: 1rem;
+        padding: 3rem;
         background-color: var(--main-color);
         height: 45vh;
 
@@ -551,7 +555,6 @@ body {
     }
 
     #post_info {
-
         width: 100%;
 
         #profile_page_time {
@@ -597,7 +600,6 @@ body {
     box-shadow: var(--shadow);
     border-radius: 1rem;
     margin-bottom: 50px;
-
 }
 
 #like_button {
