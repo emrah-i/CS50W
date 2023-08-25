@@ -71,12 +71,12 @@
                             <p>{{ comment.text }}</p>
                             <p id="pp_ut">{{ comment.upload_time }}</p>
                             {% if user.is_authenticated and comment.text != '[DELETED]' %}
-                                <button class="btn" class="btn" type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
+                                <button class="btn" type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
                             {% if user == comment.user and comment.text != '[DELETED]' %}
-                                <button class="btn" class="btn" id="edit_comment" data-commentid="{{ comment.comment }}">Edit</button>
+                                <button class="btn" id="edit_comment" data-commentid="{{ comment.comment }}">Edit</button>
                             {% endif %}
                             {% if user == comment.user and comment.text != '[DELETED]' %}
-                                <button class="btn" class="btn" id="delete_comment" data-commentid="{{ comment.comment }}">Delete</button>
+                                <button class="btn" id="delete_comment" data-commentid="{{ comment.comment }}">Delete</button>
                             {% endif %}
                             {% endif %}
                         </div>

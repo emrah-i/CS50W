@@ -604,11 +604,12 @@ body #dropdown_button:focus {
   margin-top: 0.5rem;
   font-size: 1.4rem;
 }
-.post_page .post_comment_body, .post_page .post_reply_body {
-  border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
+.post_page .post_comment_body {
   padding: 1rem;
   border-radius: 1rem;
-  margin-left: 0.4rem;
+}
+.post_page .post_comment_body hr {
+  width: 100%;
 }
 .post_page .post_comments, .post_page .post_replies {
   border-left: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
@@ -622,18 +623,18 @@ body #dropdown_button:focus {
 }
 .post_page .post_replies {
   position: relative;
-  margin-left: 5rem;
+  margin-left: 8rem;
 }
 .post_page .reply_hr {
   position: absolute;
-  top: 5.2rem;
-  left: -5.2rem;
-  width: 4rem;
+  top: 5rem;
+  left: -8.2rem;
+  width: 5rem;
   height: 0;
   border: 0.12rem solid #000000 !important;
   opacity: 0.1;
 }
-.post_page #edit_comment, .post_page #delete_comment {
+.post_page #edit_comment, .post_page #delete_comment, .post_page #cancel_reply {
   margin-left: 0.3rem !important;
 }
 
@@ -749,6 +750,15 @@ body #dropdown_button:focus {
   color: rgba(255, 255, 255, 0.6862745098) !important;
 }
 
+@media (max-width: 1400px) {
+  .post_page .post_replies {
+    margin-left: 6rem;
+  }
+  .post_page .reply_hr {
+    left: -6.2rem;
+    width: 4rem;
+  }
+}
 @media (max-width: 1200px) {
   #category #categories_heading, #category #categories_table {
     width: 60%;
@@ -756,10 +766,24 @@ body #dropdown_button:focus {
   #following_users_popup dialog, #followers_user_popup dialog {
     width: 50%;
   }
+  .post_page .post_replies {
+    margin-left: 5rem;
+  }
+  .post_page .reply_hr {
+    left: -5.2rem;
+    width: 3.5rem;
+  }
 }
 @media (max-width: 992px) {
   html {
     font-size: 17px;
+  }
+  .post_page .post_replies {
+    margin-left: 4rem;
+  }
+  .post_page .reply_hr {
+    left: -4.2rem;
+    width: 3rem;
   }
   .dropdown {
     justify-content: start !important;
@@ -798,6 +822,19 @@ body #dropdown_button:focus {
   html {
     font-size: 16px;
   }
+  .post_page {
+    font-size: 1.3rem;
+  }
+  .post_page .post_replies {
+    margin-left: 3rem;
+  }
+  .post_page .reply_hr {
+    left: -3.2rem;
+    width: 2rem;
+  }
+  .post_page .btn {
+    font-size: 1.2rem;
+  }
   #register_page, #login_page {
     width: 80%;
   }
@@ -822,6 +859,19 @@ body #dropdown_button:focus {
   }
 }
 @media (max-width: 576px) {
+  .post_page {
+    font-size: 0.9rem;
+  }
+  .post_page .post_replies {
+    margin-left: 2rem;
+  }
+  .post_page .reply_hr {
+    left: -2.2rem;
+    width: 1.5rem;
+  }
+  .post_page .btn {
+    font-size: 0.8rem !important;
+  }
   #user_info div:nth-child(2) {
     display: flex;
     flex-direction: column;

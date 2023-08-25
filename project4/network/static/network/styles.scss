@@ -695,11 +695,13 @@ body {
         font-size: 1.4rem;
     }
 
-    .post_comment_body, .post_reply_body {
-        border: .2rem solid #00000018;
+    .post_comment_body {
         padding: 1rem;
         border-radius: 1rem;
-        margin-left: .4rem;
+
+        hr {
+            width: 100%;
+        }
     }
 
     .post_comments, .post_replies {
@@ -717,20 +719,20 @@ body {
 
     .post_replies {
         position: relative;
-        margin-left: 5rem;
+        margin-left: 8rem;
     }
 
     .reply_hr {
         position: absolute;
-        top: 5.2rem;
-        left: -5.2rem;
-        width: 4rem;
+        top: 5rem;
+        left: -8.2rem;
+        width: 5rem;
         height: 0;
         border: .12rem solid #000000 !important;
         opacity: .1;
     }
 
-    #edit_comment, #delete_comment {
+    #edit_comment, #delete_comment, #cancel_reply {
         margin-left: .3rem !important;
     }
 }
@@ -852,6 +854,20 @@ body {
     color: #FFFFFFAF !important;
 }
 
+@media (max-width: 1400px) {
+    .post_page {
+    
+        .post_replies {
+            margin-left: 6rem;
+        }
+    
+        .reply_hr {
+            left: -6.2rem;
+            width: 4rem;
+        }
+    }
+}
+
 @media (max-width: 1200px) {
     #category {
         #categories_heading, #categories_table {
@@ -863,11 +879,33 @@ body {
             width: 50%;
         }
     }
+    .post_page {
+    
+        .post_replies {
+            margin-left: 5rem;
+        }
+    
+        .reply_hr {
+            left: -5.2rem;
+            width: 3.5rem;
+        }
+    }
 }
 
 @media (max-width: 992px) { 
     html {
         font-size: 17px;
+    }
+    .post_page {
+    
+        .post_replies {
+            margin-left: 4rem;
+        }
+    
+        .reply_hr {
+            left: -4.2rem;
+            width: 3rem;
+        }
     }
     .dropdown {
         justify-content: start !important;
@@ -918,6 +956,22 @@ body {
     html {
         font-size: 16px;
     }
+    .post_page {
+        font-size: 1.3rem;
+    
+        .post_replies {
+            margin-left: 3rem;
+        }
+    
+        .reply_hr {
+            left: -3.2rem;
+            width: 2rem;
+        }
+
+        .btn {
+            font-size: 1.2rem;
+        }
+    }
     #register_page, #login_page {
         width: 80%;
     }
@@ -946,6 +1000,22 @@ body {
 }
 
 @media (max-width: 576px) { 
+    .post_page {
+        font-size: .9rem;
+
+        .post_replies {
+            margin-left: 2rem;
+        }
+    
+        .reply_hr {
+            left: -2.2rem;
+            width: 1.5rem;
+        }
+
+        .btn {
+            font-size: .8rem !important;
+        }
+    }
     #user_info div:nth-child(2) {
         display: flex;
         flex-direction: column;
