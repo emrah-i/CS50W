@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
+from functools import reduce
+from operator import or_
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
@@ -108,19 +110,31 @@ def search(request, query):
     end = start + 9
     sort = request.GET.get('sort')
 
-    if query is not None:
-        posts_filter = Post.objects.filter(
-            Q(title__icontains=query) |  
-            Q(text__icontains=query) |  
-            Q(user__username__icontains=query) |
-            Q(comment_post__text__icontains=query)
-        ).values('post').distinct()
-
-        post_ids = []
-        for post in posts_filter:
-            post_ids.append(post['post'])
-    else:
+    if query is None:
         return
+
+    query_list = query.split(' ')
+
+    word_queries = []
+
+    for word in query_list:
+        word_query = (
+            Q(title__icontains=word) |
+            Q(text__icontains=word) |
+            Q(user__username__icontains=word) |
+            Q(comment_post__text__icontains=word)
+        )
+        word_queries.append(word_query)
+
+    combined_q = Q()
+    for word_query in word_queries:
+        combined_q &= word_query
+
+    filtered_posts = Post.objects.filter(combined_q).distinct()
+
+    post_ids = []
+    for post in filtered_posts:
+        post_ids.append(post.post)
 
     posts_list = Post.objects.filter(post__in=post_ids)
     posts_full = posts_list.annotate(like_count=Count('likes'), comment_count=Count('comment_post')).values('post', 'title', 'text','user', 'user__username', 'like_count', 'comment_count',  'upload_time', 'category')
@@ -160,11 +174,14 @@ def search(request, query):
 
 def get_relavance_score(post, query):
 
-    title_count = post['title'].lower().count(query.lower())
-    text_count = post['text'].lower().count(query.lower())
-    username_count = post['user__username'].lower().count(query.lower())
-    comment_count = 0
-    
+    all_words = query.split(' ')
+    title_count = text_count = username_count = comment_count = 0
+
+    for word in all_words:
+        title_count += post['title'].lower().count(word.lower())
+        text_count += post['text'].lower().count(word.lower())
+        username_count += post['user__username'].lower().count(word.lower())
+        
     comments = Comment.objects.filter(post=post['post'])
 
     for comment in comments:

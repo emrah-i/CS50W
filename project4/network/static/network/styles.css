@@ -682,10 +682,13 @@ body #dropdown_button:focus {
 }
 
 .popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   opacity: 0;
   z-index: 1000;
-  background-color: #20608A;
+  background-color: rgba(240, 178, 122, 0.937254902);
   box-shadow: var(--shadow);
   width: -moz-fit-content;
   width: fit-content;
@@ -695,6 +698,23 @@ body #dropdown_button:focus {
   bottom: 50%;
   left: 50%;
   transition: opacity 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  opacity: 0;
+  z-index: 1000;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 2rem;
+  bottom: 30%;
+  left: 50%;
   transform: translateX(-50%);
 }
 
@@ -779,6 +799,12 @@ body #dropdown_button:focus {
     display: flex;
     flex-direction: column;
     align-items: end;
+  }
+  .popup {
+    width: 70%;
+  }
+  #search_bar {
+    font-size: smaller;
   }
   #register_page, #login_page {
     width: 90%;

@@ -457,6 +457,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function load_posts(value, sort, button) {
 
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
+
     user = ''
 
     try {
@@ -470,6 +473,8 @@ async function load_posts(value, sort, button) {
 
     const response = await fetch(`/posts?start=${value}&sort=${sort}`);
     const data = await response.json();
+
+    loading.style.opacity = 0
 
     if (data.length === 0 && button === 'next') {
         post_counter = value - 10
@@ -492,6 +497,9 @@ async function load_posts(value, sort, button) {
 };
 
 async function load_following_posts(start, sort) {
+
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
     const main_div = document.querySelector('.following_posts');
 
     const response = await fetch(`/following_posts/${start}/${sort}`, {
@@ -499,17 +507,23 @@ async function load_following_posts(start, sort) {
     });
     const data = await response.json()
 
+    loading.style.opacity = 0
+
     load_items(main_div, data)
 };
 
 async function load_category_posts(category, start, sort) {
 
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
     const main_div = document.querySelector('.category_posts');
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
         method: "GET"
     })
     const data = await response.json()
+
+    loading.style.opacity = 0
 
     if (data.length === 0) {
         show_popup("No more posts");
@@ -520,7 +534,9 @@ async function load_category_posts(category, start, sort) {
 };
 
 async function load_profile_posts(start, username, sort) {
-
+    
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
     const main_div = document.querySelector('.profile_posts');
 
     const response = await fetch(`/profile/${username}?sort=${sort}&start=${start}`, {
@@ -533,11 +549,15 @@ async function load_profile_posts(start, username, sort) {
         return;
     }
 
+    loading.style.opacity = 0
+
     load_items(main_div, data);
 }
 
 async function load_search_results(query, sort, start) {
 
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
     const main = document.querySelector('.search_posts');
     const heading = document.querySelector('#search_posts_heading');
     const parent = document.querySelector('#search_results');
@@ -554,12 +574,19 @@ async function load_search_results(query, sort, start) {
     })
     const data = await response.json()
 
+    loading.style.opacity = 0
+
     if (data.length === 0 && start === 0) {
         load.style.display = 'none';
         parent.style.display = 'block';
         heading.style.display = 'block';
         heading.innerHTML = `No posts found with "${query}"`;
         return
+    }
+
+    if (data.length === 0 && start !== 0) {
+        show_popup("No more posts");
+        return;
     }
 
     load.style.display = 'block';
@@ -574,6 +601,9 @@ async function load_search_results(query, sort, start) {
 };  
 
 async function load_items(mainDiv, data) {
+
+    const loading = document.querySelector('.loading')
+    loading.style.opacity = 1
 
     for(i = 0; i < data.length; i++){
 
@@ -680,6 +710,10 @@ async function load_items(mainDiv, data) {
         }
 
         mainDiv.appendChild(postDiv)
+
+        if (i === 0) {
+            loading.style.opacity = 0
+        }
     }
 }
 

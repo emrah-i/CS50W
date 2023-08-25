@@ -783,10 +783,13 @@ body {
 }
 
 .popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     opacity: 0;
     z-index: 1000;
-    background-color: #20608A;
+    background-color: #F0B27AEF;
     box-shadow: var(--shadow);
     width: fit-content;
     padding: 1rem 1.5rem;
@@ -795,6 +798,22 @@ body {
     bottom: 50%;
     left: 50%;
     transition: opacity .3s ease-in-out;
+    transform: translateX(-50%);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    opacity: 0;
+    z-index: 1000;
+    width: fit-content;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    font-size: 2rem;
+    bottom: 30%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
@@ -900,6 +919,12 @@ body {
         display: flex;
         flex-direction: column;
         align-items: end;
+    }
+    .popup {
+        width: 70%;
+    }
+    #search_bar {
+        font-size: smaller;
     }
     #register_page, #login_page {
         width: 90%;
