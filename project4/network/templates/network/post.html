@@ -62,28 +62,28 @@
                     {% if post.comments == 0 %}
                     <p>No Comments</p>
                     {% else %}
-                    <p>{{ post.comments }} Comments</p>
+                    <p id="comment_count">{{ post.comments }} Comments</>
                     {% for comment in comments %}
-                    <div id="comment{{ comment.comment }}" class="post_comments">
-                        <h5><a href="{% url 'account' post.username %}" id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</a></h5>
-                        <hr>
-                        <p>{{ comment.text }}</p>
-                        <p id="pp_ut">{{ comment.upload_time }}</p>
-                        {% if user.is_authenticated and comment.text != '[DELETED]' %}
-                            <button class="btn" class="btn" type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
-                        {% if user == comment.user and comment.text != '[DELETED]' %}
-                            <button class="btn" class="btn" id="edit_comment" data-commentid="{{ comment.comment }}">Edit</button>
-                        {% endif %}
-                        {% if user == comment.user and comment.text != '[DELETED]' %}
-                            <button class="btn" class="btn" id="delete_comment" data-commentid="{{ comment.comment }}">Delete</button>
-                        {% endif %}
-                        {% endif %}
-                    </div>
+                    <div class="post_comments">
+                        <div id="comment{{ comment.comment }}" class="post_comment_body">
+                            <h5><a href="{% url 'account' post.username %}" id="user_page_route" data-username="{{ post.username }}">{{ post.username }}</a></h5>
+                            <hr>
+                            <p>{{ comment.text }}</p>
+                            <p id="pp_ut">{{ comment.upload_time }}</p>
+                            {% if user.is_authenticated and comment.text != '[DELETED]' %}
+                                <button class="btn" class="btn" type="button" id="reply_button" data-commentid="{{ comment.comment }}">Reply</button>
+                            {% if user == comment.user and comment.text != '[DELETED]' %}
+                                <button class="btn" class="btn" id="edit_comment" data-commentid="{{ comment.comment }}">Edit</button>
+                            {% endif %}
+                            {% if user == comment.user and comment.text != '[DELETED]' %}
+                                <button class="btn" class="btn" id="delete_comment" data-commentid="{{ comment.comment }}">Delete</button>
+                            {% endif %}
+                            {% endif %}
+                        </div>
                         {% with comment.replies.all as replies %}
-                            {% with level=level|add:40 %}
-                                {% include 'network/reply.html' with level=level replies=replies %}
-                            {% endwith %}
+                            {% include 'network/reply.html' with level=level replies=replies %}
                         {% endwith %}
+                    </div>
                     {% endfor %}
                     {% endif %}
                 </td>

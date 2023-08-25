@@ -525,14 +525,13 @@ def edit_comment(request, comment_id):
     if request.method == "PUT":
 
         data = json.loads(request.body)
-        if data.get("text") is not None:
+        if data.get("text") is not None and data["text"] is not "[DELETED]":
             comment.text = data["text"]
         comment.upload_time = str(timezone.now())
         comment.save()
         return HttpResponse(status=204)
     
     elif request.method == "DELETE":
-
         comment.delete()
     
     else:
@@ -540,7 +539,6 @@ def edit_comment(request, comment_id):
         data = {
             'text': comment.text,
         }
-
         return JsonResponse(data, safe=False)
     
 @csrf_exempt

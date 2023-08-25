@@ -580,9 +580,6 @@ body #dropdown_button:focus {
 .post_page #pp_category {
   margin-bottom: 1rem;
 }
-.post_page #pp_ut {
-  margin: 2px;
-}
 .post_page #pp_text p {
   margin-bottom: 25px;
 }
@@ -603,11 +600,41 @@ body #dropdown_button:focus {
 .post_page #anon_likes {
   margin: 0;
 }
-.post_page .post_comments {
+.post_page #comment_count {
+  margin-top: 0.5rem;
+  font-size: 1.4rem;
+}
+.post_page .post_comment_body, .post_page .post_reply_body {
   border: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
-  border-radius: 1rem;
   padding: 1rem;
-  margin: 5px 0 0 0;
+  border-radius: 1rem;
+  margin-left: 0.4rem;
+}
+.post_page .post_comments, .post_page .post_replies {
+  border-left: 0.2rem solid rgba(0, 0, 0, 0.0941176471);
+  margin: 0.5rem 0 0 0;
+}
+.post_page .post_comments {
+  margin-top: 2.5rem;
+}
+.post_page .post_comments:nth-child(2) {
+  margin-top: 1rem;
+}
+.post_page .post_replies {
+  position: relative;
+  margin-left: 5rem;
+}
+.post_page .reply_hr {
+  position: absolute;
+  top: 5.2rem;
+  left: -5.2rem;
+  width: 4rem;
+  height: 0;
+  border: 0.12rem solid #000000 !important;
+  opacity: 0.1;
+}
+.post_page #edit_comment, .post_page #delete_comment {
+  margin-left: 0.3rem !important;
 }
 
 #edit_profile {

@@ -638,7 +638,6 @@ body {
 }
 
 .post_page {
-
     background-color: var(--main-color);
     width: 90%;
     margin: 1rem 5%;
@@ -663,10 +662,6 @@ body {
 
     #pp_category {
         margin-bottom: 1rem;
-    }
-
-    #pp_ut {
-        margin: 2px;
     }
 
     #pp_text p {
@@ -695,12 +690,48 @@ body {
         margin: 0;
     }
 
-    .post_comments {
-        
+    #comment_count {
+        margin-top: .5rem;
+        font-size: 1.4rem;
+    }
+
+    .post_comment_body, .post_reply_body {
         border: .2rem solid #00000018;
-        border-radius: 1rem;
         padding: 1rem;
-        margin: 5px 0 0 0;
+        border-radius: 1rem;
+        margin-left: .4rem;
+    }
+
+    .post_comments, .post_replies {
+        border-left: .2rem solid #00000018;
+        margin: .5rem 0 0 0;
+    }
+
+    .post_comments {
+        margin-top: 2.5rem;
+    }
+
+    .post_comments:nth-child(2) {
+        margin-top: 1rem;
+    }
+
+    .post_replies {
+        position: relative;
+        margin-left: 5rem;
+    }
+
+    .reply_hr {
+        position: absolute;
+        top: 5.2rem;
+        left: -5.2rem;
+        width: 4rem;
+        height: 0;
+        border: .12rem solid #000000 !important;
+        opacity: .1;
+    }
+
+    #edit_comment, #delete_comment {
+        margin-left: .3rem !important;
     }
 }
 

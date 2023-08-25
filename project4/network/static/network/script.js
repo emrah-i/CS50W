@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (sort_select) {
 
-        if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/profile/')) {
+        if (localStorage.getItem('sort') !== null && !window.location.pathname.startsWith('/acc/')) {
             sort_select.value = localStorage.getItem('sort')
         }
         
@@ -292,12 +292,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         }
         document.querySelectorAll('.post_comments').forEach((element) => {
-            const replyButton = element.querySelector('#reply_button');
-            const deleteButton = element.querySelector('#delete_comment');
-            const editButton = element.querySelector('#edit_comment');
+            const replyButton = element.querySelectorAll('#reply_button');
+            const deleteButton = element.querySelectorAll('#delete_comment');
+            const editButton = element.querySelectorAll('#edit_comment');
 
             if (replyButton) {
-                replyButton.addEventListener('click', (event) => {
+                replyButton.forEach(element=>element.addEventListener('click', (event) => {
                 comment_reply(event);
 
                 let cancelButton = document.querySelector('#cancel_reply');
@@ -307,28 +307,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         location.reload();
                     }
                     });
-                });
-            }
-
-            if (userButton) {
-                userButton.addEventListener('click', (event) => {
-                    username = event.target.dataset.username
-                    sort = localStorage.getItem('sort')
-        
-                    window.location = '/profile/' + username + '?sort=' + sort
-                });
-            }
+                })
+            )}
 
             if (deleteButton) {
-                deleteButton.addEventListener('click', (event) => {
+                deleteButton.forEach(element=>element.addEventListener('click', (event) => {
                 if (confirm('Are you sure you would like to delete this reply?')) {
                     delete_comment(event);
                 }
-                });
-            }
+                })
+            )}
 
             if (editButton) {
-                editButton.addEventListener('click', (event) => {
+                editButton.forEach(element=>element.addEventListener('click', (event) => {
                     comment_id = event.target.dataset.commentid;
                     edit_comment(comment_id);
 
@@ -351,8 +342,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                         
                       }, 50);
-                });
-            }
+                })
+            )}
         });
     }
 
@@ -858,7 +849,7 @@ function delete_post(id) {
             method: "DELETE"
         })
         .then(response => {
-            if (window.location.pathname === '/' || window.location.pathname.startsWith('/profile/')) {
+            if (window.location.pathname === '/' || window.location.pathname.startsWith('/acc/')) {
                 location.reload()
             }
             else if (window.location.pathname.startsWith('/post/')) {
@@ -960,6 +951,8 @@ function like_post(post) {
     }}
 
 function comment_reply(event) {
+
+    console.log('hi')
 
     const post = document.querySelector('.post_page').dataset.postid
     const commentid = event.target.dataset.commentid;
