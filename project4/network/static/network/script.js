@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function load_posts(value, sort, button) {
 
     const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    loading.style.display = 'flex'
 
     user = ''
 
@@ -496,7 +496,7 @@ async function load_posts(value, sort, button) {
     const response = await fetch(`/posts?start=${value}&sort=${sort}`);
     const data = await response.json();
 
-    loading.style.opacity = 0
+    loading.style.display = 'none'
 
     if (data.length === 0 && button === 'next') {
         post_counter = value - 10
@@ -521,7 +521,7 @@ async function load_posts(value, sort, button) {
 async function load_following_posts(start, sort) {
 
     const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    loading.style.display = 'flex'
     const main_div = document.querySelector('.following_posts');
 
     const response = await fetch(`/following_posts/${start}/${sort}`, {
@@ -529,7 +529,7 @@ async function load_following_posts(start, sort) {
     });
     const data = await response.json()
 
-    loading.style.opacity = 0
+    loading.style.display = 'none'
 
     load_items(main_div, data)
 };
@@ -537,7 +537,8 @@ async function load_following_posts(start, sort) {
 async function load_category_posts(category, start, sort) {
 
     const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    loading.style.display = 'flex'
+    const load = document.querySelector('#load_more');
     const main_div = document.querySelector('.category_posts');
 
     const response = await fetch(`/category_posts/${category}/${start}/${sort}`, {
@@ -545,9 +546,15 @@ async function load_category_posts(category, start, sort) {
     })
     const data = await response.json()
 
-    loading.style.opacity = 0
+    loading.style.display = 'none'
 
-    if (data.length === 0) {
+    if (data.length === 0 && start === 0) {
+        load.style.display = 'none';
+        show_popup("No posts");
+        return;
+    }
+
+    if (data.length === 0 && start !== 0) {
         show_popup("No more posts");
         return;
     }
@@ -557,8 +564,9 @@ async function load_category_posts(category, start, sort) {
 
 async function load_profile_posts(start, username, sort) {
     
-    const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    const loading = document.querySelector('.loading');
+    loading.style.display = 'flex';
+    const load = document.querySelector('#load_more');
     const main_div = document.querySelector('.profile_posts');
 
     const response = await fetch(`/profile/${username}?sort=${sort}&start=${start}`, {
@@ -566,12 +574,19 @@ async function load_profile_posts(start, username, sort) {
     })
     const data = await response.json()
 
-    if (data.length === 0) {
+    loading.style.display = 'none'
+
+    if (data.length === 0 && start === 0) {
+        load.style.display = 'none';
+        show_popup("No posts");
+        return;
+    }
+
+    if (data.length === 0 && start !== 0) {
         show_popup("No more posts");
         return;
     }
 
-    loading.style.opacity = 0
 
     load_items(main_div, data);
 }
@@ -579,7 +594,7 @@ async function load_profile_posts(start, username, sort) {
 async function load_search_results(query, sort, start) {
 
     const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    loading.style.display = 'flex'
     const main = document.querySelector('.search_posts');
     const heading = document.querySelector('#search_posts_heading');
     const parent = document.querySelector('#search_results');
@@ -596,7 +611,7 @@ async function load_search_results(query, sort, start) {
     })
     const data = await response.json()
 
-    loading.style.opacity = 0
+    loading.style.display = 'none'
 
     if (data.length === 0 && start === 0) {
         load.style.display = 'none';
@@ -625,7 +640,7 @@ async function load_search_results(query, sort, start) {
 async function load_items(mainDiv, data) {
 
     const loading = document.querySelector('.loading')
-    loading.style.opacity = 1
+    loading.style.display = 'flex'
 
     for(i = 0; i < data.length; i++){
 
@@ -734,7 +749,7 @@ async function load_items(mainDiv, data) {
         mainDiv.appendChild(postDiv)
 
         if (i === 0) {
-            loading.style.opacity = 0
+            loading.style.display = 'none'
         }
     }
 }
@@ -1117,9 +1132,15 @@ function show_popup(phrase){
     const text = popup.querySelector('#popup_text')
 
     text.innerText = phrase
-    popup.style.opacity = '1'
+    popup.style.display = 'block'
 
     setTimeout(()=>{
-        popup.style.opacity = '0'
-    }, 2500)
+        popup.style.opacity = 1
+    }, 100)
+    setTimeout(()=>{
+        popup.style.opacity = 0
+    }, 1500)
+    setTimeout(()=>{
+        popup.style.display = 'none'
+    }, 1800)
 }

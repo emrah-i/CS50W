@@ -60,10 +60,8 @@ nav .dropdown .btn:hover {
   text-decoration: underline;
 }
 nav .dropdown-menu {
+  padding-left: 1.5rem !important;
   border-radius: 1rem;
-}
-nav .form-check-label {
-  padding-top: 0.5rem;
 }
 nav .navbar-brand {
   font-size: 1.5rem;
@@ -149,7 +147,7 @@ body #dropdown_button:focus {
 }
 #register_page input, #login_page input {
   margin: 1rem auto;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   padding: 0.5rem;
 }
 #register_page h2, #login_page h2 {
@@ -157,6 +155,9 @@ body #dropdown_button:focus {
 }
 #register_page a:hover, #login_page a:hover {
   color: white;
+}
+#register_page .btn, #login_page .btn {
+  margin-bottom: 1rem;
 }
 
 #main-posts-div, #following-main-div, #category_posts_page, #search_results, #profile_posts {
@@ -187,7 +188,7 @@ body #dropdown_button:focus {
 .all_posts {
   width: 100% !important;
   border-bottom: 1px solid var(--sec-color);
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 1rem 1rem;
   padding: 0;
 }
 .all_posts .row {
@@ -716,11 +717,10 @@ body #dropdown_button:focus {
 }
 
 .popup, .loading, .modal {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
-  opacity: 0;
   z-index: 1000;
   background-color: rgba(240, 178, 122, 0.937254902);
   box-shadow: var(--shadow);
@@ -732,6 +732,10 @@ body #dropdown_button:focus {
   bottom: 50%;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.popup {
+  opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
@@ -746,7 +750,6 @@ body #dropdown_button:focus {
 
 .modal {
   display: none;
-  opacity: 1;
   top: 30%;
   flex-direction: column;
   font-size: 1.5rem;

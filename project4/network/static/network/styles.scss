@@ -67,11 +67,8 @@ nav {
     }
     
     .dropdown-menu {
+        padding-left: 1.5rem !important;
         border-radius: 1rem;
-    }
-    
-    .form-check-label {
-        padding-top: .5rem;
     }
     
     .navbar-brand {
@@ -173,7 +170,7 @@ body {
 
     input {
         margin: 1rem auto;
-        border-radius: .5rem;
+        border-radius: 1rem;
         padding: .5rem;
     }
 
@@ -183,6 +180,10 @@ body {
 
     a:hover {
         color: white;
+    }
+    
+    .btn {
+        margin-bottom: 1rem;
     }
 }
 
@@ -215,7 +216,7 @@ body {
 .all_posts {
     width: 100% !important;
     border-bottom: 1px solid var(--sec-color);
-    border-radius: 0 0 .5rem .5rem ;
+    border-radius: 0 0 1rem 1rem ;
     padding: 0;
 
     .row {
@@ -822,11 +823,10 @@ body {
 }
 
 .popup, .loading, .modal {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     position: fixed;
-    opacity: 0;
     z-index: 1000;
     background-color: #F0B27AEF;
     box-shadow: var(--shadow);
@@ -837,6 +837,10 @@ body {
     bottom: 50%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.popup {
+    opacity: 0;
     transition: opacity .3s ease-in-out;
 }
 
@@ -851,7 +855,6 @@ body {
 
 .modal {
     display: none;
-    opacity: 1;
     top: 30%;
     flex-direction: column;
     font-size: 1.5rem;

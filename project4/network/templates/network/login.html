@@ -10,7 +10,13 @@
             {% csrf_token %}
             <input autofocus type="text" name="username" placeholder="Username"><br>
             <input type="password" name="password" placeholder="Password"><br>
-            <button class="btn" type="submit" class="btn">Login</button>
+            <button class="btn" type="submit">Login</button>
+        </form>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="DemoUser" name="username"/>
+            <input type="hidden" value="1234" name="password"/>
+            <button class="btn" type="submit">Login as Demo User</button>
         </form><br>
         <p>Don't have an account? <a href="{% url 'register' %}">Register here.</a></p>
     </div>  
