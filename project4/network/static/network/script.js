@@ -531,6 +531,15 @@ async function load_following_posts(start, sort) {
 
     loading.style.display = 'none'
 
+    if (data.length === 0 && start === 0) {
+        show_popup("No posts");
+        return;
+    }
+
+    if (data.length === 0 && start !== 0) {
+        return;
+    }
+
     load_items(main_div, data)
 };
 
@@ -586,7 +595,6 @@ async function load_profile_posts(start, username, sort) {
         show_popup("No more posts");
         return;
     }
-
 
     load_items(main_div, data);
 }
