@@ -21,7 +21,8 @@
 .btn:hover {
     cursor: pointer;
     border-radius: 1.5rem;
-    transform: scale(1.1);
+    transform: scale(1.05);
+    margin: 0 .25rem;
     color: white;
 }
 
@@ -115,7 +116,7 @@ body {
     input, textarea, select {
         border: .2rem solid #00000018;
         margin: .5rem auto;
-        border-radius: .5rem;
+        border-radius: 1rem;
         padding: .5rem;
     }
 
@@ -324,10 +325,6 @@ body {
 
     #new_post_buttons {
         margin-top: .5rem;
-    }
-
-    .btn:nth-child(2) {
-        margin-left: .5rem;
     }
 }
 
@@ -633,6 +630,15 @@ body {
     display: none;
 }
 
+
+#cancel_reply, #cancel_edit {
+    color: #E74C3C !important;
+}
+
+#delete_comment, #delete_edit, #cancel_modal {
+    background-color: #E74C3CA0 !important;
+}
+
 #profile_user_link {
     color: black;
 }
@@ -815,7 +821,7 @@ body {
     color: white;
 }
 
-.popup {
+.popup, .loading, .modal {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -830,24 +836,44 @@ body {
     font-size: 2rem;
     bottom: 50%;
     left: 50%;
-    transition: opacity .3s ease-in-out;
     transform: translateX(-50%);
+    transition: opacity .3s ease-in-out;
 }
 
 .loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    opacity: 0;
-    z-index: 1000;
-    width: fit-content;
-    padding: 1rem 1.5rem;
-    border-radius: 1rem;
-    font-size: 2rem;
+    box-shadow: none;
+    background-color: transparent;
     bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
+    transition: all 0s;
+}
+
+.modal {
+    display: none;
+    opacity: 1;
+    top: 30%;
+    flex-direction: column;
+    font-size: 1.5rem;
+    color: black;
+    background-color: white;
+    height: fit-content;
+    text-align: center;
+
+    p {
+        padding-top: 2rem;
+    }
+
+    .modal-btns {
+        width: 100%;
+        padding: 1rem 3rem;
+        display: flex;
+        justify-content: space-between;
+
+        > * {
+            font-size: 1.5rem;
+        }
+    }
 }
 
 .text-muted {
@@ -997,6 +1023,15 @@ body {
             width: 80%;
         }
     }
+    .modal {
+        .modal-btns {
+            padding: 1rem 1.5rem;
+    
+            > * {
+                font-size: 1.4rem;
+            }
+        }
+    }
 }
 
 @media (max-width: 576px) { 
@@ -1032,5 +1067,12 @@ body {
     }
     #following_users #table {
         width: 75%;
+    }
+    .modal-btns {
+        padding: 1rem 0rem !important;
+
+        > * {
+            font-size: 1.2rem;
+        }
     }
 }

@@ -266,6 +266,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const url = window.location.pathname
         const id = url.split('/').pop()
+        const modal = document.querySelector('.modal')
+        const text = modal.querySelector('#modal_text')
+        const confirm = modal.querySelector('#confirm_modal')
+        const cancel = modal.querySelector('#cancel_modal')
 
         fetch('/like/' + id,{
             method: 'GET'
@@ -303,18 +307,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 let cancelButton = document.querySelector('#cancel_reply');
 
                 cancelButton.addEventListener('click', () => {
-                    if (confirm('Are you sure you would like to cancel?')) {
-                        location.reload();
-                    }
-                    });
+                    modal.style.display = 'block'
+
+                    text.innerText = 'Are you sure you would like to cancel?'
+
+                    modal.addEventListener('click', (event)=>{
+                        if (event.target === cancel) {
+                            modal.style.display = 'none'
+                        }
+                        else if (event.target === confirm) {
+                            location.reload();
+                        }
+                    })
+                })
                 })
             )}
 
             if (deleteButton) {
                 deleteButton.forEach(element=>element.addEventListener('click', (event) => {
-                if (confirm('Are you sure you would like to delete this reply?')) {
-                    delete_comment(event);
-                }
+                    const button = event
+                    
+                    text.innerText = 'Are you sure you would like to delete this reply?'
+                    modal.style.display = 'block'
+
+                    modal.addEventListener('click', (event)=>{
+                        if (event.target === cancel) {
+                            modal.style.display = 'none'
+                        }
+                        else if (event.target === confirm) {
+                            delete_comment(button);
+                        }
+                    })
                 })
             )}
 
@@ -328,9 +351,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         const cancelButton = element.querySelector('#cancel_reply');
                   
                         cancelButton.addEventListener('click', () => {
-                            if (confirm('Are you sure you would like to cancel?')) {
-                                location.reload();
-                            }
+                            modal.style.display = 'block'
+                            text.innerText = 'Are you sure you would like to cancel?'
+        
+                            modal.addEventListener('click', (event)=>{
+                                if (event.target === cancel) {
+                                    modal.style.display = 'none'
+                                }
+                                else if (event.target === confirm) {
+                                    location.reload();
+                                }
+                            })
                         });
 
                   
@@ -843,77 +874,117 @@ function save_edit(id) {
 }
 
 function delete_post(id) {
-    
-    if (confirm("Are you sure you want to proceed?")){
-        fetch('/edit/' + id, {
-            method: "DELETE"
-        })
-        .then(response => {
-            if (window.location.pathname === '/' || window.location.pathname.startsWith('/acc/')) {
-                location.reload()
-            }
-            else if (window.location.pathname.startsWith('/post/')) {
-                window.location = `/`
-            }
-        })
-    }
-    else {
-        location.reload()
-    }
+
+    const modal = document.querySelector('.modal')
+    const text = modal.querySelector('#modal_text')
+    const confirm = modal.querySelector('#confirm_modal')
+    const cancel = modal.querySelector('#cancel_modal')
+
+    modal.style.display = 'block'
+    text.innerText = "Are you sure you want to proceed?"
+
+    modal.addEventListener('click', (event)=>{
+        if (event.target === cancel) {
+            modal.style.display = 'none'
+        }
+        else if (event.target === confirm) {
+            fetch('/edit/' + id, {
+                method: "DELETE"
+            })
+            .then(response => {
+                if (window.location.pathname === '/' || window.location.pathname.startsWith('/acc/')) {
+                    location.reload()
+                }
+                else if (window.location.pathname.startsWith('/post/')) {
+                    window.location = `/`
+                }
+            })
+        }
+    })
 }
 
 function unfollow(user_uf) {
 
-    if (confirm("Are you sure you want to unfollow this user?")){
-        fetch('/unfollow/' + user_uf, {
-            method: "DELETE"
-        })
-        .then(response => {
-            location.reload()
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    else {
-        location.reload()
-    }
+    const modal = document.querySelector('.modal')
+    const text = modal.querySelector('#modal_text')
+    const confirm = modal.querySelector('#confirm_modal')
+    const cancel = modal.querySelector('#cancel_modal')
+
+    modal.style.display = 'block'
+    text.innerText = "Are you sure you want to unfollow this user?"
+
+    modal.addEventListener('click', (event)=>{
+        if (event.target === cancel) {
+            modal.style.display = 'none'
+        }
+        else if (event.target === confirm) {
+            fetch('/unfollow/' + user_uf, {
+                method: "DELETE"
+            })
+            .then(response => {
+                location.reload()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    })
 }
 
 function remove(user_uf) {
 
-    if (confirm("Are you sure you want to remove this user?")){
-        fetch('/remove/' + user_uf, {
-            method: "DELETE"
-        })
-        .then(response => {
-            location.reload()
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    else {
-        location.reload()
-    }
+    const modal = document.querySelector('.modal')
+    const text = modal.querySelector('#modal_text')
+    const confirm = modal.querySelector('#confirm_modal')
+    const cancel = modal.querySelector('#cancel_modal')
+
+    modal.style.display = 'block'
+    text.innerText = "Are you sure you want to remove this user?"
+
+    modal.addEventListener('click', (event)=>{
+        if (event.target === cancel) {
+            modal.style.display = 'none'
+        }
+        else if (event.target === confirm) {
+            fetch('/remove/' + user_uf, {
+                method: "DELETE"
+            })
+            .then(response => {
+                location.reload()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    })
 }
 
 function follow(user_f) {
 
-    if (confirm("Are you sure you want to follow this user?")){
-        fetch('/follow/' + user_f, {
-            method: "POST"
-        })
-        .then(response => {
-            location.reload()
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    else {
-        location.reload()
-    }
+    const modal = document.querySelector('.modal')
+    const text = modal.querySelector('#modal_text')
+    const confirm = modal.querySelector('#confirm_modal')
+    const cancel = modal.querySelector('#cancel_modal')
+
+    modal.style.display = 'block'
+    text.innerText = "Are you sure you want to follow this user?"
+
+    modal.addEventListener('click', (event)=>{
+        if (event.target === cancel) {
+            modal.style.display = 'none'
+        }
+        else if (event.target === confirm) {
+            fetch('/follow/' + user_f, {
+                method: "POST"
+            })
+            .then(response => {
+                location.reload()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    })
 }
 
 function like_post(post) {
