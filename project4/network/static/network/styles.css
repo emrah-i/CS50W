@@ -146,7 +146,7 @@ body #dropdown_button:focus {
   padding: 2rem;
 }
 #register_page input, #login_page input {
-  margin: 1rem auto;
+  margin: 1.5rem auto 0rem;
   border-radius: 1rem;
   padding: 0.5rem;
 }
@@ -157,7 +157,7 @@ body #dropdown_button:focus {
   color: white;
 }
 #register_page .btn, #login_page .btn {
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 #main-posts-div, #following-main-div, #category_posts_page, #search_results, #profile_posts {
@@ -553,7 +553,7 @@ body #dropdown_button:focus {
 }
 
 #cancel_reply, #cancel_edit {
-  color: #E74C3C !important;
+  color: rgba(231, 76, 60, 0.6274509804) !important;
 }
 
 #delete_comment, #delete_edit, #cancel_modal {

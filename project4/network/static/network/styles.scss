@@ -169,7 +169,7 @@ body {
     padding: 2rem;
 
     input {
-        margin: 1rem auto;
+        margin: 1.5rem auto 0rem;
         border-radius: 1rem;
         padding: .5rem;
     }
@@ -183,7 +183,7 @@ body {
     }
     
     .btn {
-        margin-bottom: 1rem;
+        margin-top: 1rem;
     }
 }
 
@@ -633,7 +633,7 @@ body {
 
 
 #cancel_reply, #cancel_edit {
-    color: #E74C3C !important;
+    color: #E74C3CA0 !important;
 }
 
 #delete_comment, #delete_edit, #cancel_modal {
